@@ -1141,11 +1141,19 @@ footer>.wrap{position:relative;z-index:1}
     var cy = snapped/dpr - sr.top;
     // span: left edge of the "l" in Clear to the right edge of the last "e" in Line
     var gl = glyphBox(c,1), ge = glyphBox(l,3);
-    var x0 = gl.left - sr.left, x1 = ge.right - sr.left, xc = (x0 + x1)/2, hw = (x1 - x0)/2;
+    var x0 = gl.left - sr.left, x1 = ge.right - sr.left;
+    // desktop: both ends on whole device pixels, so the two tips anti-alias identically (mirror images)
+    if(!phoneLockup){ x0 = Math.round(gl.left*dpr)/dpr - sr.left; x1 = Math.round(ge.right*dpr)/dpr - sr.left; }
+    var xc = (x0 + x1)/2, hw = (x1 - x0)/2;
     // one smooth lens profile (gaussian-like): thickest at the center, thinning continuously to the tips
+    // Desktop: the geometry never gets thinner than ~0.7 device px (sub-pixel-thin tips anti-alias unevenly in
+    // Chrome: a flat 6px "second tip" at 1x). Below that, the gradient's alpha carries the thinning instead
+    // (alpha x thickness = the same ink per column, so the look is unchanged).
+    var hMin = phoneLockup ? 0 : .35/dpr;
+    var lens = function(s){ return (T/2) * Math.pow(Math.max(0, 1 - s*s), 1.6); };
     var K = 48, topPts = [], botPts = [], f = function(v){ return v.toFixed(2); };
     for(var k=0;k<=K;k++){
-      var s = -1 + 2*k/K, half = (T/2) * Math.pow(Math.max(0, 1 - s*s), 1.6), x = xc + s*hw;
+      var s = -1 + 2*k/K, half = Math.max(hMin, lens(s)), x = xc + s*hw;
       topPts.push(f(x)+' '+f(cy - half)); botPts.unshift(f(x)+' '+f(cy + half));
     }
     var d = 'M' + topPts.join(' L') + ' L' + botPts.join(' L') + ' Z';
@@ -1162,9 +1170,10 @@ footer>.wrap{position:relative;z-index:1}
       var core = light ? '#4FB4FF' : '#F6FCFF', hx = function(h){ var n = parseInt(h.slice(1),16); return [n>>16&255, n>>8&255, n&255]; };
       var cE = hx(end), cM = hx(mid), cC = hx(core), mixc = function(a,b2,t){ return 'rgb('+[0,1,2].map(function(i){ return Math.round(a[i]+(b2[i]-a[i])*t); }).join(',')+')'; };
       stops = '';
-      for(var si=0; si<=20; si++){
-        var o = si/20, dd = Math.abs(o - .5)*2;                                     // 0 at the center, 1 at the tips
+      for(var si=0; si<=60; si++){
+        var o = si/60, dd = Math.abs(o - .5)*2;                                     // 0 at the center, 1 at the tips
         var alpha = Math.pow(Math.max(0, 1 - Math.pow(dd, 2.2)), 1.35);             // smooth, continuous fade to the tips
+        alpha *= lens(dd) / Math.max(hMin, lens(dd));                               // the thinning the geometry no longer does
         var tm = Math.min(1, Math.max(0, (dd - .06)/.7)); tm = tm*tm*(3 - 2*tm);    // mid tone near the center, end tone outward
         var col = dd < .14 ? mixc(cC, cM, dd/.14) : mixc(cM, cE, tm);
         stops += '<stop offset="'+o.toFixed(3)+'" stop-color="'+col+'" stop-opacity="'+alpha.toFixed(3)+'"/>';
