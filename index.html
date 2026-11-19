@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ClearLine Dental Compliance</title>
 <meta name="description" content="Independent inspections for dental practices: waterline testing, infection control and sterilization review, and OSHA-related safety review, with a written report of what passed and what to fix.">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/new/favicon-16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/new/favicon-32.png">
-<link rel="icon" type="image/png" sizes="48x48" href="assets/new/favicon-48.png">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/new/apple-touch-icon.png">
+<link rel="icon" href="favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/new/favicon-16.png?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/new/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/new/favicon-48.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/new/apple-touch-icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -46,6 +47,8 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
 body{font-family:var(--font);background:var(--ink);color:var(--text-d);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
 img{display:block;max-width:100%}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+/* press-and-hold on iOS: no text selection, no copy/lookup callout, no double-tap zoom delay, no grey tap flash */
+button,.btn,.day,.slot,.icon-btn,.qa-q,.logo{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 a{color:inherit;text-decoration:none}
 .wrap{width:min(1240px,100% - 32px);margin-inline:auto}
 @media (min-width:760px){.wrap{width:min(1240px,100% - 96px)}}
@@ -128,7 +131,8 @@ h1 .w{display:inline-block;will-change:transform}
 .tag.pass .t-status{color:var(--pass-d)}
 .tag.fix .t-status{color:var(--fix-d)}
 .tag.fix{border-color:rgba(242,184,75,.32)}
-.tags-label{position:absolute;right:48px;bottom:34px;font-size:12px;color:var(--text-d3)}
+/* "Sample findings, for illustration": a caption tied to the cards (placed in JS so it never touches the line) */
+.tags-label{position:absolute;left:0;top:0;font-size:12px;color:var(--text-d2);white-space:nowrap;letter-spacing:.01em}
 .pre .topbar,.pre .hero-copy,.pre .tag,.pre .tags-label{opacity:0}
 
 /* Hero scroll cue */
@@ -172,7 +176,8 @@ h1 .w{display:inline-block;will-change:transform}
    (its bottom padding + the report's top run) eases w3 -> w3c -> w7 as one S-curve; the report then clears to w9. */
 #check{--from:var(--w0);--land:var(--w3);--settle:calc(100% - var(--check-pb));--to:var(--w3c)}
 #report{--from:var(--w3c);--land:var(--w7);--settle:var(--clear-run);--to:var(--w9)}
-#book{--from:var(--w9);--sink:var(--sink-run);--to:var(--w6)}
+#book{--from:var(--w9);--to:var(--w9)}
+#faq{--from:var(--w9);--sink:var(--sink-run);--to:var(--w6)}
 footer.zone{--from:var(--w6);--land:var(--w0);--settle:var(--sink-run);--to:var(--w0)}
 .check{padding:120px 0 var(--check-pb)}
 .sec-head{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:56px;max-width:720px}
@@ -226,7 +231,7 @@ h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-h
 .ga b{color:var(--text-l);font-weight:500}
 
 /* ---------- BOOK (light) ---------- */
-.book{padding:40px 0 var(--sink)}
+.book{padding:40px 0 140px}
 .book .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
 .book .sec-head p{color:var(--text-l2)}
 .book .points{list-style:none;display:grid;gap:12px;font-size:15px;color:var(--text-l2)}
@@ -270,9 +275,16 @@ h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-h
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
   mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
 .cal,.slots{position:relative;z-index:3}
+/* Safari: keep the glass rim, glow and the content each on their own compositor layer, so a change inside
+   the calendar (month switch, chips, text swap) can never invalidate the filtered/masked glass layers */
+.sched::before,.sched::after{will-change:transform}
+.cal,.slots{will-change:transform}
 .cal{padding:var(--pad);border-right:1px solid rgba(255,255,255,.6);box-shadow:1px 0 0 rgba(0,34,77,.07)}
-.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.cal-title{font-size:16px;font-weight:500}
+.cal-head{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+/* the month never wraps, even mid-swap while its width eases from the old text to the new one */
+.cal-title{font-size:16px;font-weight:500;flex:none;min-width:0}
+#calTitle,#calTitle>span{white-space:nowrap}
+.cal-nav{flex:none}
 .cal-nav{display:flex;gap:6px}
 /* small glass controls (transitions-dev states) */
 .icon-btn,.slot{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.8);
@@ -292,6 +304,7 @@ h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-h
 .day.open:hover:not(.lit){background:rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.9),0 4px 10px -4px rgba(0,60,120,.3)}
 .day:active:not([disabled]){transform:scale(.92)}
 .day[disabled]{color:rgba(10,31,58,.36);cursor:default}
+.day.blank{visibility:hidden;pointer-events:none}
 .day.today{box-shadow:inset 0 0 0 1px rgba(0,34,77,.28)}
 /* the lens sits under the selected item; the item just turns its text white when the lens arrives */
 .day.lit,.slot.lit{color:#fff;text-shadow:0 1px 1px rgba(0,30,70,.35)}
@@ -347,6 +360,36 @@ h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-h
 /* No GSAP: no lens, the selected item carries a solid bead */
 .no-lens .day[aria-pressed="true"],.no-lens .slot[aria-pressed="true"]{background:#0072BF;color:#fff;border-color:#0072BF}
 
+/* ---------- FAQ (light; its bottom padding carries the sink into the footer) ---------- */
+.faq{padding:40px 0 var(--sink-run)}
+.faq .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.faq .sec-head p{color:var(--text-l2)}
+.qa-list{border-top:1px solid var(--line-l)}
+.qa{border-bottom:1px solid var(--line-l)}
+.qa h3{font:inherit;margin:0}
+.qa-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;padding:20px 4px;
+  font-size:17px;font-weight:500;letter-spacing:-.01em;line-height:1.35;color:var(--text-l);border-radius:10px;
+  transition:color var(--duration-fast) var(--ease-smooth-out)}
+.qa-q:hover{color:#005A9E}
+.qa-q:focus-visible{border-radius:10px;outline-offset:2px}
+.qa-icon{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(0,114,191,.08);color:#0072BF;
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out)}
+.qa-q:hover .qa-icon{background:rgba(0,114,191,.15)}
+.qa-q:active .qa-icon{transform:scale(.9)}
+.qa-icon .v{transform-box:fill-box;transform-origin:center;transition:transform var(--duration-medium) var(--ease-smooth-out)}
+.qa.open .qa-icon .v{transform:scaleY(0)}                       /* plus becomes minus */
+/* smooth height: the answer row eases from 0fr to 1fr; the text fades and settles in */
+.qa-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--duration-medium) var(--ease-smooth-out)}
+.qa.open .qa-a{grid-template-rows:1fr}
+.qa-a-inner{min-height:0;overflow:hidden;visibility:hidden;transition:visibility 0s linear var(--duration-medium)}
+.qa.open .qa-a-inner{visibility:visible;transition-delay:0s}
+.qa-a p{padding:0 52px 22px 4px;font-size:15px;line-height:1.65;color:var(--text-l2);opacity:0;transform:translateY(-6px);
+  transition:opacity var(--duration-fast) var(--ease-out),transform var(--duration-medium) var(--ease-smooth-out)}
+.qa.open .qa-a p{opacity:1;transform:none;transition-delay:60ms}
+@media (prefers-reduced-motion: reduce){
+  .qa-a,.qa-a p,.qa-a-inner,.qa-icon,.qa-icon .v{transition:none!important}
+}
+
 /* transitions.dev: Text swap soft */
 .t-text-soft{display:inline-grid;justify-items:var(--text-soft-align,start);transition:width var(--text-soft-resize-dur) var(--text-soft-resize-ease)}
 .t-text-soft>span{grid-area:1/1;white-space:pre-wrap;transition:filter var(--text-soft-dur) var(--text-soft-ease),opacity var(--text-soft-dur) var(--text-soft-ease)}
@@ -368,30 +411,35 @@ footer>.wrap{position:relative;z-index:1}
 
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){
-  .report .grid,.book .grid{grid-template-columns:1fr;gap:40px}
+  .report .grid,.book .grid,.faq .grid{grid-template-columns:1fr;gap:40px}
 }
 @media (max-width:759px){
-  .hero{min-height:700px}
+  .hero{min-height:600px}   /* = the visible height on an iPhone (100svh, ~660px with Safari's toolbars): the whole sweep stays above the fold */
   :root{--clear-run:150px;--sink-run:170px;--check-pb:84px}
   .topbar{height:72px;padding-top:6px}
   .brand-nav{--mark-h:42px;--name-size:21px;--tag-size:9px;--rule-h:4px;gap:9px}
   .foot .brand{--mark-h:50px;--name-size:24px;--tag-size:8.5px}
   .nav .link{display:none}
   .nav .btn{height:38px;padding:0 14px;font-size:13px}
-  .hero-scrim{background:linear-gradient(180deg,rgba(2,8,24,.55) 0%,rgba(2,8,24,.82) 20%,rgba(2,8,24,.55) 58%,rgba(2,8,24,0) 70%)}
-  .hero-copy{top:94px;transform:none}
-  .kicker{font-size:13px;margin-bottom:16px}
-  h1{font-size:clamp(32px,9vw,40px);line-height:1.06}
-  .hero-sub{font-size:15px;margin-top:16px;line-height:1.55}
-  .hero-ctas{margin-top:22px;gap:10px}
-  .hero-ctas .btn{height:48px;padding:0 18px;font-size:14px;flex:1 1 auto}
+  /* the scrim ends where the copy ends (JS sets --scrim-end), so the line below it is never dimmed */
+  .hero-scrim{background:linear-gradient(180deg,rgba(2,8,24,.55) 0%,rgba(2,8,24,.8) 16%,rgba(2,8,24,.55) calc(var(--scrim-end,62%) - 10%),rgba(2,8,24,0) var(--scrim-end,62%))}
+  .hero-copy{top:80px;transform:none}
+  .kicker{font-size:13px;margin-bottom:10px}
+  h1{font-size:clamp(30px,8.4vw,38px);line-height:1.04}
+  .hero-sub{font-size:15px;margin-top:12px;line-height:1.5}
+  .hero-ctas{margin-top:16px;gap:8px}
+  .hero-ctas .btn{height:44px;padding:0 18px;font-size:14px;flex:1 1 auto}
   .hero-trust{display:none}
   .trust-m{display:flex;margin-top:4px}
-  .tag{width:calc(50vw - 22px);padding:10px 11px 11px;border-radius:10px}
-  .tag .t-area{font-size:11px}
-  .tag .t-val{font-size:18px}
-  .tag .t-status{font-size:11px;margin-top:6px}
-  .tags-label{right:auto;left:16px;bottom:126px;font-size:11px}
+  /* compact two-line finding chips, attached to points on the line */
+  .tag{width:auto;padding:5px 9px 5px;border-radius:9px;display:grid;grid-template-columns:auto auto;justify-content:start;align-items:baseline;column-gap:7px;row-gap:1px;white-space:nowrap;
+    box-shadow:0 10px 24px -14px rgba(0,0,0,.8)}
+  .tag .t-area{grid-column:1 / -1;font-size:10.5px;line-height:1.25}
+  .tag .t-val{margin-top:0;font-size:13px;font-weight:600;line-height:1.3}
+  .tag .t-val small{font-size:10px;margin-left:2px}
+  .tag .t-status{margin-top:0;font-size:10.5px;gap:3px}
+  .tag .t-status svg{width:10px;height:10px}
+  .tags-label{font-size:10.5px}
   .check{padding:84px 0 var(--check-pb)}
   .report{padding-bottom:84px}
   .areas{grid-template-columns:1fr}
@@ -409,6 +457,9 @@ footer>.wrap{position:relative;z-index:1}
   .stage-bg{inset:-90px -60px -150px}
   .foot{grid-template-columns:1fr}
   .fine{flex-direction:column}
+  .book{padding-bottom:110px}
+  .qa-q{font-size:16px;padding:18px 2px}
+  .qa-a p{padding:0 8px 20px 2px}
 }
 @media (min-width:760px) and (min-height:760px){.cue{display:block}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.cue::after{animation:none;opacity:.8}}
@@ -446,7 +497,7 @@ footer>.wrap{position:relative;z-index:1}
     <div class="wrap"><div class="inner">
       <p class="kicker"><span class="dot"></span>Independent inspections for dental practices</p>
       <h1 id="headline">Know where your practice stands before an inspector does.</h1>
-      <p class="hero-sub">We come to your office, test your waterlines, review sterilization and OSHA-related safety, and send a written report of what passed and what to fix.</p>
+      <p class="hero-sub">Stay compliant and protect your license. One visit, one clear report.</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#book">Book a 15-minute call
           <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -610,6 +661,51 @@ footer>.wrap{position:relative;z-index:1}
     </div>
   </div>
 </section>
+
+<!-- ===================== FAQ ===================== -->
+<!-- Facts verified 2026-11-19 against GA Rule 150-8-.05; re-verify before launch, the Board listed an amendment on its May 1 2026 agenda. Q5 'written to fit that record' and Q7 need Mark's OK. -->
+<section class="faq zone clear" id="faq" aria-labelledby="faq-h">
+  <div class="wrap grid">
+    <div class="sec-head">
+      <h2 id="faq-h">Questions, answered.</h2>
+      <p>The short version of what practices ask us before a first visit.</p>
+    </div>
+    <div class="qa-list">
+        <div class="qa">
+          <h3><button class="qa-q" type="button" id="qa1-q" aria-expanded="false" aria-controls="qa1-a"><span>What do you check during a visit?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
+          <div class="qa-a" id="qa1-a" role="region" aria-labelledby="qa1-q"><div class="qa-a-inner"><p>Your dental unit waterlines, your infection control and sterilization records, and your OSHA-related safety paperwork. You get one written report of what passed and what needs fixing.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button class="qa-q" type="button" id="qa2-q" aria-expanded="false" aria-controls="qa2-a"><span>How often do waterlines need testing in Georgia?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
+          <div class="qa-a" id="qa2-a" role="region" aria-labelledby="qa2-q"><div class="qa-a-inner"><p>Georgia&rsquo;s Board of Dentistry rule requires every dental unit waterline to be tested quarterly, and again within 30 days of any repair or plumbing change.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button class="qa-q" type="button" id="qa3-q" aria-expanded="false" aria-controls="qa3-a"><span>What counts as a pass?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
+          <div class="qa-a" id="qa3-a" role="region" aria-labelledby="qa3-q"><div class="qa-a-inner"><p>500 CFU/mL or less. That&rsquo;s the EPA drinking-water standard the Georgia rule uses.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button class="qa-q" type="button" id="qa4-q" aria-expanded="false" aria-controls="qa4-a"><span>What happens if a line fails?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
+          <div class="qa-a" id="qa4-a" role="region" aria-labelledby="qa4-q"><div class="qa-a-inner"><p>The rule requires immediate remedial action. We tell you exactly which line failed and what the rule asks for next. We don&rsquo;t sell, clean or repair equipment, so our results stay independent.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button class="qa-q" type="button" id="qa5-q" aria-expanded="false" aria-controls="qa5-a"><span>Do we need to keep records?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
+          <div class="qa-a" id="qa5-a" role="region" aria-labelledby="qa5-q"><div class="qa-a-inner"><p>Yes. The rule asks for a log of waterline testing and maintenance, including dates and who did it, or reports from an independent testing company, kept for five years. Our report is written to fit that record.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button class="qa-q" type="button" id="qa6-q" aria-expanded="false" aria-controls="qa6-a"><span>Are you part of the Board or OSHA?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
+          <div class="qa-a" id="qa6-a" role="region" aria-labelledby="qa6-q"><div class="qa-a-inner"><p>No. We&rsquo;re an independent company. We help you find problems before an official inspection does.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button class="qa-q" type="button" id="qa7-q" aria-expanded="false" aria-controls="qa7-a"><span>How long does a visit take, and what does it cost?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
+          <div class="qa-a" id="qa7-a" role="region" aria-labelledby="qa7-q"><div class="qa-a-inner"><p>It depends on how many operatories you have. Book a 15-minute call and we&rsquo;ll give you a clear time and price up front.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button class="qa-q" type="button" id="qa8-q" aria-expanded="false" aria-controls="qa8-a"><span>Where do you work?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
+          <div class="qa-a" id="qa8-a" role="region" aria-labelledby="qa8-q"><div class="qa-a-inner"><p>Dental practices across Georgia.</p></div></div>
+        </div>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer class="zone deep">
@@ -642,6 +738,8 @@ footer>.wrap{position:relative;z-index:1}
 <script>
 (function(){
   'use strict';
+  // iOS Safari only applies :active (the press-sink) when a touch listener exists on the page
+  document.addEventListener('touchstart', function(){}, { passive:true });
   var hasGsap = typeof window.gsap !== 'undefined';
   var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -658,69 +756,143 @@ footer>.wrap{position:relative;z-index:1}
 
   var NODE_DEF = {
     desk:  { op1:{t:.62,side:'up'}, op3:{t:.71,side:'down'}, ster:{t:.81,side:'up'}, sds:{t:.91,side:'down'} },
-    mob:   { op1:{t:.30,side:'down'}, op3:{t:.74,side:'down'} }
+    // phone: four points spread along the whole sweep; chips go above the line early on, below it later
+    mob:   { op1:{t:.24,side:'up'}, ster:{t:.44,side:'up'}, op3:{t:.62,side:'down'}, sds:{t:.84,side:'down'} }
   };
+  var labelEl = document.querySelector('.tags-label');
+  var band = { y0:0, y1:0, R:0 };     // phone: the free band below the CTAs that the line sweeps through
 
   function ease3(t){ return t*t*(3-2*t); }
   function curve(t,u,time,out){
-    var x, y, cy, sp;
+    var x, y, cy, sp, A;
     if(!mobile){
       x = -0.06*W + t*1.12*W;
       cy = H*(0.97 - 0.64*ease3(t));
       sp = H*(0.62*(1-t)*(1-t) + 0.055 + 0.11*t*t*t);
+      A = H;
     } else {
-      x = -0.08*W + t*1.16*W;
-      cy = H*(0.82 - 0.10*ease3(t));
-      sp = H*(0.17*(1-t)*(1-t) + 0.03 + 0.04*t*t);
+      // the same rising sweep as desktop, "zoomed out" into the band under the CTAs:
+      // enters below the bottom-left corner and rises to the top-right of the band
+      var R = band.R;
+      x = -0.10*W + t*1.20*W;
+      cy = band.y0 + R*(1.02 - 0.90*ease3(t));
+      sp = R*(0.34*(1-t)*(1-t) + 0.045 + 0.09*t*t*t);
+      A = R*.62;                               // wave scaled to the band: bob/bundle ratio ~0.11, same as desktop (was ~0.31)
     }
-    var wave = Math.sin(t*6.5 - time*0.32 + u*2.4) * H*0.013 * (0.35+u) + Math.sin(t*2.2 + time*0.18)*H*0.008;
+    var wave = Math.sin(t*6.5 - time*0.32 + u*2.4) * A*0.013 * (0.35+u) + Math.sin(t*2.2 + time*0.18)*A*0.008;
     y = cy + sp*(u-0.5) + wave;
     out[0]=x; out[1]=y;
   }
+  // vertical extent of the bundle (all strands, all wave phases) across an x range
+  function bandAt(xa, xb, pad){
+    // sampled at time 0, so allow the full wave swing both ways
+    var tmp=[0,0], top=1e9, bot=-1e9, A = mobile ? band.R*.62 : H, slack = 2*(A*0.013*1.35 + A*0.008) + (pad||0);
+    for(var k=0;k<=8;k++){
+      var x = xa + (xb-xa)*k/8, t = mobile ? (x + 0.10*W)/(1.20*W) : (x + 0.06*W)/(1.12*W);
+      t = Math.max(0, Math.min(1, t));
+      curve(t, 0, 0, tmp); var a = tmp[1]; curve(t, 1, 0, tmp); var b = tmp[1];
+      // remove the wave part sampled at time 0, then add the worst case both ways
+      top = Math.min(top, Math.min(a,b) - slack); bot = Math.max(bot, Math.max(a,b) + slack);
+    }
+    return { top:top, bot:bot };
+  }
+  function overlaps(a, b, m){ return a.l < b.l + b.w + m && b.l < a.l + a.w + m && a.t < b.t + b.h + m && b.t < a.t + a.h + m; }
 
   function layout(){
     var r = hero.getBoundingClientRect();
     W = r.width; H = r.height;
     mobile = W < 760;
+    if(mobile){
+      // the band starts just under the CTAs (offset-based: unaffected by the intro transforms)
+      var copy = document.querySelector('.hero-copy'), ctas = document.querySelector('.hero-ctas');
+      var ctaBottom = copy.offsetTop + ctas.offsetTop + ctas.offsetHeight;
+      band.y0 = Math.min(ctaBottom + 12, H - 190); band.y1 = H - 8; band.R = band.y1 - band.y0;
+      hero.style.setProperty('--scrim-end', ((ctaBottom + 6)/H*100).toFixed(2)+'%');
+    } else hero.style.removeProperty('--scrim-end');
     DPR = Math.min(window.devicePixelRatio||1, mobile?1.5:1.75);
     cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
     ctx.setTransform(DPR,0,0,DPR,0,0);
     N = mobile ? 26 : 44;
     S = mobile ? 56 : 96;
     pts = new Float32Array(N*(S+1)*2);
-    // particles
-    parts = [];
+    // particles: keep the existing ones when the count is unchanged (no visible re-shuffle on re-layout)
     var P = mobile ? 40 : 110;
-    for(var i=0;i<P;i++) parts.push({ i:Math.floor(Math.random()*N), t:Math.random(), v:0.018+Math.random()*0.03, s:Math.random() });
+    if(parts.length !== P){ parts = []; for(var i=0;i<P;i++) parts.push({ i:Math.floor(Math.random()*N), t:Math.random(), v:0.018+Math.random()*0.03, s:Math.random() }); }
     // nodes + tag placement
     var defs = mobile ? NODE_DEF.mob : NODE_DEF.desk;
     var old = {}; nodes.forEach(function(n){ old[n.key]=n; });
     nodes = [];
-    var tmp=[0,0];
+    var tmp=[0,0], placed = [];
     tagEls.forEach(function(el){
       var key = el.dataset.key, d = defs[key];
       if(!d){ el.style.display='none'; return; }
       el.style.display='';
       var n = old[key] || { on:0, ping:0, shown:false };
       n.key=key; n.el=el; n.t=d.t; n.u=0.5; n.side=d.side; n.fix = el.classList.contains('fix');
-      curve(n.t, n.u, state.time, tmp); n.x=tmp[0]; n.y=tmp[1];
+      curve(n.t, n.u, 0, tmp); n.x=tmp[0]; n.y=tmp[1];
       var tw = el.offsetWidth, th = el.offsetHeight, left, top;
       if(!mobile){
         left = Math.max(W*0.565, Math.min(n.x - tw*0.5, W - tw - 28));
         top = d.side==='up' ? n.y - th - 64 : n.y + 58;
         top = Math.max(96, Math.min(top, H - th - 70));
+        n.ty = d.side==='up' ? top + th : top;
       } else {
-        var idx = key==='op1'?0:1;
-        left = 16 + idx*(W/2 - 10);
-        top = H - th - 18;
+        // try positions around the node, on its preferred side first; never on the line, never on another chip
+        var best = null, gap = 12, sides = d.side==='up' ? ['up','down'] : ['down','up'];
+        var xs = [n.x - tw*0.5, n.x - tw + 22, n.x - 22];
+        for(var sx = 14; sx <= W - tw - 14; sx += 12) xs.push(sx);          // sweep the width: closest clean spot wins
+        for(var si=0; si<sides.length && !best; si++){
+          for(var xi=0; xi<xs.length; xi++){
+            var L = Math.max(14, Math.min(xs[xi], W - tw - 14)), b = bandAt(L, L + tw, 0);
+            var T = sides[si]==='up' ? b.top - th - gap : b.bot + gap;
+            if(T < band.y0 + 4 || T + th > H - 10) continue;                   // clear air under the CTAs
+            var cand = { l:L, t:T, w:tw, h:th, side:sides[si] };
+            // its leader (a vertical drop from the chip edge to the point) must not run through another chip,
+            // and the chip must not sit on an earlier leader
+            var lx = Math.max(L + 14, Math.min(n.x, L + tw - 14)), ly0 = sides[si]==='up' ? T + th : n.y, ly1 = sides[si]==='up' ? n.y : T;
+            var lead = { l:lx - 3, t:Math.min(ly0, ly1), w:6, h:Math.abs(ly1 - ly0) };
+            if(placed.some(function(p){ return overlaps(p, cand, 8) || (!p.lead && overlaps(p, lead, 2)) || (p.lead && overlaps(p, cand, 4)); })) continue;
+            cand.leadRect = lead;
+            var score = Math.abs((L + tw/2) - n.x) + Math.abs((T + th/2) - n.y)*1.5 + (si ? 400 : 0);   // stay close to its point
+            if(!best || score < best.score){ best = cand; best.score = score; }
+          }
+        }
+        if(!best){ el.style.display='none'; return; }     // no clean spot on this screen: leave it out
+        placed.push(best); placed.push({ l:best.leadRect.l, t:best.leadRect.t, w:best.leadRect.w, h:best.leadRect.h, lead:true });
+        left = best.l; top = best.t; n.side = best.side;
+        n.ty = best.side==='up' ? top + th : top;
       }
       el.style.left = left+'px'; el.style.top = top+'px';
-      n.tx = left + tw*0.5; n.ty = d.side==='up' || mobile && false ? top + th : (mobile ? top : top);
-      if(!mobile && d.side==='up') n.ty = top + th;
+      n.tx = mobile ? Math.max(left + 14, Math.min(n.x, left + tw - 14)) : left + tw*0.5;
       n.rect = {l:left,t:top,w:tw,h:th};
       nodes.push(n);
     });
+    placeLabel();
     if(!running || reduceMQ.matches) draw(0);
+  }
+  // The caption sits with the cards (never on the line): under the lowest card that is below the line,
+  // else above the highest card that is above it.
+  function placeLabel(){
+    if(!labelEl) return;
+    var lw = labelEl.offsetWidth, lh = labelEl.offsetHeight, cand = [];
+    nodes.forEach(function(n){
+      var r = n.rect;
+      if(n.side === 'down'){ cand.push({ l: mobile ? r.l + r.w - lw : r.l + 2, t: r.t + r.h + 8, w:lw, h:lh, pri: -r.t }); }
+      else { cand.push({ l: r.l + 2, t: r.t - lh - 7, w:lw, h:lh, pri: 1e5 + r.t }); }
+    });
+    cand.sort(function(a,b){ return a.pri - b.pri; });
+    var others = nodes.map(function(n){ return n.rect; }).map(function(r){ return { l:r.l, t:r.t, w:r.w, h:r.h }; });
+    for(var i=0;i<cand.length;i++){
+      var c = cand[i]; c.l = Math.max(14, Math.min(c.l, W - lw - 14));
+      if(c.t < (mobile ? band.y0 - 4 : 90) || c.t + lh > H - 8) continue;
+      var b = bandAt(c.l, c.l + lw, 6);
+      if(!(c.t + lh < b.top || c.t > b.bot)) continue;
+      if(others.some(function(o){ return overlaps(o, c, 4); })) continue;
+      labelEl.style.left = c.l + 'px'; labelEl.style.top = c.t + 'px'; labelEl.style.display = '';
+      return;
+    }
+    // fallback: bottom-right corner, which the rising line never reaches on desktop
+    labelEl.style.left = (W - lw - (mobile ? 14 : 48)) + 'px'; labelEl.style.top = (H - lh - (mobile ? 10 : 34)) + 'px';
   }
 
   function computePoints(){
@@ -884,64 +1056,66 @@ footer>.wrap{position:relative;z-index:1}
   var navBrand = document.getElementById('navBrand');
   var mctx = document.createElement('canvas').getContext('2d');
   function glyphBox(node, i){ var r = document.createRange(); r.setStart(node,i); r.setEnd(node,i+1); return r.getBoundingClientRect(); }
-  function vMetrics(el, sample){
-    var cs = getComputedStyle(el);
-    mctx.font = cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
-    var m = mctx.measureText(sample), asc = m.fontBoundingBoxAscent, desc = m.fontBoundingBoxDescent;
-    var r = el.getBoundingClientRect();
-    if(!(asc > 0)){ asc = parseFloat(cs.fontSize)*.93; desc = parseFloat(cs.fontSize)*.27; }   // older engines
-    var base = r.top + (r.height - (asc + desc))/2 + asc;
-    var cap = mctx.measureText('H').actualBoundingBoxAscent || parseFloat(cs.fontSize)*.7;
-    return { base: base, capTop: base - cap };
-  }
   function applyClip(b){
     if(!b._g) return;
     var g = b._g, p = b._rule ? b._rule.p : 1;
     g.rect.setAttribute('x', (g.xc - (g.xc-g.x0)*p).toFixed(2)); g.rect.setAttribute('width', ((g.x1-g.x0)*p).toFixed(2));
+  }
+  // Real baseline of a text element: a zero-size inline-block sits exactly on it.
+  function baselineOf(el){
+    var p = el.querySelector('i.bl');
+    if(!p){ p = document.createElement('i'); p.className = 'bl'; p.setAttribute('aria-hidden','true');
+      p.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline;overflow:hidden'; el.appendChild(p); }
+    return p.getBoundingClientRect().top;
+  }
+  function inkMetrics(el, sample){
+    var cs = getComputedStyle(el);
+    mctx.font = cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
+    var m = mctx.measureText(sample);
+    return { asc: m.actualBoundingBoxAscent || parseFloat(cs.fontSize)*.72, desc: m.actualBoundingBoxDescent || 0 };
   }
   function fitRule(b, idx){
     var rule = b.querySelector('.brand-rule'); if(!rule) return;
     var nameEl = b.querySelector('.brand-name'), tagEl = b.querySelector('.brand-tag');
     var c = b.querySelector('.brand-name .c').firstChild, l = b.querySelector('.brand-name .l').firstChild;
     var fs = parseFloat(getComputedStyle(nameEl).fontSize);
-    // 1) equal gaps: set the space so baseline -> cap top is the target, then center the line in it
-    var target = Math.round(fs * .5);
-    rule.style.height = ''; rule.style.marginTop = rule.style.marginBottom = '0px';
-    var nm = vMetrics(nameEl, 'ClearLine'), tm = vMetrics(tagEl, 'DENTAL COMPLIANCE');
-    var h0 = rule.getBoundingClientRect().height, d0 = tm.capTop - nm.base;
-    rule.style.height = Math.max(0, h0 + (target - d0)).toFixed(2) + 'px';
-    tm = vMetrics(tagEl, 'DENTAL COMPLIANCE');
-    var sr = rule.getBoundingClientRect(); if(!sr.width) return;
-    var center = (nm.base + tm.capTop) / 2;
-    // 2) span: center of "l" to center of the last "e"
-    var gl = glyphBox(c,1), ge = glyphBox(l,3);
-    var x0 = (gl.left + gl.right)/2 - sr.left, x1 = (ge.left + ge.right)/2 - sr.left, xc = (x0 + x1)/2;
-    // 3) crisp: peak thickness in whole device pixels, centered on the device-pixel grid
     var dpr = window.devicePixelRatio || 1;
-    var Td = Math.max(2, Math.round(fs * .115 * dpr));
-    var cDev = center * dpr; cDev = (Td % 2) ? Math.floor(cDev) + .5 : Math.round(cDev);
-    var cy = cDev/dpr - sr.top, h = Td/dpr/2;
-    var light = b.classList.contains('brand-light');
-    var end = light ? '#0070C0' : '#5CC0FF', mid = light ? '#1E9BFF' : '#E2F5FF';
-    var f = function(v){ return v.toFixed(2); };
-    {
-      var tip = Math.min(h, .45/dpr), id = 'br' + idx;
-      var d = 'M'+f(x0)+' '+f(cy-tip)+
-        ' C'+f(x0+(xc-x0)*.45)+' '+f(cy-h)+' '+f(xc-(xc-x0)*.35)+' '+f(cy-h)+' '+f(xc)+' '+f(cy-h)+
-        ' C'+f(xc+(x1-xc)*.35)+' '+f(cy-h)+' '+f(x1-(x1-xc)*.45)+' '+f(cy-h)+' '+f(x1)+' '+f(cy-tip)+
-        ' A'+f(tip)+' '+f(tip)+' 0 0 1 '+f(x1)+' '+f(cy+tip)+
-        ' C'+f(x1-(x1-xc)*.45)+' '+f(cy+h)+' '+f(xc+(x1-xc)*.35)+' '+f(cy+h)+' '+f(xc)+' '+f(cy+h)+
-        ' C'+f(xc-(xc-x0)*.35)+' '+f(cy+h)+' '+f(x0+(xc-x0)*.45)+' '+f(cy+h)+' '+f(x0)+' '+f(cy+tip)+
-        ' A'+f(tip)+' '+f(tip)+' 0 0 1 '+f(x0)+' '+f(cy-tip)+'Z';
-      rule.innerHTML = '<svg aria-hidden="true"><defs><linearGradient id="'+id+'g" gradientUnits="userSpaceOnUse" x1="'+f(x0)+'" y1="0" x2="'+f(x1)+'" y2="0">'+
-          '<stop offset="0" stop-color="'+end+'" stop-opacity=".15"/><stop offset=".14" stop-color="'+end+'" stop-opacity=".9"/>'+
-          '<stop offset=".5" stop-color="'+mid+'" stop-opacity="1"/><stop offset=".86" stop-color="'+end+'" stop-opacity=".9"/>'+
-          '<stop offset="1" stop-color="'+end+'" stop-opacity=".15"/></linearGradient>'+
-        '<clipPath id="'+id+'c"><rect y="-8" height="'+f(sr.height+16)+'" x="0" width="0"/></clipPath></defs>'+
-        '<path clip-path="url(#'+id+'c)" fill="url(#'+id+'g)" d="'+d+'"/></svg>';
-      b._g = { x0:x0-tip-1, x1:x1+tip+1, xc:xc, rect: rule.querySelector('rect') };
+    // thinner rule: peak ~1.2px on the phone lockup, ~1.5px on desktop, a whole number of device pixels
+    var Td = Math.max(2, Math.round(fs * .06 * dpr)), T = Td/dpr;
+    // equal optical gaps, measured ink to ink: bottom of "ClearLine" -> rule -> cap tops of DENTAL COMPLIANCE
+    var g = Math.max(2.5, fs * .15);
+    var nInk = inkMetrics(nameEl, 'ClearLine'), tInk = inkMetrics(tagEl, 'DENTAL COMPLIANCE');
+    rule.style.height = ''; rule.style.marginTop = rule.style.marginBottom = '0px'; b.querySelector('.brand-type').style.transform = '';
+    var inkBottom = baselineOf(nameEl) + nInk.desc, inkTop = baselineOf(tagEl) - tInk.asc;
+    var h0 = rule.getBoundingClientRect().height;
+    rule.style.height = Math.max(0, h0 + (2*g + T) - (inkTop - inkBottom)).toFixed(2) + 'px';
+    inkBottom = baselineOf(nameEl) + nInk.desc; inkTop = baselineOf(tagEl) - tInk.asc;
+    // crisp AND equal: the midpoint between the inks is where the rule goes; nudge the whole text block by
+    // under half a device pixel so that midpoint sits on the pixel grid (gaps stay exactly equal)
+    var ideal = (inkBottom + inkTop)/2 * dpr, snapped = (Td % 2) ? Math.floor(ideal) + .5 : Math.round(ideal);
+    var typeEl = b.querySelector('.brand-type');
+    typeEl.style.transform = Math.abs(snapped - ideal) > .01 ? 'translateY(' + ((snapped - ideal)/dpr).toFixed(3) + 'px)' : '';
+    var sr = rule.getBoundingClientRect(); if(!sr.width) return;
+    var cy = snapped/dpr - sr.top;
+    // span: left edge of the "l" in Clear to the right edge of the last "e" in Line
+    var gl = glyphBox(c,1), ge = glyphBox(l,3);
+    var x0 = gl.left - sr.left, x1 = ge.right - sr.left, xc = (x0 + x1)/2, hw = (x1 - x0)/2;
+    // one smooth lens profile (gaussian-like): thickest at the center, thinning continuously to the tips
+    var K = 48, topPts = [], botPts = [], f = function(v){ return v.toFixed(2); };
+    for(var k=0;k<=K;k++){
+      var s = -1 + 2*k/K, half = (T/2) * Math.pow(Math.max(0, 1 - s*s), 1.6), x = xc + s*hw;
+      topPts.push(f(x)+' '+f(cy - half)); botPts.unshift(f(x)+' '+f(cy + half));
     }
-    b._gaps = { above: +(cy + sr.top - h - nm.base).toFixed(2), below: +(tm.capTop - (cy + sr.top + h)).toFixed(2) };
+    var d = 'M' + topPts.join(' L') + ' L' + botPts.join(' L') + ' Z';
+    var light = b.classList.contains('brand-light');
+    var end = light ? '#0070C0' : '#5CC0FF', mid = light ? '#1E9BFF' : '#E2F5FF', id = 'br' + idx;
+    rule.innerHTML = '<svg aria-hidden="true"><defs><linearGradient id="'+id+'g" gradientUnits="userSpaceOnUse" x1="'+f(x0)+'" y1="0" x2="'+f(x1)+'" y2="0">'+
+        '<stop offset="0" stop-color="'+end+'" stop-opacity="0"/><stop offset=".2" stop-color="'+end+'" stop-opacity=".85"/>'+
+        '<stop offset=".5" stop-color="'+mid+'" stop-opacity="1"/><stop offset=".8" stop-color="'+end+'" stop-opacity=".85"/>'+
+        '<stop offset="1" stop-color="'+end+'" stop-opacity="0"/></linearGradient>'+
+      '<clipPath id="'+id+'c"><rect y="-8" height="'+f(sr.height+16)+'" x="0" width="0"/></clipPath></defs>'+
+      '<path clip-path="url(#'+id+'c)" fill="url(#'+id+'g)" d="'+d+'"/></svg>';
+    b._g = { x0:x0-1, x1:x1+1, xc:xc, rect: rule.querySelector('rect') };
     applyClip(b);
   }
   function fitRules(){ brands.forEach(fitRule); }
@@ -1034,12 +1208,21 @@ footer>.wrap{position:relative;z-index:1}
   layout();
   fitRules();
   buildWater();
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fitRules(); buildWater(); });
+  // once the web font is in, the copy (and so the CTAs) may sit lower: re-place the line band and the chips too
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ layout(); fitRules(); buildWater(); });
   // keep the water in line with the sections whenever anything changes height (new sections, fonts, rotation)
   if('ResizeObserver' in window){ var waterRO = new ResizeObserver(queueWater); waterRO.observe(document.body); document.querySelectorAll('.zone').forEach(function(z){ waterRO.observe(z); }); }
   window.addEventListener('orientationchange', queueWater);
   window.addEventListener('load', queueWater);
-  var rto; window.addEventListener('resize', function(){ clearTimeout(rto); rto=setTimeout(function(){ layout(); fitRules(); },120); });
+  // iOS fires 'resize' whenever the toolbar collapses or expands while scrolling. The hero is 100svh, so its
+  // height doesn't change: on touch devices only a WIDTH change (or rotation) re-lays out the hero.
+  var rto, lastW = window.innerWidth, touchUI = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  function relayout(){ lastW = window.innerWidth; layout(); fitRules(); }
+  window.addEventListener('resize', function(){
+    if(touchUI && Math.abs(window.innerWidth - lastW) < 1) return;
+    clearTimeout(rto); rto = setTimeout(relayout, 120);
+  });
+  window.addEventListener('orientationchange', function(){ clearTimeout(rto); rto = setTimeout(relayout, 250); });
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){ es.forEach(function(e){ if(reduceMQ.matches) return; e.isIntersecting?start():stop(); }); }).observe(hero);
   }
@@ -1149,41 +1332,49 @@ footer>.wrap{position:relative;z-index:1}
   // deterministic "booked" slots per date so the demo feels real
   function taken(d, i){ return ((d.getDate()*7 + i*3) % 9) === 0 || ((d.getDate()+i) % 11) === 0; }
 
+  // The 42 day cells and 8 time chips are created ONCE and then updated in place (text, state, aria):
+  // replacing nodes inside the refracting glass makes Safari re-rasterize the filtered layers (a visible flash).
+  var dayCells = [], chipCells = [];
+  function setAttr(el, k, v){ if(v == null){ if(el.hasAttribute(k)) el.removeAttribute(k); } else if(el.getAttribute(k) !== v) el.setAttribute(k, v); }
+  function setClass(el, v){ if(el.className !== v) el.className = v; }
+  function setText(el, v){ if(el.textContent !== v) el.textContent = v; }
   function renderDays(){
     titleEl.dataset.text != null ? softSwap(titleEl, fmtMonth(view)) : (titleEl.textContent = fmtMonth(view), titleEl.dataset.text = fmtMonth(view));
     prevBtn.disabled = view <= minView; nextBtn.disabled = view >= maxView;
-    var frag = document.createDocumentFragment();
-    var first = view.getDay(), len = new Date(view.getFullYear(), view.getMonth()+1, 0).getDate(), cells = 0;
-    for(var b=0;b<first;b++){ frag.appendChild(document.createElement('span')); cells++; }
-    for(var d=1; d<=len; d++){
-      var date = new Date(view.getFullYear(), view.getMonth(), d);
-      var btn = document.createElement('button');
-      btn.type='button'; btn.className='day'; btn.textContent=d;
-      var wk = date.getDay(), past = date <= today, closed = wk===0 || wk===6;
-      if(date.getTime()===today.getTime()) btn.classList.add('today');
-      if(past || closed){ btn.disabled = true; btn.setAttribute('aria-label', fmtDay(date)+', unavailable'); }
-      else { btn.classList.add('open'); btn.setAttribute('aria-label', fmtDay(date)); }
-      btn.setAttribute('aria-pressed', selDate && selDate.getTime()===date.getTime() ? 'true':'false');
-      btn._date = date;
-      frag.appendChild(btn); cells++;
+    if(!dayCells.length){
+      var frag = document.createDocumentFragment();
+      for(var c=0;c<42;c++){ var bt = document.createElement('button'); bt.type = 'button'; frag.appendChild(bt); dayCells.push(bt); }
+      daysEl.replaceChildren(frag);                                      // always 6 rows: the glass never changes size
     }
-    while(cells < 42){ frag.appendChild(document.createElement('span')); cells++; } // always 6 rows: the glass never changes size
-    daysEl.replaceChildren(frag);
+    var first = view.getDay(), len = new Date(view.getFullYear(), view.getMonth()+1, 0).getDate();
+    for(var i=0;i<42;i++){
+      var btn = dayCells[i], d = i - first + 1, lit = btn.classList.contains('lit');
+      if(d < 1 || d > len){                                              // blank cell: invisible, inert
+        setClass(btn, 'day blank'); setText(btn, ''); btn.disabled = true; btn._date = null;
+        setAttr(btn, 'aria-hidden', 'true'); setAttr(btn, 'tabindex', '-1'); setAttr(btn, 'aria-label', null); setAttr(btn, 'aria-pressed', null);
+        continue;
+      }
+      var date = new Date(view.getFullYear(), view.getMonth(), d), wk = date.getDay(), past = date <= today, closed = wk===0 || wk===6;
+      var cls = 'day' + (date.getTime()===today.getTime() ? ' today' : '') + (past || closed ? '' : ' open') + (lit ? ' lit' : '');
+      setClass(btn, cls); setText(btn, String(d)); btn.disabled = past || closed; btn._date = date;
+      setAttr(btn, 'aria-hidden', null); setAttr(btn, 'tabindex', null);
+      setAttr(btn, 'aria-label', fmtDay(date) + (past || closed ? ', unavailable' : ''));
+      setAttr(btn, 'aria-pressed', selDate && selDate.getTime()===date.getTime() ? 'true' : 'false');
+    }
   }
   function renderChips(){
-    var frag = document.createDocumentFragment();
+    if(!chipCells.length){
+      var frag = document.createDocumentFragment();
+      TIMES.forEach(function(){ var c = document.createElement('button'); c.type = 'button'; frag.appendChild(c); chipCells.push(c); });
+      chipsEl.replaceChildren(frag);
+    }
     TIMES.forEach(function(t,i){
-      var c = document.createElement('button');
-      c.type='button'; c.className='slot'; c.textContent=t;
-      var off = !selDate || taken(selDate,i);
-      c.disabled = off;
-      if(selDate && taken(selDate,i)){ c.setAttribute('aria-label', t+', booked'); c.classList.add('booked'); }
-      c.setAttribute('aria-pressed', selTime===t && !off ? 'true':'false');
-      frag.appendChild(c);
+      var c = chipCells[i], booked = !!(selDate && taken(selDate,i)), off = !selDate || booked;
+      setClass(c, 'slot' + (booked ? ' booked' : '')); setText(c, t); c.disabled = off;
+      setAttr(c, 'aria-label', booked ? t + ', booked' : null);
+      setAttr(c, 'aria-pressed', selTime===t && !off ? 'true' : 'false');
     });
-    chipsEl.replaceChildren(frag);
-  }
-  function update(){
+  }  function update(){
     var msg;
     if(!selDate) msg = 'Pick a day, then a time.';
     else if(!selTime) msg = fmtDay(selDate) + '. Now pick a time.';
@@ -1261,57 +1452,39 @@ footer>.wrap{position:relative;z-index:1}
     return 'url(#'+id+')';
   }
 
-  /* ---- the stage: soft brand-blue blobs + crisp clear lines, drawn once per size ---- */
+  /* ---- the stage: the backdrop image behind the calendar ----
+     Swap the artwork here (one line). The image is placed "cover" in stage coordinates; the visible stage
+     and every refraction copy use the SAME placement, so the glass bends exactly what is behind it.
+     No canvas re-encode: it works from a double-clicked file too. */
+  var BACKDROP = { small:'assets/new/cal-backdrop-silk-1200.webp', large:'assets/new/cal-backdrop-silk-2400.webp' };
+  var imgCache = {};
+  function loadImg(src, cb){
+    var e = imgCache[src];
+    if(e && e.ok) return cb(e.img);
+    if(!e){ e = imgCache[src] = { img:new Image(), ok:false, q:[] }; e.img.decoding = 'async';
+      e.img.onload = function(){ e.ok = true; e.q.splice(0).forEach(function(f){ f(e.img); }); };
+      e.img.src = src; }
+    e.q.push(cb);
+  }
   function drawStage(cb){
-    var sr = stageBg.getBoundingClientRect(), pr = sched.getBoundingClientRect();
+    var sr = stageBg.getBoundingClientRect();
     var W = Math.round(sr.width), H = Math.round(sr.height);
     if(!W || !H) return false;
-    var key = W+'x'+H;
+    var src = (W * (window.devicePixelRatio || 1) > 1300) ? BACKDROP.large : BACKDROP.small;
+    var key = W+'x'+H+'|'+src;
     if(key === stage.key) return false;
-    var k = Math.min(window.devicePixelRatio || 1, W < 760 ? 1.5 : 2);
-    var c = document.createElement('canvas'); c.width = Math.round(W*k); c.height = Math.round(H*k);
-    var g = c.getContext('2d'); g.scale(k,k);
-    // Soft brand-blue color blobs (no dark masses) on the page's own light water, plus the hero's
-    // "clear lines": thin, crisp, light strokes that cross UNDER the bezel and the lenses, where the
-    // bend is easy to see. Composition is set relative to the panel.
-    var px = pr.left - sr.left, py = pr.top - sr.top, pw = pr.width, ph = pr.height, u = Math.min(pw, ph), mob = W < 760;
-    g.fillStyle = '#EAF2F9'; g.fillRect(0, 0, W, H);
-    var BL = mob ? [
-      [ .05, .10, .95, '30,127,208', .55], [ .98, .30, .85, '92,192,255', .72], [ .50, .62, .80, '184,230,249', .85],
-      [ .10, .82, .85, '92,192,255', .62], [ .92, .95, .80, '30,127,208', .48], [ .55, -.02, .60, '1,148,253', .38]
-    ] : [
-      [ .06, .16, .66, '30,127,208', .58], [ .94, .10, .62, '92,192,255', .74], [ .80, .94, .64, '30,127,208', .50],
-      [ .14, .92, .58, '92,192,255', .66], [ .50, .52, .55, '184,230,249', .85], [ .44, -.08, .46, '1,148,253', .40]
-    ];
-    BL.forEach(function(b){
-      var cx = px + b[0]*pw, cy = py + b[1]*ph, r = b[2]*u*1.15, a = b[4];
-      var gr = g.createRadialGradient(cx, cy, 0, cx, cy, r);
-      gr.addColorStop(0, 'rgba('+b[3]+','+a+')'); gr.addColorStop(.5, 'rgba('+b[3]+','+(a*.5).toFixed(3)+')'); gr.addColorStop(1, 'rgba('+b[3]+',0)');
-      g.fillStyle = gr; g.fillRect(cx - r, cy - r, r*2, r*2);
-    });
-    // the clear lines: gentle rising curves, spaced so several cross every bezel and the day/time areas
-    var N = mob ? 7 : 6;
-    for(var i = 0; i < N; i++){
-      var f = i/(N-1);
-      var yA = py + ph*(1.18 - f*1.05), yB = py + ph*(.62 - f*.95);           // left and right heights
-      var c1x = px + pw*.28, c1y = yA - ph*.06, c2x = px + pw*.70, c2y = yB + ph*.10;
-      var lg = g.createLinearGradient(0, 0, W, 0);
-      lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(.18, 'rgba(244,252,255,.95)');
-      lg.addColorStop(.6, 'rgba(206,238,255,1)'); lg.addColorStop(.86, 'rgba(244,252,255,.9)'); lg.addColorStop(1, 'rgba(255,255,255,0)');
-      var path = function(){ g.beginPath(); g.moveTo(-30, yA + ph*.04); g.bezierCurveTo(c1x, c1y, c2x, c2y, W + 30, yB - ph*.05); };
-      // glow pass, then a crisp core
-      g.save(); g.strokeStyle = 'rgba(1,148,253,.30)'; g.lineWidth = i % 2 ? 4 : 5; g.shadowColor = 'rgba(1,148,253,.55)'; g.shadowBlur = 10; path(); g.stroke(); g.restore();
-      g.strokeStyle = lg; g.lineWidth = i % 3 === 1 ? 2 : 1.4; g.lineCap = 'round'; path(); g.stroke();
-    }
-    // The stage goes to CSS as a short blob: URL (setting a huge data: string on several styles is slow on phones).
-    // The displacement maps that feImage reads stay data: URLs.
     stage.key = key;
-    var done = function(url){ if(stage.key !== key) return; if(stage.blob && stage.blob !== url) URL.revokeObjectURL(stage.blob); stage.url = url; stage.w = W; stage.h = H; cb(true); };
-    if(c.toBlob && window.URL && URL.createObjectURL){
-      c.toBlob(function(b){ if(b){ var u = URL.createObjectURL(b); done(u); stage.blob = u; } else done(c.toDataURL('image/jpeg', .9)); }, 'image/jpeg', .9);
-    } else done(c.toDataURL('image/jpeg', .9));
+    loadImg(src, function(img){
+      if(stage.key !== key) return;
+      var sc = Math.max(W/img.naturalWidth, H/img.naturalHeight);
+      var bw = img.naturalWidth*sc, bh = img.naturalHeight*sc;
+      stage.url = src; stage.w = W; stage.h = H;
+      stage.bg = { w:bw, h:bh, x:(W - bw)/2, y:(H - bh)/2 };
+      cb(true);
+    });
     return true;
   }
+  function bgSize(){ return stage.bg.w.toFixed(2)+'px '+stage.bg.h.toFixed(2)+'px'; }
 
   /* ---- panel optic ---- */
   var geo = { px:0, py:0 };
@@ -1323,13 +1496,12 @@ footer>.wrap{position:relative;z-index:1}
     var radius = parseFloat(getComputedStyle(sched).borderTopLeftRadius) || 30;
     var s = panelOptic.style;
     s.left = -M+'px'; s.top = -M+'px'; s.width = (pw + 2*M)+'px'; s.height = (ph + 2*M)+'px';
-    s.backgroundImage = 'url("'+stage.url+'")'; s.backgroundSize = stage.w+'px '+stage.h+'px';
-    s.backgroundPosition = (-(geo.px - M))+'px '+(-(geo.py - M))+'px';
+    s.backgroundImage = 'url("'+stage.url+'")'; s.backgroundSize = bgSize();
+    s.backgroundPosition = (stage.bg.x - (geo.px - M)).toFixed(2)+'px '+(stage.bg.y - (geo.py - M)).toFixed(2)+'px';
     s.filter = opticFilter('fPanel', pw + 2*M, ph + 2*M, M, M, pw, ph, bakeMap(pw, ph, radius, bezel + 8), pw < 500 ? 46 : 64, 1.6);
     var b = stageBg.style;
-    b.backgroundImage = 'url("'+stage.url+'")'; b.backgroundSize = stage.w+'px '+stage.h+'px';
+    b.backgroundImage = 'url("'+stage.url+'")'; b.backgroundSize = bgSize(); b.backgroundPosition = stage.bg.x.toFixed(2)+'px '+stage.bg.y.toFixed(2)+'px';
   }
-
   /* ---- selection lenses ---- */
   function Lens(el, grid, kind){
     this.el = el; this.grid = grid; this.kind = kind; this.wrap = el.parentNode;
@@ -1347,8 +1519,8 @@ footer>.wrap{position:relative;z-index:1}
       var M = this.M, es = this.el.style, os = this.optic.style, cs = this.copy.style;
       es.width = w+'px'; es.height = h+'px';
       os.left = -M+'px'; os.top = -M+'px'; os.width = (w+2*M)+'px'; os.height = (h+2*M)+'px';
-      cs.width = stage.w+'px'; cs.height = stage.h+'px'; cs.backgroundSize = stage.w+'px '+stage.h+'px';
-      if(stage.url) cs.backgroundImage = 'url("'+stage.url+'")';
+      cs.width = stage.w+'px'; cs.height = stage.h+'px';
+      if(stage.url){ cs.backgroundImage = 'url("'+stage.url+'")'; cs.backgroundSize = bgSize(); cs.backgroundPosition = stage.bg.x.toFixed(2)+'px '+stage.bg.y.toFixed(2)+'px'; }
       var r = this.kind === 'day' ? w/2 : h/2, bez = this.kind === 'day' ? w*.34 : h*.42;
       os.filter = opticFilter('fLens'+this.kind, w+2*M, h+2*M, M, M, w, h, bakeMap(w, h, r, bez), this.kind==='day' ? 22 : 26, .5);
     }
@@ -1403,24 +1575,26 @@ footer>.wrap{position:relative;z-index:1}
     var prevLit = this.grid.querySelector('.lit'), left = false, lit = false;
     var x0 = st.x, y0 = st.y, dx = p.x - x0, dy = p.y - y0, dist = Math.sqrt(dx*dx + dy*dy);
     if(dist < 1){ st.x = p.x; st.y = p.y; st.sx = st.sy = 1; st.rot = 0; this.render(); this.light(cell); return; }
-    var day = this.kind === 'day', horiz = Math.abs(dx) >= Math.abs(dy);
-    var base = day ? this.w : (horiz ? this.w : this.h);           // lens length along the travel axis
-    var maxSep = base * (day ? 1.25 : .5);                           // how far the capsule may stretch
-    var ux = dx/dist, uy = dy/dist;
-    st.rot = day ? Math.atan2(dy, dx) : 0;                           // chips stay level: a rotated pill reads oddly
-    var dur = Math.min(.74, Math.max(.48, .42 + dist/1000));
+    var day = this.kind === 'day', ux = dx/dist, uy = dy/dist, ax = Math.abs(ux), ay = Math.abs(uy);
+    // lens length along the travel direction (a chip is wide, so this depends on the direction)
+    var base = day ? this.w : ax*this.w + ay*this.h;
+    // day: an oval capsule oriented along the travel; chips: stretch on BOTH axes in proportion to the
+    // distance travelled on each axis, never below the resting size on either axis
+    var maxSep = day ? base*1.1 : Math.min(ax > .001 ? .55*this.w/ax : 1e9, ay > .001 ? .9*this.h/ay : 1e9);
+    st.rot = day ? Math.atan2(dy, dx) : 0;
+    var dur = Math.min(.36, Math.max(.30, .30 + dist/2500));          // the whole move in ~300-360ms
     var T = { t:0 };
     this.tw = gsap.to(T,{ t:1, duration:dur, ease:'none',
       onUpdate:function(){
         var t = T.t;
-        var a = Math.min(1, t/.7), uL = 1 - Math.pow(1 - a, 3);                                  // leading edge: early, decelerating
-        var b = Math.max(0, Math.min(1, (t - .2)/.8)), uT = b < .5 ? 4*b*b*b : 1 - Math.pow(-2*b + 2, 3)/2;   // trailing edge: holds, then catches up
+        var a = Math.min(1, t/.62), uL = 1 - Math.pow(1 - a, 3);                                  // leading edge: fast out
+        var b = Math.max(0, Math.min(1, (t - .12)/.88)), uT = b < .5 ? 4*b*b*b : 1 - Math.pow(-2*b + 2, 3)/2;   // trailing edge: follows, gentle settle
         var dL = uL*dist, dT = uT*dist;
         if(dL - dT > maxSep) dT = dL - maxSep;                                                   // long moves: the tail is dragged along
         var sep = dL - dT, mid = (dL + dT)/2, k = Math.min(1, sep/maxSep);
         st.x = x0 + ux*mid; st.y = y0 + uy*mid;
-        var along = (sep + base)/base, across = 1 - .16*k;                                        // capsule, slightly thinner at full stretch
-        if(day || horiz){ st.sx = along; st.sy = across; } else { st.sx = across; st.sy = along; }
+        if(day){ st.sx = (sep + base)/base; st.sy = 1 - .14*k; }                                 // oval stretch, slightly thinner at full stretch
+        else { st.sx = 1 + sep*ax/self.w; st.sy = 1 + sep*ay/self.h; }                           // grows along the travel, on both axes
         self.render();
         // white text follows the glass: the old item darkens once the tail has left it,
         // the new one turns white once the tail is mostly in (never white text on the pale rim)
@@ -1431,8 +1605,9 @@ footer>.wrap{position:relative;z-index:1}
         self.tw = null;
         if(!lit) self.light(cell);
         st.x = p.x; st.y = p.y;
-        var sq = (day || horiz) ? { sx:.9, sy:1.08 } : { sx:1.06, sy:.9 };                       // squash along the travel axis
-        gsap.fromTo(st, sq, { sx:1, sy:1, duration:.72, ease:'elastic.out(1,0.42)',
+        // the landing bounce: a soft squash along the travel direction, then an elastic settle
+        var sq = day ? { sx:.9, sy:1.08 } : { sx:1 - .08*ax + .06*ay, sy:1 - .08*ay + .06*ax };
+        gsap.fromTo(st, sq, { sx:1, sy:1, duration:.62, ease:'elastic.out(1,0.42)',
           onUpdate:function(){ self.render(); }, onComplete:function(){ st.rot = 0; self.render(); } });
       }
     });
@@ -1473,7 +1648,7 @@ footer>.wrap{position:relative;z-index:1}
   daysEl.addEventListener('click', function(e){
     var b = e.target.closest('.day'); if(!b || b.disabled) return;
     selDate = b._date; selTime = null;
-    daysEl.querySelectorAll('.day').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+    dayCells.forEach(function(x){ if(x._date) setAttr(x, 'aria-pressed', x===b?'true':'false'); });
     lensDay.moveTo(b);
     lensChip.hide();
     renderChips(); update();
@@ -1527,6 +1702,15 @@ footer>.wrap{position:relative;z-index:1}
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ refreshOptics(false); }); else refreshOptics(false);
   if('ResizeObserver' in window) new ResizeObserver(queueOptics).observe(stageWrap);
   else window.addEventListener('resize', queueOptics);
+
+  /* ================= FAQ: accessible accordion (several can be open; height via grid rows) ================= */
+  Array.prototype.forEach.call(document.querySelectorAll('.qa-q'), function(btn){
+    btn.addEventListener('click', function(){
+      var qa = btn.closest('.qa'), open = !qa.classList.contains('open');
+      qa.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
 })();
 </script>
 </body>
