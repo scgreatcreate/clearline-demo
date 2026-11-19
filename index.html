@@ -773,13 +773,18 @@ footer>.wrap{position:relative;z-index:1}
   var band = { y0:0, y1:0, R:0 };     // phone: the free band below the CTAs that the line sweeps through
 
   function ease3(t){ return t*t*(3-2*t); }
-  function curve(t,u,time,out){
-    var x, y, cy, sp, A;
+  // Wave sizes. A drives the strand ripple (the vein's expand/contract and part of the float); B is the slow
+  // whole-bundle float. Desktop: both from the hero height. Phone: the ripple scales with the band (~1.85x the
+  // old phone value), and B tops the bright line's float up to ~9px each way on every phone size.
+  var PHONE_FLOAT = 9;
+  function waveA(){ return mobile ? band.R*1.15 : H; }
+  function waveB(){ return mobile ? Math.max(2, PHONE_FLOAT - band.R*1.15*0.013*0.83) : H*0.008; }
+  function curve(t,u,time,out,still){
+    var x, y, cy, sp, A = waveA(), B = waveB();
     if(!mobile){
       x = -0.06*W + t*1.12*W;
       cy = H*(0.97 - 0.64*ease3(t));
       sp = H*(0.62*(1-t)*(1-t) + 0.055 + 0.11*t*t*t);
-      A = H;
     } else {
       // the same rising sweep as desktop, "zoomed out" into the band under the CTAs:
       // enters below the bottom-left corner and rises to the top-right of the band
@@ -787,21 +792,20 @@ footer>.wrap{position:relative;z-index:1}
       x = -0.10*W + t*1.20*W;
       cy = band.y0 + R*(1.02 - 0.90*ease3(t));
       sp = R*(0.34*(1-t)*(1-t) + 0.045 + 0.09*t*t*t);
-      A = R*.62;                               // wave scaled to the band: bob/bundle ratio ~0.11, same as desktop (was ~0.31)
     }
-    var wave = Math.sin(t*6.5 - time*0.32 + u*2.4) * A*0.013 * (0.35+u) + Math.sin(t*2.2 + time*0.18)*A*0.008;
+    var wave = still ? 0 : Math.sin(t*6.5 - time*0.32 + u*2.4) * A*0.013 * (0.35+u) + Math.sin(t*2.2 + time*0.18)*B;
     y = cy + sp*(u-0.5) + wave;
     out[0]=x; out[1]=y;
   }
   // vertical extent of the bundle (all strands, all wave phases) across an x range
   function bandAt(xa, xb, pad){
-    // sampled at time 0, so allow the full wave swing both ways
-    var tmp=[0,0], top=1e9, bot=-1e9, A = mobile ? band.R*.62 : H, slack = 2*(A*0.013*1.35 + A*0.008) + (pad||0);
+    // the still bundle (no wave), plus the largest the float can ever reach either way
+    var tmp=[0,0], top=1e9, bot=-1e9, slack = waveA()*0.013*1.35 + waveB() + (pad||0);
+    if(!mobile) slack *= 2;                   // desktop: unchanged from before
     for(var k=0;k<=8;k++){
       var x = xa + (xb-xa)*k/8, t = mobile ? (x + 0.10*W)/(1.20*W) : (x + 0.06*W)/(1.12*W);
       t = Math.max(0, Math.min(1, t));
-      curve(t, 0, 0, tmp); var a = tmp[1]; curve(t, 1, 0, tmp); var b = tmp[1];
-      // remove the wave part sampled at time 0, then add the worst case both ways
+      curve(t, 0, 0, tmp, mobile); var a = tmp[1]; curve(t, 1, 0, tmp, mobile); var b = tmp[1];
       top = Math.min(top, Math.min(a,b) - slack); bot = Math.max(bot, Math.max(a,b) + slack);
     }
     return { top:top, bot:bot };
@@ -848,9 +852,11 @@ footer>.wrap{position:relative;z-index:1}
         n.ty = d.side==='up' ? top + th : top;
       } else {
         // try positions around the node, on its preferred side first; never on the line, never on another chip
-        var best = null, gap = 12, sides = d.side==='up' ? ['up','down'] : ['down','up'];
+        var best = null, gap, sides = d.side==='up' ? ['up','down'] : ['down','up'];
         var xs = [n.x - tw*0.5, n.x - tw + 22, n.x - 22];
         for(var sx = 14; sx <= W - tw - 14; sx += 12) xs.push(sx);          // sweep the width: closest clean spot wins
+        // 14px of air from the floating line; small screens fall back to 12 rather than lose the card
+        for(var gi=0, gaps=[14,12]; gi<gaps.length && !best; gi++){ gap = gaps[gi];
         for(var si=0; si<sides.length && !best; si++){
           for(var xi=0; xi<xs.length; xi++){
             var L = Math.max(14, Math.min(xs[xi], W - tw - 14)), b = bandAt(L, L + tw, 0);
@@ -866,6 +872,7 @@ footer>.wrap{position:relative;z-index:1}
             var score = Math.abs((L + tw/2) - n.x) + Math.abs((T + th/2) - n.y)*1.5 + (si ? 400 : 0);   // stay close to its point
             if(!best || score < best.score){ best = cand; best.score = score; }
           }
+        }
         }
         if(!best){ el.style.display='none'; return; }     // no clean spot on this screen: leave it out
         placed.push(best); placed.push({ l:best.leadRect.l, t:best.leadRect.t, w:best.leadRect.w, h:best.leadRect.h, lead:true });
