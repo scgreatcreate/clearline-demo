@@ -1,0 +1,63 @@
+/* ClearLine inner pages (service pages, /georgia, /faq, legal, 404): a deep page head that clears into a
+   light body, then the footer's sink. No canvas, no GSAP. Needs base.css first.
+
+   DEPTH PRESETS (the same seams as the homepage's "What we check" -> "Sample report" clearing):
+     .z-head      deep page head:  w0 -> w3, then w3 -> w3c over its bottom padding    (text theme: .deep)
+     .z-clearing  first body zone: w3c -> w7 within --clear-run (kept as top padding), then -> w9   (.clear)
+     .z-clear     any further body zone: stays at w9                                              (.clear)
+   The footer (base.css) always starts at w9 and sinks to w0.
+   Order on a page: z-head -> z-clearing -> z-clear ... -> footer. Never put text over w4-w6. */
+:root{--head-pb:96px}
+.z-head{--from:var(--w0);--land:var(--w3);--settle:calc(100% - var(--head-pb));--to:var(--w3c)}
+.z-clearing{--from:var(--w3c);--land:var(--w7);--settle:var(--clear-run);--to:var(--w9)}
+.z-clear{--from:var(--w9);--to:var(--w9)}
+
+/* the shared bar overlays the page head, exactly as it overlays the hero on the homepage */
+@media (min-width:760px){.page-head .wrap,.page-body .wrap{width:var(--hero-wrap)}}   /* left edge = the logo's */
+
+/* ---------- page head (deep) ---------- */
+.page-head{padding:calc(76px + 96px) 0 var(--head-pb)}
+.page-head .inner{max-width:760px}
+.page-head h1{font-weight:500;font-size:clamp(36px,4.2vw,60px);line-height:1.05;letter-spacing:-.032em;color:#fff;text-wrap:balance}
+.page-head .lede{margin-top:22px;font-size:clamp(16px,1.25vw,19px);line-height:1.6;color:var(--text-d2);max-width:36em;font-weight:300}
+.page-ctas{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px}
+
+/* ---------- page body (clear) ---------- */
+.page-body{padding:var(--settle) 0 120px}
+.page-body>.wrap{position:relative;z-index:1}
+.prose{max-width:46em;color:var(--text-l2);font-size:16px;line-height:1.7}
+.prose>*+*{margin-top:18px}
+.prose h2{color:var(--text-l);margin-top:56px;margin-bottom:-2px}
+.prose h2:first-child{margin-top:0}
+.prose h3{color:var(--text-l);font-size:20px;font-weight:500;letter-spacing:-.015em;line-height:1.3;margin-top:36px}
+.prose ul,.prose ol{padding-left:0;list-style:none;display:grid;gap:10px}
+.prose ul li{display:flex;gap:12px;align-items:baseline}
+.prose ul li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--blue);transform:translateY(-2px)}
+.prose ol{counter-reset:n}
+.prose ol li{counter-increment:n;display:flex;gap:14px;align-items:baseline}
+.prose ol li::before{content:counter(n);flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:500;color:var(--pass-l);background:var(--pass-bg);transform:translateY(-1px)}
+.prose strong{color:var(--text-l);font-weight:500}
+/* inline links on light: underlined, AA blue (#00639F on #EEF4F9 is about 5.9:1) */
+.prose a:not(.btn){color:var(--pass-l);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;
+  transition:color var(--duration-fast) var(--ease-smooth-out),text-decoration-color var(--duration-fast) var(--ease-smooth-out)}
+.prose a:not(.btn):hover{color:#004F80;text-decoration-thickness:2px}
+.prose a:not(.btn):active{color:#003C61}
+.prose a:not(.btn):focus-visible{border-radius:3px}
+.note{padding:16px 18px;border-left:2px solid var(--blue);background:rgba(255,255,255,.6);border-radius:0 10px 10px 0;font-size:15px}
+
+/* a ghost button on light zones (the base .btn-ghost is for dark) */
+.btn-ghost-l{color:var(--text-l);border:1px solid rgba(0,34,77,.22);background:rgba(255,255,255,.55)}
+.btn-ghost-l:hover{border-color:rgba(0,34,77,.5);background:#fff}
+.btn-ghost-l:active{background:#E9F1F8}
+
+@media (max-width:759px){
+  :root{--head-pb:72px}
+  .page-head{padding:calc(72px + 56px) 0 var(--head-pb)}
+  .page-head h1{font-size:clamp(30px,8.4vw,38px);line-height:1.06}
+  .page-head .lede{font-size:15px;margin-top:14px;line-height:1.55}
+  .kicker{font-size:13px;margin-bottom:12px}
+  .page-ctas{margin-top:26px;gap:8px}
+  .page-ctas .btn{height:44px;padding:0 18px;font-size:14px;flex:1 1 auto}
+  .page-body{padding-bottom:84px}
+  .prose h2{margin-top:44px}
+}

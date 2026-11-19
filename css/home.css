@@ -1,0 +1,291 @@
+/* ClearLine homepage: hero, What we check, sample report, booking calendar (Liquid Glass). Needs base.css first. */
+/* ONE shared left edge for the hero (logo, kicker, headline, subline, buttons): a wider, still centered wrap */
+@media (min-width:760px){.hero .wrap{width:var(--hero-wrap)}}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:100vh;height:100svh;min-height:640px;overflow:hidden;overflow:clip;isolation:isolate;
+  background:
+    radial-gradient(70% 60% at 78% 42%, rgba(0,34,77,.95) 0%, rgba(0,11,61,.35) 45%, transparent 75%),
+    radial-gradient(50% 40% at 60% 100%, rgba(0,128,212,.10), transparent 70%),
+    linear-gradient(180deg,#020A1E 0%,#010716 100%)}
+#flow{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(2,8,24,.92) 0%,rgba(2,8,24,.72) 30%,rgba(2,8,24,0) 58%),
+             linear-gradient(0deg,rgba(2,8,24,.5) 0%,transparent 25%)}
+.grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* desktop: copy block nudged up (kicker/headline -25px), CTAs a little lower with more air above them */
+.hero-copy{position:absolute;z-index:4;left:0;right:0;top:calc(50% - 9px);transform:translateY(-46%)}
+.hero-copy .inner{max-width:660px}
+h1{font-weight:500;font-size:clamp(40px,4.7vw,74px);line-height:1.03;letter-spacing:-.032em;color:#fff;max-width:12.5em;text-wrap:balance}
+h1 .w{display:inline-block;will-change:transform}
+.hero-sub{margin-top:26px;font-size:clamp(16px,1.25vw,19px);line-height:1.6;color:var(--text-d2);max-width:35em;font-weight:300}
+.hero-ctas{margin-top:71px;display:flex;flex-wrap:wrap;gap:12px}
+.hero-trust{margin-top:28px;font-size:13px;color:var(--text-d3);display:flex;gap:10px;align-items:center}
+.hero-trust svg{flex:none;opacity:.8}
+
+/* Readout tags on the flow */
+.tags{position:absolute;inset:0;z-index:3;pointer-events:none}
+.tag{position:absolute;width:max-content;padding:10px 13px 11px;border-radius:11px;
+  background:linear-gradient(180deg,rgba(6,24,56,.78),rgba(3,14,36,.78));border:1px solid rgba(184,230,249,.16);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 20px 40px -20px rgba(0,0,0,.7)}
+.tag .t-area{font-size:11px;color:var(--text-d2);line-height:1.3}
+.tag .t-val{margin-top:3px;font-size:19px;font-weight:500;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
+.tag .t-val small{font-size:11px;font-weight:400;color:var(--text-d2);letter-spacing:0;margin-left:4px}
+.tag .t-status{margin-top:6px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500}
+.tag.pass .t-status{color:var(--pass-d)}
+.tag.fix .t-status{color:var(--fix-d)}
+.tag.fix{border-color:rgba(242,184,75,.32)}
+/* "Sample findings, for illustration": a caption tied to the cards (placed in JS so it never touches the line) */
+.tags-label{position:absolute;left:0;top:0;font-size:12px;color:var(--text-d2);white-space:nowrap;letter-spacing:.01em}
+.pre .topbar,.pre .hero-copy,.pre .tag,.pre .tags-label{opacity:0}
+
+/* Hero scroll cue */
+.cue{position:absolute;z-index:4;left:50%;bottom:22px;transform:translateX(-50%);width:22px;height:34px;border:1px solid rgba(184,230,249,.3);border-radius:12px;display:none}
+.cue::after{content:"";position:absolute;left:50%;top:7px;width:2px;height:6px;margin-left:-1px;border-radius:2px;background:var(--mist);animation:cue 2.4s var(--ease-smooth-out) infinite}
+@keyframes cue{0%{opacity:0;transform:translateY(0)}30%{opacity:1}80%{opacity:0;transform:translateY(10px)}100%{opacity:0}}
+
+/* ---------- WHAT WE CHECK (dark) ---------- */
+/* The clearing: "Three areas" lifts to w3 by the end of its columns (light text stays AA), then the whole gap
+   (its bottom padding + the report's top run) eases w3 -> w3c -> w7 as one S-curve; the report then clears to w9. */
+#check{--from:var(--w0);--land:var(--w3);--settle:calc(100% - var(--check-pb));--to:var(--w3c)}
+#report{--from:var(--w3c);--land:var(--w7);--settle:var(--clear-run);--to:var(--w9)}
+#book{--from:var(--w9);--to:var(--w9)}
+#faq{--from:var(--w9);--to:var(--w9)}
+.check{padding:120px 0 var(--check-pb)}
+.trust-m{display:none}
+.areas{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-d)}
+.area{position:relative;padding:34px 34px 8px 0;transition:background-color var(--duration-fast) var(--ease-smooth-out)}
+.area+.area{padding-left:34px;border-left:1px solid var(--line-d)}
+.area::before{content:"";position:absolute;top:-1px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform var(--duration-slow) var(--ease-smooth-out)}
+.area:hover::before{transform:scaleX(1)}
+.area .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(0,128,212,.12);color:var(--mist);margin-bottom:26px;transition:background-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-fast) var(--ease-smooth-out)}
+.area:hover .ic{background:var(--blue);color:#fff}
+.area h3{font-size:20px;font-weight:500;letter-spacing:-.015em;margin-bottom:10px}
+.area p{color:var(--text-d2);font-size:15px;font-weight:300;max-width:26em}
+.area ul{list-style:none;margin-top:18px;display:grid;gap:8px}
+.area li{font-size:13px;color:var(--text-d3);display:flex;gap:10px;align-items:baseline}
+.area li::before{content:"";flex:none;width:10px;height:1px;background:var(--text-d3);transform:translateY(-4px)}
+
+/* ---------- REPORT (light) ---------- */
+.report{padding:var(--settle) 0 120px}
+.report>.wrap{position:relative;z-index:1}
+.report .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.report .sec-head p{color:var(--text-l2)}
+.report .legend{display:grid;gap:14px;margin-top:8px}
+.legend div{display:flex;gap:12px;align-items:center;font-size:14px;color:var(--text-l2)}
+.doc{background:var(--white);border-radius:18px;border:1px solid var(--line-l);box-shadow:0 30px 60px -40px rgba(0,34,77,.35);overflow:hidden;overflow:clip}
+.doc-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 26px;border-bottom:1px solid var(--line-l)}
+.doc-head .brand{--mark-h:38px;--name-size:19px;--tag-size:7.5px;--rule-h:5px;gap:10px}
+
+.doc-meta{padding:16px 26px;display:flex;flex-wrap:wrap;gap:8px 28px;font-size:13px;color:var(--text-l2);border-bottom:1px solid var(--line-l);background:#F8FBFD}
+.doc-meta b{font-weight:500;color:var(--text-l)}
+.stamp{font-size:12px;font-weight:600;letter-spacing:.12em;color:var(--pass-l);border:1.5px solid currentColor;border-radius:6px;padding:4px 10px}
+.rows{list-style:none}
+.row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:14px;align-items:start;padding:20px 26px;border-bottom:1px solid var(--line-l);transition:background-color var(--duration-fast) var(--ease-smooth-out)}
+.row:last-child{border-bottom:0}
+.row:hover{background:#F6FAFD}
+.row .st{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;margin-top:1px}
+.row.pass .st{background:var(--pass-bg);color:var(--pass-l)}
+.row.fix .st{background:var(--fix-bg);color:var(--fix-l)}
+.row .what{font-size:15px;font-weight:500;line-height:1.4}
+.row .note{font-size:13px;color:var(--text-l2);margin-top:4px}
+.row .rec{margin-top:10px;font-size:13px;color:var(--text-l);background:var(--fix-bg);border-radius:8px;padding:8px 12px;display:inline-block}
+.row .rd{text-align:right}
+.row .num{font-size:18px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.row .num small{font-size:12px;font-weight:400;color:var(--text-l2);margin-left:3px}
+.chip{display:inline-block;margin-top:4px;font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px}
+.pass .chip{background:var(--pass-bg);color:var(--pass-l)}
+.fix .chip{background:var(--fix-bg);color:var(--fix-l)}
+.ga{margin-top:22px;font-size:14px;color:var(--text-l2);display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-left:2px solid var(--blue);background:rgba(255,255,255,.6);border-radius:0 10px 10px 0}
+.ga b{color:var(--text-l);font-weight:500}
+
+/* ---------- BOOK (light) ---------- */
+.book{padding:40px 0 140px}
+.book .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.book .sec-head p{color:var(--text-l2)}
+.book .points{list-style:none;display:grid;gap:12px;font-size:15px;color:var(--text-l2)}
+.book .points li{display:flex;gap:12px;align-items:baseline}
+.book .points li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--blue);transform:translateY(-2px)}
+/* ---------- LIQUID GLASS calendar ----------
+   Stage: a canvas the page draws (spheres + flow lines), exported once per size as a data: URL.
+   Glass: each glass surface holds an aligned COPY of that stage, refracted by an SVG filter
+   (baked displacement map + feDisplacementMap). Element filters work in Chrome, Safari and Firefox.
+   Fail-safe: the map is composited over a neutral flood, so a missing map = no bend, never an offset copy;
+   copies stay hidden until the stage image is ready (.lg-ready). */
+.book{position:relative;overflow-x:hidden;overflow-x:clip}
+.glass-stage{--bezel:22px;--pad:30px;position:relative;isolation:isolate}
+.stage-bg{position:absolute;inset:-110px -120px -190px;z-index:-1;pointer-events:none;background-repeat:no-repeat;opacity:0;will-change:transform;transform:translateZ(0);
+  transition:opacity var(--duration-very-slow) var(--ease-out);
+  -webkit-mask:linear-gradient(90deg,transparent,#000 20%,#000 84%,transparent),linear-gradient(180deg,transparent,#000 20%,#000 64%,rgba(0,0,0,.45) 82%,transparent);-webkit-mask-composite:source-in;
+  mask:linear-gradient(90deg,transparent,#000 20%,#000 84%,transparent),linear-gradient(180deg,transparent,#000 20%,#000 64%,rgba(0,0,0,.45) 82%,transparent);mask-composite:intersect}
+.lg-ready .stage-bg{opacity:1}
+.sched{--text-g2:#2A445E;position:relative;border-radius:30px;display:grid;grid-template-columns:1.1fr 1fr;overflow:hidden;overflow:clip;isolation:isolate;
+  background:rgba(214,234,248,.55);
+  /* glass on a light page reads through its shadow: a close contact shadow + a wide soft lift */
+  box-shadow:0 1px 2px rgba(0,34,77,.10),0 8px 18px -8px rgba(0,34,77,.22),0 44px 80px -34px rgba(0,34,77,.55),0 0 0 .5px rgba(0,34,77,.12)}
+/* refracted copy of the stage (bezel bends what is just outside the panel) */
+/* own compositor layers: the big filtered copy and the frost are rendered once and cached,
+   so text and state changes on top never re-run the panel's SVG filter */
+.optic{position:absolute;z-index:0;pointer-events:none;background-repeat:no-repeat;opacity:0;transition:opacity var(--duration-slow) var(--ease-out);will-change:transform;transform:translateZ(0)}
+.lg-ready .optic{opacity:1}
+/* frosted, tinted center where the text sits; the bezel ring stays clear so the bend shows */
+.frost{position:absolute;inset:calc(var(--bezel) - 4px);z-index:1;pointer-events:none;border-radius:calc(30px - var(--bezel) + 4px);
+  background:rgba(243,249,253,.72);filter:blur(7px);will-change:transform;transform:translateZ(0)}
+/* edge shade + inner glow + specular rim */
+.sched::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  /* thick bright top/left specular rim, darker edge shade, inner shadow along the bottom (image 19 cues) */
+  box-shadow:inset 0 2.5px 0 #fff,inset 2px 0 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.6),inset 0 0 0 1px rgba(255,255,255,.32),
+    inset 0 0 30px rgba(0,45,105,.22),inset 0 -22px 26px -18px rgba(0,40,95,.30),inset 0 10px 22px -14px rgba(255,255,255,.85);
+  background:radial-gradient(60% 34% at 18% 0%,rgba(255,255,255,.55),transparent 70%),radial-gradient(40% 24% at 92% 100%,rgba(255,255,255,.35),transparent 70%)}
+/* iridescent hairline rim (cyan / aqua / pale gold, no purple) + white specular sweep */
+.sched::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.75px;pointer-events:none;z-index:4;
+  background:linear-gradient(135deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.15) 24%,rgba(255,255,255,0) 50%,rgba(255,255,255,.2) 76%,rgba(255,255,255,.9) 100%),
+    conic-gradient(from 210deg,rgba(110,214,255,.85),rgba(140,250,220,.6),rgba(255,228,170,.6),rgba(110,200,255,.85),rgba(150,255,230,.55),rgba(255,236,190,.55),rgba(110,214,255,.85));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.cal,.slots{position:relative;z-index:3}
+/* Safari: keep the glass rim, glow and the content each on their own compositor layer, so a change inside
+   the calendar (month switch, chips, text swap) can never invalidate the filtered/masked glass layers */
+.sched::before,.sched::after{will-change:transform}
+.cal,.slots{will-change:transform}
+.cal{padding:var(--pad);border-right:1px solid rgba(255,255,255,.6);box-shadow:1px 0 0 rgba(0,34,77,.07)}
+.cal-head{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+/* the month never wraps, even mid-swap while its width eases from the old text to the new one */
+.cal-title{font-size:16px;font-weight:500;flex:none;min-width:0}
+#calTitle,#calTitle>span{white-space:nowrap}
+.cal-nav{flex:none}
+.cal-nav{display:flex;gap:6px}
+/* small glass controls (transitions-dev states) */
+.icon-btn,.slot{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.8);
+  box-shadow:inset 0 1px 0 #fff,inset 0 -1px 2px rgba(0,34,77,.05),0 1px 2px rgba(0,34,77,.08)}
+.icon-btn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--text-l);
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),border-color var(--duration-fast) var(--ease-smooth-out),box-shadow var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out)}
+.icon-btn:hover:not([disabled]){background:rgba(255,255,255,.88);border-color:#fff;box-shadow:inset 0 1px 0 #fff,0 4px 12px -4px rgba(0,60,120,.3)}
+.icon-btn:active:not([disabled]){transform:scale(.92)}
+.icon-btn[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none;background:rgba(255,255,255,.22)}
+.dow,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.days{position:relative;z-index:1;grid-template-rows:repeat(6,auto)}
+.dow span{font-size:12px;color:var(--text-g2);padding:6px 0}
+.day{aspect-ratio:1;border-radius:50%;font-size:14px;font-variant-numeric:tabular-nums;color:var(--text-l);display:grid;place-items:center;position:relative;
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-quick) var(--ease-out),transform var(--duration-quick) var(--ease-smooth-out),box-shadow var(--duration-fast) var(--ease-smooth-out)}
+.day.open{font-weight:500}
+.day.open::after{content:"";position:absolute;bottom:16%;width:4px;height:4px;border-radius:50%;background:#0070C0;transition:opacity var(--duration-quick) var(--ease-out)}
+.day.open:hover:not(.lit){background:rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.9),0 4px 10px -4px rgba(0,60,120,.3)}
+.day:active:not([disabled]){transform:scale(.92)}
+.day[disabled]{color:rgba(10,31,58,.36);cursor:default}
+.day.blank{visibility:hidden;pointer-events:none}
+.day.today{box-shadow:inset 0 0 0 1px rgba(0,34,77,.28)}
+/* the lens sits under the selected item; the item just turns its text white when the lens arrives */
+.day.lit,.slot.lit{color:#fff;text-shadow:0 1px 1px rgba(0,30,70,.35)}
+.day.lit::after{opacity:0}
+.slot.lit{background:transparent;border-color:transparent;box-shadow:none}
+.slots{padding:var(--pad);display:flex;flex-direction:column}
+.slots h4{font-size:16px;font-weight:500}
+.slots .tz{font-size:13px;color:var(--text-g2);margin-top:2px;margin-bottom:18px}
+.chips-wrap,.days-wrap{position:relative}
+.chips{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.slot{height:44px;border-radius:999px;font-size:14px;font-variant-numeric:tabular-nums;color:var(--text-l);
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),border-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-quick) var(--ease-out),box-shadow var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out)}
+.slot:hover:not([disabled]):not(.lit){background:rgba(255,255,255,.88);color:#005A9E;border-color:rgba(0,112,192,.35);box-shadow:inset 0 1px 0 #fff,0 4px 12px -4px rgba(0,60,120,.3)}
+.slot:active:not([disabled]){transform:scale(.95)}
+.slot[disabled]{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.45);box-shadow:none;color:rgba(10,31,58,.45);cursor:not-allowed}
+.slot.booked{text-decoration:line-through;text-decoration-color:rgba(10,31,58,.4)}
+/* ---- selection LENS (GSAP moves it; transform + opacity only) ---- */
+.lens{position:absolute;left:0;top:0;z-index:0;pointer-events:none;opacity:0;overflow:hidden;overflow:clip;will-change:transform,opacity;transform-origin:0 0;
+  box-shadow:0 8px 16px -8px rgba(0,50,120,.6),0 2px 4px -1px rgba(0,50,120,.25)}
+.lens-day{border-radius:50%}
+.lens-chip{border-radius:999px}
+.lens-optic{position:absolute;overflow:hidden;overflow:clip;pointer-events:none}
+.lens-copy{position:absolute;left:0;top:0;background-repeat:no-repeat;will-change:transform;transform-origin:0 0;opacity:0;transition:opacity var(--duration-fast) var(--ease-out)}
+.lg-ready .lens-copy{opacity:1}
+/* tint: deep under the number (white text above 4.5:1 even over the palest sphere), clear at the rim so the bend shows */
+.lens::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1;
+  background:radial-gradient(closest-side,rgba(0,82,150,.92) 0%,rgba(0,86,156,.9) 60%,rgba(0,104,184,.64) 80%,rgba(40,150,230,.22) 100%)}
+.lens::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:2;
+  /* specular kept in the top quarter, rim glow in the bottom tenth: neither reaches the white text */
+  background:radial-gradient(30% 16% at 34% 9%,rgba(255,255,255,.8),rgba(255,255,255,0) 72%),radial-gradient(55% 14% at 60% 100%,rgba(140,220,255,.5),transparent 72%);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.9),inset 0 -1.5px 2px rgba(255,255,255,.4),inset 0 0 0 1px rgba(255,255,255,.35),inset 0 0 12px rgba(160,225,255,.35)}
+/* room for three lines, so the glass never changes size as the message changes (no re-bake, no layout shift) */
+.summary{margin-top:auto;padding-top:22px;font-size:14px;color:var(--text-g2);min-height:calc(22px + 4.8em)}
+.summary b{color:var(--text-l);font-weight:500}
+/* Confirm: a #0072BF glass pill (like a glass stop button): specular cap, bright rim, soft inner glow */
+.book .btn-primary{position:relative;overflow:hidden;overflow:clip;width:100%;margin-top:12px;border:1px solid rgba(255,255,255,.45);background-color:#0072BF;isolation:isolate;
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),inset 0 -2px 6px rgba(120,210,255,.45),inset 0 -8px 14px -6px rgba(0,30,80,.35),0 12px 24px -12px rgba(0,114,191,.85),0 0 0 .5px rgba(0,60,120,.25)}
+.book .btn-primary::before{content:"";position:absolute;left:6%;right:6%;top:2px;height:38%;border-radius:999px;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0));transition:opacity var(--duration-fast) var(--ease-smooth-out)}
+.book .btn-primary:hover:not([disabled]){background-color:#0066AB;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.75),inset 0 -2px 6px rgba(120,210,255,.5),inset 0 -8px 14px -6px rgba(0,30,80,.38),0 16px 30px -12px rgba(0,102,171,.9),0 0 0 .5px rgba(0,60,120,.25)}
+.book .btn-primary:active:not([disabled]){background-color:#005C9A}
+.book .btn[disabled]{background:rgba(255,255,255,.4);color:rgba(10,31,58,.5);border-color:rgba(255,255,255,.75);opacity:1;
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -2px 4px rgba(0,34,77,.05)}
+.book .btn[disabled]::before{opacity:.6}
+/* Reduce transparency: solid tinted surfaces, no copies, solid lens */
+@media (prefers-reduced-transparency: reduce){
+  .optic,.lens-optic{display:none}
+  .sched{background:#EDF4FA}
+  .frost{inset:0;filter:none;background:#F2F7FB;border-radius:inherit}
+  .lens::before{background:#0072BF}
+  .stage-bg{opacity:.5}
+}
+/* No GSAP: no lens, the selected item carries a solid bead */
+.no-lens .day[aria-pressed="true"],.no-lens .slot[aria-pressed="true"]{background:#0072BF;color:#fff;border-color:#0072BF}
+
+/* transitions.dev: Text swap soft */
+.t-text-soft{display:inline-grid;justify-items:var(--text-soft-align,start);transition:width var(--text-soft-resize-dur) var(--text-soft-resize-ease)}
+.t-text-soft>span{grid-area:1/1;white-space:pre-wrap;transition:filter var(--text-soft-dur) var(--text-soft-ease),opacity var(--text-soft-dur) var(--text-soft-ease)}
+.t-text-soft-new{opacity:0;filter:blur(var(--text-soft-blur))}
+.t-text-soft.is-swapping .t-text-soft-old{opacity:0;filter:blur(var(--text-soft-blur))}
+.t-text-soft.is-swapping .t-text-soft-new{opacity:1;filter:blur(0)}
+@media (prefers-reduced-motion: reduce){.t-text-soft,.t-text-soft>span{transition:none!important}}
+
+/* ---------- Responsive (homepage) ---------- */
+@media (max-width:1100px){
+  .report .grid,.book .grid{grid-template-columns:1fr;gap:40px}
+}
+@media (max-width:759px){
+  .hero{min-height:600px}   /* = the visible height on an iPhone (100svh, ~660px with Safari's toolbars): the whole sweep stays above the fold */
+  /* the scrim ends where the copy ends (JS sets --scrim-end), so the line below it is never dimmed */
+  .hero-scrim{background:linear-gradient(180deg,rgba(2,8,24,.55) 0%,rgba(2,8,24,.8) 16%,rgba(2,8,24,.55) calc(var(--scrim-end,62%) - 10%),rgba(2,8,24,0) var(--scrim-end,62%))}
+  .hero-copy{top:80px;transform:none}
+  .kicker{font-size:13px;margin-bottom:10px}
+  h1{font-size:clamp(30px,8.4vw,38px);line-height:1.04}
+  .hero-sub{font-size:15px;margin-top:12px;line-height:1.5}
+  .hero-ctas{margin-top:16px;gap:8px}
+  /* one button per row (full width), as approved: the short "Email us" must not pull the pair onto one row
+     (that would lift the copy block and move the line band and its chips) */
+  .hero-ctas .btn{height:44px;padding:0 18px;font-size:14px;flex:1 1 100%}
+  .hero-trust{display:none}
+  .trust-m{display:flex;margin-top:4px}
+  /* Smooth line on iPhone: nothing above the animating canvas may need re-blurring or re-blending every frame.
+     backdrop-filter (chips, ghost buttons) and the overlay-blended grain are swapped for solid tints of the same look. */
+  .grain{display:none}
+  .hero .btn-ghost{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(3,12,32,.72)}
+  .tag{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(180deg,rgba(7,26,60,.94),rgba(4,15,38,.94))}
+  /* compact two-line finding chips, attached to points on the line */
+  .tag{width:auto;padding:5px 9px 5px;border-radius:9px;display:grid;grid-template-columns:auto auto;justify-content:start;align-items:baseline;column-gap:7px;row-gap:1px;white-space:nowrap;
+    box-shadow:0 10px 24px -14px rgba(0,0,0,.8)}
+  .tag .t-area{grid-column:1 / -1;font-size:10.5px;line-height:1.25}
+  .tag .t-val{margin-top:0;font-size:13px;font-weight:600;line-height:1.3}
+  .tag .t-val small{font-size:10px;margin-left:2px}
+  .tag .t-status{margin-top:0;font-size:10.5px;gap:3px}
+  .tag .t-status svg{width:10px;height:10px}
+  .tags-label{font-size:10.5px}
+  .check{padding:84px 0 var(--check-pb)}
+  .report{padding-bottom:84px}
+  .areas{grid-template-columns:1fr}
+  .area,.area+.area{padding:28px 0;border-left:0}
+  .area+.area{border-top:1px solid var(--line-d)}
+  .row{grid-template-columns:24px minmax(0,1fr);padding:18px}
+  .row .rd{grid-column:2;text-align:left;display:flex;gap:10px;align-items:center}
+  .row .chip{margin-top:0}
+  .doc-head,.doc-meta{padding-inline:18px}
+  .sched{grid-template-columns:1fr}
+  .glass-stage{--bezel:16px;--pad:22px}
+  .cal{border-right:0;border-bottom:1px solid rgba(255,255,255,.6);box-shadow:0 1px 0 rgba(0,34,77,.07)}
+  .sched{border-radius:26px}
+  .frost{border-radius:calc(26px - var(--bezel) + 4px)}
+  .stage-bg{inset:-90px -60px -150px}
+  .book{padding-bottom:110px}
+}
+@media (min-width:760px) and (min-height:760px){.cue{display:block}}
+@media (prefers-reduced-motion: reduce){.cue::after{animation:none;opacity:.8}}
