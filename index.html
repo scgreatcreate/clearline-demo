@@ -1,0 +1,1533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ClearLine Dental Compliance</title>
+<meta name="description" content="Independent inspections for dental practices: waterline testing, infection control and sterilization review, and OSHA-related safety review, with a written report of what passed and what to fix.">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/new/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/new/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/new/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/new/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  // Hide hero copy until GSAP plays it in (only when motion is allowed).
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('pre');
+    setTimeout(function(){ document.documentElement.classList.remove('pre'); }, 3500); // safety net if the CDN fails
+  }
+</script>
+<style>
+:root{
+  /* Brand */
+  --navy:#00224D; --blue:#0080D4; --accent:#0194FD; --swoosh:#008CE8;
+  --abyss:#000B3D; --mist:#B8E6F9;
+  /* Surfaces */
+  --ink:#020A1E;          /* hero base: navy-black */
+  --ink-2:#041533;        /* dark section */
+  --line-d:rgba(184,230,249,.14);
+  --text-d:#EAF4FB; --text-d2:#AFC3D6; --text-d3:#7F97AF;
+  --paper:#EEF4F9; --white:#FFFFFF; --text-l:#0A1F3A; --text-l2:#45607C; --line-l:#D5E1EC;
+  --pass-d:#5CC0FF; --fix-d:#F2B84B;          /* status on dark */
+  --pass-l:#00639F; --fix-l:#8A5300; --fix-bg:#FFF3DC; --pass-bg:#E3F2FC; /* status on light */
+  --focus:#0194FD;
+  /* transitions.dev motion tokens */
+  --duration-stagger:40ms; --duration-micro:80ms; --duration-quick:150ms; --duration-fast:250ms;
+  --duration-medium:350ms; --duration-slow:400ms; --duration-very-slow:500ms;
+  --ease-smooth-out:cubic-bezier(0.22,1,0.36,1); --ease-in-out:ease-in-out; --ease-out:ease-out;
+  --text-soft-dur:200ms; --text-soft-blur:2px; --text-soft-ease:ease-in-out;
+  --text-soft-resize-dur:240ms; --text-soft-resize-ease:cubic-bezier(0.22,1,0.36,1);
+  --font:'Sora',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
+body{font-family:var(--font);background:var(--ink);color:var(--text-d);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+@media (min-width:760px){.wrap{width:min(1240px,100% - 96px)}}
+
+/* ---------- Shared interactive states (consistent across page) ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 24px;border-radius:999px;font-size:15px;font-weight:500;letter-spacing:-.005em;white-space:nowrap;
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),border-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out),box-shadow var(--duration-fast) var(--ease-smooth-out)}
+.btn:active{transform:scale(.97)}
+:where(a,button,[tabindex]):focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:999px}
+/* primary: #0072BF with white text (about 5:1); hover deepens, press scales (shared .btn:active) */
+.btn-primary{background:#0072BF;color:#fff;box-shadow:0 0 0 1px rgba(184,230,249,.18) inset,0 10px 30px -12px rgba(0,114,191,.85)}
+.btn-primary:hover{background:#0066AB;box-shadow:0 0 0 1px rgba(184,230,249,.32) inset,0 14px 36px -12px rgba(1,148,253,.8)}
+.btn-primary:active{background:#005C9A}
+.btn-ghost{color:var(--text-d);border:1px solid rgba(184,230,249,.32);background:rgba(2,10,30,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.btn-ghost:hover{border-color:rgba(184,230,249,.7);background:rgba(184,230,249,.08)}
+.btn .arrow{width:16px;height:16px;transition:transform var(--duration-fast) var(--ease-smooth-out)}
+.btn:hover .arrow{transform:translateX(3px)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn[disabled]:active{transform:none}
+.link{position:relative;font-size:14px;color:var(--text-d2);padding:6px 2px;transition:color var(--duration-fast) var(--ease-smooth-out)}
+.link::after{content:"";position:absolute;left:2px;right:2px;bottom:2px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform var(--duration-fast) var(--ease-smooth-out)}
+.link:hover{color:#fff}.link:hover::after{transform:scaleX(1)}
+.link:active{color:var(--mist)}
+.link:focus-visible{border-radius:4px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:100vh;height:100svh;min-height:640px;overflow:hidden;overflow:clip;isolation:isolate;
+  background:
+    radial-gradient(70% 60% at 78% 42%, rgba(0,34,77,.95) 0%, rgba(0,11,61,.35) 45%, transparent 75%),
+    radial-gradient(50% 40% at 60% 100%, rgba(0,128,212,.10), transparent 70%),
+    linear-gradient(180deg,#020A1E 0%,#010716 100%)}
+#flow{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(2,8,24,.92) 0%,rgba(2,8,24,.72) 30%,rgba(2,8,24,0) 58%),
+             linear-gradient(0deg,rgba(2,8,24,.5) 0%,transparent 25%)}
+.grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.topbar{position:absolute;top:0;left:0;right:0;z-index:5;height:76px;display:flex;align-items:center}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between}
+.logo{display:block;border-radius:10px}
+.logo:focus-visible{border-radius:10px}
+
+/* ---------- Brand lockup: glass tooth + set name + tapered rule ---------- */
+.brand{--mark-h:52px;--name-size:25px;--tag-size:9px;--rule-h:5px;display:inline-flex;align-items:center;gap:12px;line-height:1}
+.brand-mark{height:var(--mark-h);width:auto;flex:none;filter:drop-shadow(0 6px 14px rgba(1,148,253,.25))}
+.brand-type{display:inline-grid;justify-items:center;font-family:var(--font)}
+.brand-name{font-size:var(--name-size);font-weight:600;letter-spacing:-.03em;line-height:.84;white-space:nowrap}
+.brand-name .c{color:#EAF4FB}.brand-name .l{color:#5CC0FF}
+.brand-rule{display:block;position:relative;width:0;min-width:100%;height:var(--rule-h);margin:4px 0;overflow:visible}
+.brand-rule svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;shape-rendering:geometricPrecision}
+.brand-tag{font-size:var(--tag-size);font-weight:400;letter-spacing:.3em;margin-right:-.3em;text-transform:uppercase;color:rgba(234,244,251,.74);white-space:nowrap;line-height:1}
+/* light-background variant: the tooth sits on a small navy badge */
+.brand-light .brand-badge{flex:none;display:grid;place-items:center;width:calc(var(--mark-h) + 4px);height:calc(var(--mark-h) + 4px);border-radius:12px;
+  background:radial-gradient(80% 70% at 50% 35%,#0A3A78 0%,#00224D 55%,#020A1E 100%);box-shadow:0 0 0 1px rgba(0,34,77,.12),0 8px 18px -10px rgba(0,34,77,.6),inset 0 1px 0 rgba(184,230,249,.25)}
+.brand-light .brand-badge img{height:calc(var(--mark-h) - 10px);width:auto}
+.brand-light .brand-name .c{color:#0A1F3A}.brand-light .brand-name .l{color:#0070C0}
+.brand-light .brand-tag{color:#45607C}
+.nav{display:flex;align-items:center;gap:26px}
+.nav .btn{height:40px;padding:0 18px;font-size:14px}
+.hero-copy{position:absolute;z-index:4;left:0;right:0;top:50%;transform:translateY(-46%)}
+.hero-copy .inner{max-width:660px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--mist);margin-bottom:26px}
+.kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(1,148,253,.16)}
+h1{font-weight:500;font-size:clamp(40px,4.7vw,74px);line-height:1.03;letter-spacing:-.032em;color:#fff;max-width:12.5em;text-wrap:balance}
+h1 .w{display:inline-block;will-change:transform}
+.hero-sub{margin-top:26px;font-size:clamp(16px,1.25vw,19px);line-height:1.6;color:var(--text-d2);max-width:35em;font-weight:300}
+.hero-ctas{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px}
+.hero-trust{margin-top:28px;font-size:13px;color:var(--text-d3);display:flex;gap:10px;align-items:center}
+.hero-trust svg{flex:none;opacity:.8}
+
+/* Readout tags on the flow */
+.tags{position:absolute;inset:0;z-index:3;pointer-events:none}
+.tag{position:absolute;width:236px;padding:12px 14px 13px;border-radius:12px;
+  background:linear-gradient(180deg,rgba(6,24,56,.78),rgba(3,14,36,.78));border:1px solid rgba(184,230,249,.16);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 20px 40px -20px rgba(0,0,0,.7)}
+.tag .t-area{font-size:12px;color:var(--text-d2);line-height:1.3}
+.tag .t-val{margin-top:4px;font-size:22px;font-weight:500;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
+.tag .t-val small{font-size:12px;font-weight:400;color:var(--text-d2);letter-spacing:0;margin-left:4px}
+.tag .t-status{margin-top:8px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500}
+.tag.pass .t-status{color:var(--pass-d)}
+.tag.fix .t-status{color:var(--fix-d)}
+.tag.fix{border-color:rgba(242,184,75,.32)}
+.tags-label{position:absolute;right:48px;bottom:34px;font-size:12px;color:var(--text-d3)}
+.pre .topbar,.pre .hero-copy,.pre .tag,.pre .tags-label{opacity:0}
+
+/* Hero scroll cue */
+.cue{position:absolute;z-index:4;left:50%;bottom:22px;transform:translateX(-50%);width:22px;height:34px;border:1px solid rgba(184,230,249,.3);border-radius:12px;display:none}
+.cue::after{content:"";position:absolute;left:50%;top:7px;width:2px;height:6px;margin-left:-1px;border-radius:2px;background:var(--mist);animation:cue 2.4s var(--ease-smooth-out) infinite}
+@keyframes cue{0%{opacity:0;transform:translateY(0)}30%{opacity:1}80%{opacity:0;transform:translateY(10px)}100%{opacity:0}}
+
+/* ---------- WHAT WE CHECK (dark) ---------- */
+/* ======== "THE WATER CLEARS": depth system ========
+   Every section below the hero is a .zone with a depth:
+     --from   color at its top     (MUST equal the previous zone's --to, so seams are invisible)
+     --to     color at its bottom
+     --land   optional color reached early, at --settle from the top (a fast clearing behind padding)
+     --sink   optional distance from the bottom where the color starts sinking toward --to
+   Colors come from the water scale --w0 (abyss) to --w9 (clear). Text theme follows depth:
+     .deep  (light text)  only while the zone stays at or below --w3
+     .clear (dark text)   only from --w7 up; never put text over w4 to w6
+   Adding or reordering a section = give it a .zone class, a depth and a theme. */
+:root{
+  --w0:#010716;--w1:#031634;--w2:#062A5A;--w3:#0B3D73;--w4:#1A5D98;
+  --w5:#3F86BF;--w6:#7FB4DD;--w7:#BCDCF1;--w8:#E2EFF8;--w9:#EEF4F9;
+  --w3c:#416B98;   /* clearing seam: 30% of the way from w3 to w7 (oklab), so the curve through it is an S */
+}
+.zone{--land:var(--from);--settle:0px;--sink:100%;position:relative}
+/* Fallback only (no JS): each zone paints its own gradient on a layer BELOW the shared water layer,
+   so when the water fades in on top, nothing flashes or shifts. */
+.zone::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,var(--from) 0,var(--land) var(--settle),var(--land) calc(100% - var(--sink)),var(--to) 100%);
+  background:linear-gradient(180deg in oklab,var(--from) 0,var(--land) var(--settle),var(--land) calc(100% - var(--sink)),var(--to) 100%)}
+/* The water: ONE continuous gradient behind every zone, built in JS from the depth anchors with a smooth
+   (monotone cubic, oklab) curve, so the rate of change never jumps at a section edge. A static dither kills 8-bit banding. */
+#water{position:absolute;left:0;right:0;top:0;height:0;z-index:0;pointer-events:none;opacity:0;background-repeat:no-repeat;background-size:100% 100%;
+  transition:opacity var(--duration-very-slow) var(--ease-out);will-change:transform;transform:translateZ(0)}   /* own layer: rasterized once, never repainted by content changes */
+#water::after{content:"";position:absolute;inset:0;background-image:var(--dither,none);background-size:128px 128px}
+.water-on #water{opacity:1}
+.deep{color:var(--text-d);--text-d3:#9DB3C8}   /* dimmest light text lifted so it stays AA on --w3 */
+.clear{color:var(--text-l)}
+/* Depth map: the only place to edit when sections are added or reordered */
+:root{--clear-run:200px;--sink-run:230px;--check-pb:120px}
+/* The clearing: "Three areas" lifts to w3 by the end of its columns (light text stays AA), then the whole gap
+   (its bottom padding + the report's top run) eases w3 -> w3c -> w7 as one S-curve; the report then clears to w9. */
+#check{--from:var(--w0);--land:var(--w3);--settle:calc(100% - var(--check-pb));--to:var(--w3c)}
+#report{--from:var(--w3c);--land:var(--w7);--settle:var(--clear-run);--to:var(--w9)}
+#book{--from:var(--w9);--sink:var(--sink-run);--to:var(--w6)}
+footer.zone{--from:var(--w6);--land:var(--w0);--settle:var(--sink-run);--to:var(--w0)}
+.check{padding:120px 0 var(--check-pb)}
+.sec-head{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:56px;max-width:720px}
+h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-height:1.08}
+.sec-head p{color:var(--text-d2);font-weight:300;font-size:17px;max-width:36em}
+.trust-m{display:none}
+.areas{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-d)}
+.area{position:relative;padding:34px 34px 8px 0;transition:background-color var(--duration-fast) var(--ease-smooth-out)}
+.area+.area{padding-left:34px;border-left:1px solid var(--line-d)}
+.area::before{content:"";position:absolute;top:-1px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform var(--duration-slow) var(--ease-smooth-out)}
+.area:hover::before{transform:scaleX(1)}
+.area .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(0,128,212,.12);color:var(--mist);margin-bottom:26px;transition:background-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-fast) var(--ease-smooth-out)}
+.area:hover .ic{background:var(--blue);color:#fff}
+.area h3{font-size:20px;font-weight:500;letter-spacing:-.015em;margin-bottom:10px}
+.area p{color:var(--text-d2);font-size:15px;font-weight:300;max-width:26em}
+.area ul{list-style:none;margin-top:18px;display:grid;gap:8px}
+.area li{font-size:13px;color:var(--text-d3);display:flex;gap:10px;align-items:baseline}
+.area li::before{content:"";flex:none;width:10px;height:1px;background:var(--text-d3);transform:translateY(-4px)}
+
+/* ---------- REPORT (light) ---------- */
+.report{padding:var(--settle) 0 120px}
+.report>.wrap{position:relative;z-index:1}
+.report .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.report .sec-head p{color:var(--text-l2)}
+.report .legend{display:grid;gap:14px;margin-top:8px}
+.legend div{display:flex;gap:12px;align-items:center;font-size:14px;color:var(--text-l2)}
+.doc{background:var(--white);border-radius:18px;border:1px solid var(--line-l);box-shadow:0 30px 60px -40px rgba(0,34,77,.35);overflow:hidden;overflow:clip}
+.doc-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 26px;border-bottom:1px solid var(--line-l)}
+.doc-head .brand{--mark-h:38px;--name-size:19px;--tag-size:7.5px;--rule-h:5px;gap:10px}
+
+.doc-meta{padding:16px 26px;display:flex;flex-wrap:wrap;gap:8px 28px;font-size:13px;color:var(--text-l2);border-bottom:1px solid var(--line-l);background:#F8FBFD}
+.doc-meta b{font-weight:500;color:var(--text-l)}
+.stamp{font-size:12px;font-weight:600;letter-spacing:.12em;color:var(--pass-l);border:1.5px solid currentColor;border-radius:6px;padding:4px 10px}
+.rows{list-style:none}
+.row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:14px;align-items:start;padding:20px 26px;border-bottom:1px solid var(--line-l);transition:background-color var(--duration-fast) var(--ease-smooth-out)}
+.row:last-child{border-bottom:0}
+.row:hover{background:#F6FAFD}
+.row .st{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;margin-top:1px}
+.row.pass .st{background:var(--pass-bg);color:var(--pass-l)}
+.row.fix .st{background:var(--fix-bg);color:var(--fix-l)}
+.row .what{font-size:15px;font-weight:500;line-height:1.4}
+.row .note{font-size:13px;color:var(--text-l2);margin-top:4px}
+.row .rec{margin-top:10px;font-size:13px;color:var(--text-l);background:var(--fix-bg);border-radius:8px;padding:8px 12px;display:inline-block}
+.row .rd{text-align:right}
+.row .num{font-size:18px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.row .num small{font-size:12px;font-weight:400;color:var(--text-l2);margin-left:3px}
+.chip{display:inline-block;margin-top:4px;font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px}
+.pass .chip{background:var(--pass-bg);color:var(--pass-l)}
+.fix .chip{background:var(--fix-bg);color:var(--fix-l)}
+.ga{margin-top:22px;font-size:14px;color:var(--text-l2);display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-left:2px solid var(--blue);background:rgba(255,255,255,.6);border-radius:0 10px 10px 0}
+.ga b{color:var(--text-l);font-weight:500}
+
+/* ---------- BOOK (light) ---------- */
+.book{padding:40px 0 var(--sink)}
+.book .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.book .sec-head p{color:var(--text-l2)}
+.book .points{list-style:none;display:grid;gap:12px;font-size:15px;color:var(--text-l2)}
+.book .points li{display:flex;gap:12px;align-items:baseline}
+.book .points li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--blue);transform:translateY(-2px)}
+/* ---------- LIQUID GLASS calendar ----------
+   Stage: a canvas the page draws (spheres + flow lines), exported once per size as a data: URL.
+   Glass: each glass surface holds an aligned COPY of that stage, refracted by an SVG filter
+   (baked displacement map + feDisplacementMap). Element filters work in Chrome, Safari and Firefox.
+   Fail-safe: the map is composited over a neutral flood, so a missing map = no bend, never an offset copy;
+   copies stay hidden until the stage image is ready (.lg-ready). */
+.book{position:relative;overflow-x:hidden;overflow-x:clip}
+.glass-stage{--bezel:22px;--pad:30px;position:relative;isolation:isolate}
+.stage-bg{position:absolute;inset:-110px -120px -190px;z-index:-1;pointer-events:none;background-repeat:no-repeat;opacity:0;will-change:transform;transform:translateZ(0);
+  transition:opacity var(--duration-very-slow) var(--ease-out);
+  -webkit-mask:linear-gradient(90deg,transparent,#000 20%,#000 84%,transparent),linear-gradient(180deg,transparent,#000 20%,#000 64%,rgba(0,0,0,.45) 82%,transparent);-webkit-mask-composite:source-in;
+  mask:linear-gradient(90deg,transparent,#000 20%,#000 84%,transparent),linear-gradient(180deg,transparent,#000 20%,#000 64%,rgba(0,0,0,.45) 82%,transparent);mask-composite:intersect}
+.lg-ready .stage-bg{opacity:1}
+.sched{--text-g2:#2A445E;position:relative;border-radius:30px;display:grid;grid-template-columns:1.1fr 1fr;overflow:hidden;overflow:clip;isolation:isolate;
+  background:rgba(214,234,248,.55);
+  /* glass on a light page reads through its shadow: a close contact shadow + a wide soft lift */
+  box-shadow:0 1px 2px rgba(0,34,77,.10),0 8px 18px -8px rgba(0,34,77,.22),0 44px 80px -34px rgba(0,34,77,.55),0 0 0 .5px rgba(0,34,77,.12)}
+/* refracted copy of the stage (bezel bends what is just outside the panel) */
+/* own compositor layers: the big filtered copy and the frost are rendered once and cached,
+   so text and state changes on top never re-run the panel's SVG filter */
+.optic{position:absolute;z-index:0;pointer-events:none;background-repeat:no-repeat;opacity:0;transition:opacity var(--duration-slow) var(--ease-out);will-change:transform;transform:translateZ(0)}
+.lg-ready .optic{opacity:1}
+/* frosted, tinted center where the text sits; the bezel ring stays clear so the bend shows */
+.frost{position:absolute;inset:calc(var(--bezel) - 4px);z-index:1;pointer-events:none;border-radius:calc(30px - var(--bezel) + 4px);
+  background:rgba(243,249,253,.72);filter:blur(7px);will-change:transform;transform:translateZ(0)}
+/* edge shade + inner glow + specular rim */
+.sched::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  /* thick bright top/left specular rim, darker edge shade, inner shadow along the bottom (image 19 cues) */
+  box-shadow:inset 0 2.5px 0 #fff,inset 2px 0 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.6),inset 0 0 0 1px rgba(255,255,255,.32),
+    inset 0 0 30px rgba(0,45,105,.22),inset 0 -22px 26px -18px rgba(0,40,95,.30),inset 0 10px 22px -14px rgba(255,255,255,.85);
+  background:radial-gradient(60% 34% at 18% 0%,rgba(255,255,255,.55),transparent 70%),radial-gradient(40% 24% at 92% 100%,rgba(255,255,255,.35),transparent 70%)}
+/* iridescent hairline rim (cyan / aqua / pale gold, no purple) + white specular sweep */
+.sched::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.75px;pointer-events:none;z-index:4;
+  background:linear-gradient(135deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.15) 24%,rgba(255,255,255,0) 50%,rgba(255,255,255,.2) 76%,rgba(255,255,255,.9) 100%),
+    conic-gradient(from 210deg,rgba(110,214,255,.85),rgba(140,250,220,.6),rgba(255,228,170,.6),rgba(110,200,255,.85),rgba(150,255,230,.55),rgba(255,236,190,.55),rgba(110,214,255,.85));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.cal,.slots{position:relative;z-index:3}
+.cal{padding:var(--pad);border-right:1px solid rgba(255,255,255,.6);box-shadow:1px 0 0 rgba(0,34,77,.07)}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.cal-title{font-size:16px;font-weight:500}
+.cal-nav{display:flex;gap:6px}
+/* small glass controls (transitions-dev states) */
+.icon-btn,.slot{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.8);
+  box-shadow:inset 0 1px 0 #fff,inset 0 -1px 2px rgba(0,34,77,.05),0 1px 2px rgba(0,34,77,.08)}
+.icon-btn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--text-l);
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),border-color var(--duration-fast) var(--ease-smooth-out),box-shadow var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out)}
+.icon-btn:hover:not([disabled]){background:rgba(255,255,255,.88);border-color:#fff;box-shadow:inset 0 1px 0 #fff,0 4px 12px -4px rgba(0,60,120,.3)}
+.icon-btn:active:not([disabled]){transform:scale(.92)}
+.icon-btn[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none;background:rgba(255,255,255,.22)}
+.dow,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.days{position:relative;z-index:1;grid-template-rows:repeat(6,auto)}
+.dow span{font-size:12px;color:var(--text-g2);padding:6px 0}
+.day{aspect-ratio:1;border-radius:50%;font-size:14px;font-variant-numeric:tabular-nums;color:var(--text-l);display:grid;place-items:center;position:relative;
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-quick) var(--ease-out),transform var(--duration-quick) var(--ease-smooth-out),box-shadow var(--duration-fast) var(--ease-smooth-out)}
+.day.open{font-weight:500}
+.day.open::after{content:"";position:absolute;bottom:16%;width:4px;height:4px;border-radius:50%;background:#0070C0;transition:opacity var(--duration-quick) var(--ease-out)}
+.day.open:hover:not(.lit){background:rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.9),0 4px 10px -4px rgba(0,60,120,.3)}
+.day:active:not([disabled]){transform:scale(.92)}
+.day[disabled]{color:rgba(10,31,58,.36);cursor:default}
+.day.today{box-shadow:inset 0 0 0 1px rgba(0,34,77,.28)}
+/* the lens sits under the selected item; the item just turns its text white when the lens arrives */
+.day.lit,.slot.lit{color:#fff;text-shadow:0 1px 1px rgba(0,30,70,.35)}
+.day.lit::after{opacity:0}
+.slot.lit{background:transparent;border-color:transparent;box-shadow:none}
+.slots{padding:var(--pad);display:flex;flex-direction:column}
+.slots h4{font-size:16px;font-weight:500}
+.slots .tz{font-size:13px;color:var(--text-g2);margin-top:2px;margin-bottom:18px}
+.chips-wrap,.days-wrap{position:relative}
+.chips{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.slot{height:44px;border-radius:999px;font-size:14px;font-variant-numeric:tabular-nums;color:var(--text-l);
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),border-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-quick) var(--ease-out),box-shadow var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out)}
+.slot:hover:not([disabled]):not(.lit){background:rgba(255,255,255,.88);color:#005A9E;border-color:rgba(0,112,192,.35);box-shadow:inset 0 1px 0 #fff,0 4px 12px -4px rgba(0,60,120,.3)}
+.slot:active:not([disabled]){transform:scale(.95)}
+.slot[disabled]{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.45);box-shadow:none;color:rgba(10,31,58,.45);cursor:not-allowed}
+.slot.booked{text-decoration:line-through;text-decoration-color:rgba(10,31,58,.4)}
+/* ---- selection LENS (GSAP moves it; transform + opacity only) ---- */
+.lens{position:absolute;left:0;top:0;z-index:0;pointer-events:none;opacity:0;overflow:hidden;overflow:clip;will-change:transform,opacity;transform-origin:0 0;
+  box-shadow:0 8px 16px -8px rgba(0,50,120,.6),0 2px 4px -1px rgba(0,50,120,.25)}
+.lens-day{border-radius:50%}
+.lens-chip{border-radius:999px}
+.lens-optic{position:absolute;overflow:hidden;overflow:clip;pointer-events:none}
+.lens-copy{position:absolute;left:0;top:0;background-repeat:no-repeat;will-change:transform;transform-origin:0 0;opacity:0;transition:opacity var(--duration-fast) var(--ease-out)}
+.lg-ready .lens-copy{opacity:1}
+/* tint: deep under the number (white text above 4.5:1 even over the palest sphere), clear at the rim so the bend shows */
+.lens::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1;
+  background:radial-gradient(closest-side,rgba(0,82,150,.92) 0%,rgba(0,86,156,.9) 60%,rgba(0,104,184,.64) 80%,rgba(40,150,230,.22) 100%)}
+.lens::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:2;
+  /* specular kept in the top quarter, rim glow in the bottom tenth: neither reaches the white text */
+  background:radial-gradient(30% 16% at 34% 9%,rgba(255,255,255,.8),rgba(255,255,255,0) 72%),radial-gradient(55% 14% at 60% 100%,rgba(140,220,255,.5),transparent 72%);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.9),inset 0 -1.5px 2px rgba(255,255,255,.4),inset 0 0 0 1px rgba(255,255,255,.35),inset 0 0 12px rgba(160,225,255,.35)}
+/* room for three lines, so the glass never changes size as the message changes (no re-bake, no layout shift) */
+.summary{margin-top:auto;padding-top:22px;font-size:14px;color:var(--text-g2);min-height:calc(22px + 4.8em)}
+.summary b{color:var(--text-l);font-weight:500}
+/* Confirm: a #0072BF glass pill (like a glass stop button): specular cap, bright rim, soft inner glow */
+.book .btn-primary{position:relative;overflow:hidden;overflow:clip;width:100%;margin-top:12px;border:1px solid rgba(255,255,255,.45);background-color:#0072BF;isolation:isolate;
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),inset 0 -2px 6px rgba(120,210,255,.45),inset 0 -8px 14px -6px rgba(0,30,80,.35),0 12px 24px -12px rgba(0,114,191,.85),0 0 0 .5px rgba(0,60,120,.25)}
+.book .btn-primary::before{content:"";position:absolute;left:6%;right:6%;top:2px;height:38%;border-radius:999px;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0));transition:opacity var(--duration-fast) var(--ease-smooth-out)}
+.book .btn-primary:hover:not([disabled]){background-color:#0066AB;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.75),inset 0 -2px 6px rgba(120,210,255,.5),inset 0 -8px 14px -6px rgba(0,30,80,.38),0 16px 30px -12px rgba(0,102,171,.9),0 0 0 .5px rgba(0,60,120,.25)}
+.book .btn-primary:active:not([disabled]){background-color:#005C9A}
+.book .btn[disabled]{background:rgba(255,255,255,.4);color:rgba(10,31,58,.5);border-color:rgba(255,255,255,.75);opacity:1;
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -2px 4px rgba(0,34,77,.05)}
+.book .btn[disabled]::before{opacity:.6}
+/* Reduce transparency: solid tinted surfaces, no copies, solid lens */
+@media (prefers-reduced-transparency: reduce){
+  .optic,.lens-optic{display:none}
+  .sched{background:#EDF4FA}
+  .frost{inset:0;filter:none;background:#F2F7FB;border-radius:inherit}
+  .lens::before{background:#0072BF}
+  .stage-bg{opacity:.5}
+}
+/* No GSAP: no lens, the selected item carries a solid bead */
+.no-lens .day[aria-pressed="true"],.no-lens .slot[aria-pressed="true"]{background:#0072BF;color:#fff;border-color:#0072BF}
+
+/* transitions.dev: Text swap soft */
+.t-text-soft{display:inline-grid;justify-items:var(--text-soft-align,start);transition:width var(--text-soft-resize-dur) var(--text-soft-resize-ease)}
+.t-text-soft>span{grid-area:1/1;white-space:pre-wrap;transition:filter var(--text-soft-dur) var(--text-soft-ease),opacity var(--text-soft-dur) var(--text-soft-ease)}
+.t-text-soft-new{opacity:0;filter:blur(var(--text-soft-blur))}
+.t-text-soft.is-swapping .t-text-soft-old{opacity:0;filter:blur(var(--text-soft-blur))}
+.t-text-soft.is-swapping .t-text-soft-new{opacity:1;filter:blur(0)}
+@media (prefers-reduced-motion: reduce){.t-text-soft,.t-text-soft>span{transition:none!important}}
+
+/* ---------- FOOTER ---------- */
+footer{padding:var(--settle) 0 40px}
+footer::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 78% 100%,rgba(0,34,77,.7),transparent 75%)}
+footer>.wrap{position:relative;z-index:1}
+.foot{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;padding-bottom:40px;border-bottom:1px solid rgba(184,230,249,.16)}
+.foot .brand{--mark-h:60px;--name-size:29px;--tag-size:10px;--rule-h:7px;margin-bottom:26px}
+.foot .tagline{font-size:clamp(22px,2.2vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.2}
+.foot .contact{display:flex;gap:28px}
+.foot .contact .link{font-size:15px;color:var(--text-d)}
+.fine{padding-top:24px;display:flex;justify-content:space-between;gap:24px;font-size:13px;color:#9FB6CD}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  .report .grid,.book .grid{grid-template-columns:1fr;gap:40px}
+}
+@media (max-width:759px){
+  .hero{min-height:700px}
+  :root{--clear-run:150px;--sink-run:170px;--check-pb:84px}
+  .topbar{height:72px;padding-top:6px}
+  .brand-nav{--mark-h:42px;--name-size:21px;--tag-size:9px;--rule-h:4px;gap:9px}
+  .foot .brand{--mark-h:50px;--name-size:24px;--tag-size:8.5px}
+  .nav .link{display:none}
+  .nav .btn{height:38px;padding:0 14px;font-size:13px}
+  .hero-scrim{background:linear-gradient(180deg,rgba(2,8,24,.55) 0%,rgba(2,8,24,.82) 20%,rgba(2,8,24,.55) 58%,rgba(2,8,24,0) 70%)}
+  .hero-copy{top:94px;transform:none}
+  .kicker{font-size:13px;margin-bottom:16px}
+  h1{font-size:clamp(32px,9vw,40px);line-height:1.06}
+  .hero-sub{font-size:15px;margin-top:16px;line-height:1.55}
+  .hero-ctas{margin-top:22px;gap:10px}
+  .hero-ctas .btn{height:48px;padding:0 18px;font-size:14px;flex:1 1 auto}
+  .hero-trust{display:none}
+  .trust-m{display:flex;margin-top:4px}
+  .tag{width:calc(50vw - 22px);padding:10px 11px 11px;border-radius:10px}
+  .tag .t-area{font-size:11px}
+  .tag .t-val{font-size:18px}
+  .tag .t-status{font-size:11px;margin-top:6px}
+  .tags-label{right:auto;left:16px;bottom:126px;font-size:11px}
+  .check{padding:84px 0 var(--check-pb)}
+  .report{padding-bottom:84px}
+  .areas{grid-template-columns:1fr}
+  .area,.area+.area{padding:28px 0;border-left:0}
+  .area+.area{border-top:1px solid var(--line-d)}
+  .row{grid-template-columns:24px minmax(0,1fr);padding:18px}
+  .row .rd{grid-column:2;text-align:left;display:flex;gap:10px;align-items:center}
+  .row .chip{margin-top:0}
+  .doc-head,.doc-meta{padding-inline:18px}
+  .sched{grid-template-columns:1fr}
+  .glass-stage{--bezel:16px;--pad:22px}
+  .cal{border-right:0;border-bottom:1px solid rgba(255,255,255,.6);box-shadow:0 1px 0 rgba(0,34,77,.07)}
+  .sched{border-radius:26px}
+  .frost{border-radius:calc(26px - var(--bezel) + 4px)}
+  .stage-bg{inset:-90px -60px -150px}
+  .foot{grid-template-columns:1fr}
+  .fine{flex-direction:column}
+}
+@media (min-width:760px) and (min-height:760px){.cue{display:block}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.cue::after{animation:none;opacity:.8}}
+</style>
+</head>
+<body>
+<!-- Liquid Glass optics: filters are written here by JS (one per glass size, maps baked once and cached) -->
+<svg id="optics" width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true" focusable="false"><defs></defs></svg>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="top">
+  <canvas id="flow" aria-hidden="true"></canvas>
+  <div class="hero-scrim"></div>
+  <div class="grain"></div>
+
+  <div class="topbar">
+    <div class="wrap">
+      <a class="logo brand brand-nav" id="navBrand" href="#top" aria-label="ClearLine Dental Compliance, home">
+        <img class="brand-mark" src="assets/new/logo-mark-glass-160.webp" alt="" width="115" height="160">
+        <span class="brand-type" aria-hidden="true">
+          <span class="brand-name"><span class="c">Clear</span><span class="l">Line</span></span>
+          <span class="brand-rule"></span>
+          <span class="brand-tag">Dental Compliance</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a class="link" href="#check">What we check</a>
+        <a class="link" href="#report">Sample report</a>
+        <a class="btn btn-ghost" href="#book">Book a call</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="hero-copy">
+    <div class="wrap"><div class="inner">
+      <p class="kicker"><span class="dot"></span>Independent inspections for dental practices</p>
+      <h1 id="headline">Know where your practice stands before an inspector does.</h1>
+      <p class="hero-sub">We come to your office, test your waterlines, review sterilization and OSHA-related safety, and send a written report of what passed and what to fix.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#book">Book a 15-minute call
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="btn btn-ghost" href="#report">See a sample report</a>
+      </div>
+      <p class="hero-trust"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5 13.5 4v4c0 3.2-2.4 5.6-5.5 6.5C4.9 13.6 2.5 11.2 2.5 8V4L8 1.5Z" stroke="currentColor" stroke-width="1.3"/></svg>We inspect and report. We don't sell, clean or repair equipment.</p>
+    </div></div>
+  </div>
+
+  <div class="tags" aria-label="Sample findings">
+    <div class="tag pass" data-key="op1" data-value="38">
+      <div class="t-area">Operatory 1 waterline</div>
+      <div class="t-val"><span class="n">38</span><small>CFU/mL</small></div>
+      <div class="t-status"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.5 6.2 2.2 2.2 4.8-4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Meets standard</div>
+    </div>
+    <div class="tag fix" data-key="op3" data-value="640">
+      <div class="t-area">Operatory 3 waterline</div>
+      <div class="t-val"><span class="n">640</span><small>CFU/mL</small></div>
+      <div class="t-status"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 2.5v4.2M6 9.1v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Action needed</div>
+    </div>
+    <div class="tag pass" data-key="ster">
+      <div class="t-area">Sterilizer spore-test log</div>
+      <div class="t-val">Complete</div>
+      <div class="t-status"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.5 6.2 2.2 2.2 4.8-4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Infection control</div>
+    </div>
+    <div class="tag fix" data-key="sds">
+      <div class="t-area">Safety data sheets</div>
+      <div class="t-val">2 <small>out of date</small></div>
+      <div class="t-status"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 2.5v4.2M6 9.1v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Update needed</div>
+    </div>
+    <p class="tags-label">Sample findings, for illustration</p>
+  </div>
+  <a class="cue" href="#check" aria-label="Scroll to what we check"></a>
+</header>
+
+<div id="water" aria-hidden="true"></div>
+<main>
+<!-- ===================== WHAT WE CHECK ===================== -->
+<section class="check zone deep" id="check" aria-labelledby="check-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="check-h">Three areas, one visit.</h2>
+      <p>We look at the parts of your practice that are easiest to miss day to day, and write down exactly what we found.</p>
+      <p class="trust-m hero-trust">We inspect and report. We don't sell, clean or repair equipment.</p>
+    </div>
+    <div class="areas">
+      <article class="area">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5c3.2 4.2 6 7.3 6 10.6a6 6 0 0 1-12 0c0-3.3 2.8-6.4 6-10.6Z" stroke="currentColor" stroke-width="1.5"/><path d="M9.2 14.6c.3 1.4 1.4 2.4 2.8 2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Waterline testing</h3>
+        <p>We test the water flowing through your chair lines for bacteria, operatory by operatory.</p>
+        <ul><li>Samples from each dental unit</li><li>Results in CFU/mL against the standard</li></ul>
+      </article>
+      <article class="area">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 6v5.5c0 4.3-2.9 7.6-7 9.5-4.1-1.9-7-5.2-7-9.5V6l7-3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m9 12 2.2 2.2L15.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Infection control and sterilization review</h3>
+        <p>We walk through instrument processing and check your sterilizer monitoring records.</p>
+        <ul><li>Spore-test logs and sterilizer records</li><li>Instrument processing workflow</li></ul>
+      </article>
+      <article class="area">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="4.5" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 3.5h6v3H9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>OSHA-related safety review</h3>
+        <p>We review the paperwork and habits behind a safe workplace: records, safety data sheets and training.</p>
+        <ul><li>Safety data sheets and written plans</li><li>Staff training records</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REPORT ===================== -->
+<section class="report zone clear" id="report" aria-labelledby="report-h">
+  <div class="wrap grid">
+    <div>
+      <div class="sec-head">
+        <h2 id="report-h">A written report, line by line.</h2>
+        <p>Every item shows what we measured or reviewed, whether it meets the standard, and what to do next when it doesn't.</p>
+      </div>
+      <div class="legend">
+        <div><span class="chip" style="background:var(--pass-bg);color:var(--pass-l)">Meets standard</span>Nothing to do</div>
+        <div><span class="chip" style="background:var(--fix-bg);color:var(--fix-l)">Action needed</span>Includes a recommended next step</div>
+      </div>
+    </div>
+    <div>
+      <article class="doc" aria-label="Sample inspection report">
+        <div class="doc-head">
+          <div class="brand brand-light brand-doc" role="img" aria-label="ClearLine Dental Compliance">
+            <span class="brand-badge"><img src="assets/new/logo-mark-glass-160.webp" alt="" width="115" height="160"></span>
+            <span class="brand-type" aria-hidden="true">
+              <span class="brand-name"><span class="c">Clear</span><span class="l">Line</span></span>
+              <span class="brand-rule"></span>
+              <span class="brand-tag">Dental Compliance</span>
+            </span>
+          </div>
+          <span class="stamp">SAMPLE</span>
+        </div>
+        <div class="doc-meta">
+          <span>Practice <b>[Practice name]</b></span>
+          <span>Visit date <b>[Date]</b></span>
+          <span>Inspector <b>[Name]</b></span>
+        </div>
+        <ul class="rows">
+          <li class="row pass">
+            <span class="st"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.5 6.2 2.2 2.2 4.8-4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div><div class="what">Operatory 1 waterline</div><div class="note">Heterotrophic bacteria, dental unit water</div></div>
+            <div class="rd"><div class="num">38<small>CFU/mL</small></div><span class="chip">Meets standard</span></div>
+          </li>
+          <li class="row fix">
+            <span class="st"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 2.5v4.2M6 9.1v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <div><div class="what">Operatory 3 waterline</div><div class="note">Heterotrophic bacteria, dental unit water</div>
+              <div class="rec">Recommended: shock the line and retest.</div></div>
+            <div class="rd"><div class="num">640<small>CFU/mL</small></div><span class="chip">Action needed</span></div>
+          </li>
+          <li class="row pass">
+            <span class="st"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2.5 6.2 2.2 2.2 4.8-4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div><div class="what">Sterilizer spore-test log</div><div class="note">Weekly biological monitoring records</div></div>
+            <div class="rd"><div class="num">Complete</div><span class="chip">Meets standard</span></div>
+          </li>
+        </ul>
+      </article>
+      <p class="ga"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="flex:none;margin-top:2px;color:var(--blue)"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5M12 7.6v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span><b>In Georgia?</b> Quarterly waterline testing is now required (Georgia Board of Dentistry Rule 150-8-.05, in effect since July 20, 2025).</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BOOK ===================== -->
+<section class="book zone clear" id="book" aria-labelledby="book-h">
+  <div class="wrap grid">
+    <div class="sec-head">
+      <h2 id="book-h">Book a 15-minute call.</h2>
+      <p>Tell us about your practice and we'll explain what a visit covers. No obligation.</p>
+      <ul class="points">
+        <li>How many operatories we'd sample</li>
+        <li>What we review on site</li>
+        <li>What your written report will include</li>
+      </ul>
+    </div>
+    <div class="glass-stage">
+    <div class="stage-bg" id="stageBg" aria-hidden="true"></div>
+    <div class="sched" id="sched" role="group" aria-label="Choose a call time (demo)">
+      <div class="optic" id="panelOptic" aria-hidden="true"></div>
+      <div class="frost" aria-hidden="true"></div>
+      <div class="cal">
+        <div class="cal-head">
+          <span class="cal-title t-text-soft" id="calTitle" aria-live="polite">Month</span>
+          <div class="cal-nav">
+            <button class="icon-btn" id="prevM" aria-label="Previous month"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3.5 5.5 8 10 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="icon-btn" id="nextM" aria-label="Next month"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+        <div class="dow" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+        <div class="days-wrap"><div class="lens lens-day" id="lensDay" aria-hidden="true"><div class="lens-optic"><div class="lens-copy"></div></div></div><div class="days" id="days"></div></div>
+      </div>
+      <div class="slots">
+        <h4>Available times</h4>
+        <p class="tz">Eastern time, 15 minutes</p>
+        <div class="chips-wrap"><div class="lens lens-chip" id="lensChip" aria-hidden="true"><div class="lens-optic"><div class="lens-copy"></div></div></div><div class="chips" id="chips"></div></div>
+        <p class="summary"><span class="t-text-soft" id="summary" aria-live="polite">Pick a day, then a time.</span></p>
+        <button class="btn btn-primary" id="confirm" disabled>Confirm time</button>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="zone deep">
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="brand brand-foot" role="img" aria-label="ClearLine Dental Compliance">
+          <img class="brand-mark" src="assets/new/logo-mark-glass-320.webp" alt="" width="231" height="320">
+          <span class="brand-type" aria-hidden="true">
+            <span class="brand-name"><span class="c">Clear</span><span class="l">Line</span></span>
+            <span class="brand-rule"></span>
+            <span class="brand-tag">Dental Compliance</span>
+          </span>
+        </div>
+        <p class="tagline">Independent inspections. Clear findings.</p>
+      </div>
+      <div class="contact">
+        <a class="link" href="#top">[Phone]</a>
+        <a class="link" href="#top">[Email]</a>
+      </div>
+    </div>
+    <div class="fine">
+      <p>ClearLine is an independent inspection service, not affiliated with OSHA, the CDC or any state dental board.</p>
+      <p>© ClearLine Dental Compliance</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  var hasGsap = typeof window.gsap !== 'undefined';
+  var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ================= HERO FLOW FIELD (canvas) ================= */
+  var hero = document.querySelector('.hero');
+  var cv = document.getElementById('flow');
+  var ctx = cv.getContext('2d');
+  var tagEls = Array.prototype.slice.call(document.querySelectorAll('.tag'));
+  var W=0,H=0,DPR=1,mobile=false,N=0,S=0,pts=null;
+  var state = { time:0, reveal:0, scanX:-9999, scanA:0 };
+  var nodes = [];   // {t,u,el,status,on,ping,x,y}
+  var parts = [];
+  var running = true, lastT = 0;
+
+  var NODE_DEF = {
+    desk:  { op1:{t:.62,side:'up'}, op3:{t:.71,side:'down'}, ster:{t:.81,side:'up'}, sds:{t:.91,side:'down'} },
+    mob:   { op1:{t:.30,side:'down'}, op3:{t:.74,side:'down'} }
+  };
+
+  function ease3(t){ return t*t*(3-2*t); }
+  function curve(t,u,time,out){
+    var x, y, cy, sp;
+    if(!mobile){
+      x = -0.06*W + t*1.12*W;
+      cy = H*(0.97 - 0.64*ease3(t));
+      sp = H*(0.62*(1-t)*(1-t) + 0.055 + 0.11*t*t*t);
+    } else {
+      x = -0.08*W + t*1.16*W;
+      cy = H*(0.82 - 0.10*ease3(t));
+      sp = H*(0.17*(1-t)*(1-t) + 0.03 + 0.04*t*t);
+    }
+    var wave = Math.sin(t*6.5 - time*0.32 + u*2.4) * H*0.013 * (0.35+u) + Math.sin(t*2.2 + time*0.18)*H*0.008;
+    y = cy + sp*(u-0.5) + wave;
+    out[0]=x; out[1]=y;
+  }
+
+  function layout(){
+    var r = hero.getBoundingClientRect();
+    W = r.width; H = r.height;
+    mobile = W < 760;
+    DPR = Math.min(window.devicePixelRatio||1, mobile?1.5:1.75);
+    cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    N = mobile ? 26 : 44;
+    S = mobile ? 56 : 96;
+    pts = new Float32Array(N*(S+1)*2);
+    // particles
+    parts = [];
+    var P = mobile ? 40 : 110;
+    for(var i=0;i<P;i++) parts.push({ i:Math.floor(Math.random()*N), t:Math.random(), v:0.018+Math.random()*0.03, s:Math.random() });
+    // nodes + tag placement
+    var defs = mobile ? NODE_DEF.mob : NODE_DEF.desk;
+    var old = {}; nodes.forEach(function(n){ old[n.key]=n; });
+    nodes = [];
+    var tmp=[0,0];
+    tagEls.forEach(function(el){
+      var key = el.dataset.key, d = defs[key];
+      if(!d){ el.style.display='none'; return; }
+      el.style.display='';
+      var n = old[key] || { on:0, ping:0, shown:false };
+      n.key=key; n.el=el; n.t=d.t; n.u=0.5; n.side=d.side; n.fix = el.classList.contains('fix');
+      curve(n.t, n.u, state.time, tmp); n.x=tmp[0]; n.y=tmp[1];
+      var tw = el.offsetWidth, th = el.offsetHeight, left, top;
+      if(!mobile){
+        left = Math.max(W*0.565, Math.min(n.x - tw*0.5, W - tw - 28));
+        top = d.side==='up' ? n.y - th - 64 : n.y + 58;
+        top = Math.max(96, Math.min(top, H - th - 70));
+      } else {
+        var idx = key==='op1'?0:1;
+        left = 16 + idx*(W/2 - 10);
+        top = H - th - 18;
+      }
+      el.style.left = left+'px'; el.style.top = top+'px';
+      n.tx = left + tw*0.5; n.ty = d.side==='up' || mobile && false ? top + th : (mobile ? top : top);
+      if(!mobile && d.side==='up') n.ty = top + th;
+      n.rect = {l:left,t:top,w:tw,h:th};
+      nodes.push(n);
+    });
+    if(!running || reduceMQ.matches) draw(0);
+  }
+
+  function computePoints(){
+    var tmp=[0,0], k=0, rv = state.reveal;
+    for(var i=0;i<N;i++){
+      var u = i/(N-1);
+      for(var s=0;s<=S;s++){
+        var t = (s/S)*rv;
+        curve(t,u,state.time,tmp);
+        pts[k++]=tmp[0]; pts[k++]=tmp[1];
+      }
+    }
+  }
+  function strokeLines(alphaFn){
+    var k=0;
+    for(var i=0;i<N;i++){
+      var u=i/(N-1);
+      ctx.globalAlpha = alphaFn(u);
+      ctx.beginPath();
+      ctx.moveTo(pts[k],pts[k+1]); k+=2;
+      for(var s=1;s<=S;s++){ ctx.lineTo(pts[k],pts[k+1]); k+=2; }
+      ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+  }
+  function lineAlpha(u){ var c = 1-Math.abs(u-0.5)*2; return 0.14 + 0.52*Math.pow(c,1.4); }
+
+  function draw(dt){
+    state.time += dt;
+    ctx.clearRect(0,0,W,H);
+    if(state.reveal<=0.001) return;
+    computePoints();
+
+    // 1) base lines
+    var g = ctx.createLinearGradient(0,0,W,0);
+    g.addColorStop(0,'rgba(0,128,212,0.30)');
+    g.addColorStop(0.45,'rgba(0,140,232,0.85)');
+    g.addColorStop(0.8,'rgba(1,148,253,1)');
+    g.addColorStop(1,'rgba(184,230,249,0.8)');
+    ctx.strokeStyle = g; ctx.lineWidth = mobile?0.9:1;
+    strokeLines(lineAlpha);
+
+    // 1b) the clear line: one brighter, continuous stroke through the bundle (brand swoosh)
+    var mid = Math.floor((N-1)/2), k0 = mid*(S+1)*2;
+    var cg = ctx.createLinearGradient(0,0,W,0);
+    cg.addColorStop(0,'rgba(184,230,249,0)'); cg.addColorStop(0.3,'rgba(184,230,249,0.55)');
+    cg.addColorStop(0.75,'rgba(230,247,255,0.95)'); cg.addColorStop(1,'rgba(184,230,249,0.6)');
+    ctx.strokeStyle = cg; ctx.lineWidth = mobile?1.3:1.6;
+    ctx.shadowColor = 'rgba(1,148,253,0.8)'; ctx.shadowBlur = 10;
+    ctx.beginPath(); ctx.moveTo(pts[k0],pts[k0+1]);
+    for(var s1=1;s1<=S;s1++){ ctx.lineTo(pts[k0+s1*2],pts[k0+s1*2+1]); }
+    ctx.stroke(); ctx.shadowBlur = 0;
+
+    // 2) scan plane: brighten what it reads
+    var sx = state.scanX, sa = state.scanA;
+    if(sa>0.01){
+      var R = mobile?70:130;
+      ctx.save();
+      ctx.beginPath(); ctx.rect(sx-R,0,R*2,H); ctx.clip();
+      var hg = ctx.createLinearGradient(sx-R,0,sx+R,0);
+      hg.addColorStop(0,'rgba(184,230,249,0)');
+      hg.addColorStop(0.5,'rgba(220,244,255,1)');
+      hg.addColorStop(1,'rgba(184,230,249,0)');
+      ctx.strokeStyle = hg; ctx.lineWidth = mobile?1:1.15;
+      strokeLines(function(u){ return sa*(0.25+0.75*lineAlpha(u)); });
+      ctx.restore();
+      // glow band + hairline
+      var bg = ctx.createLinearGradient(sx-90,0,sx+90,0);
+      bg.addColorStop(0,'rgba(1,148,253,0)'); bg.addColorStop(0.5,'rgba(1,148,253,'+(0.09*sa)+')'); bg.addColorStop(1,'rgba(1,148,253,0)');
+      ctx.fillStyle = bg; ctx.fillRect(sx-90,0,180,H);
+      var vg = ctx.createLinearGradient(0,0,0,H);
+      vg.addColorStop(0,'rgba(184,230,249,0)'); vg.addColorStop(0.35,'rgba(184,230,249,'+(0.55*sa)+')');
+      vg.addColorStop(0.75,'rgba(184,230,249,'+(0.7*sa)+')'); vg.addColorStop(1,'rgba(184,230,249,0)');
+      ctx.fillStyle = vg; ctx.fillRect(sx-0.5,0,1,H);
+    }
+
+    // 3) particles (water moving through the lines)
+    var tmp=[0,0];
+    for(var p=0;p<parts.length;p++){
+      var q = parts[p];
+      q.t += q.v*dt*(0.6+state.reveal*0.4);
+      if(q.t>1) q.t -= 1;
+      if(q.t > state.reveal) continue;
+      var u = q.i/(N-1);
+      curve(q.t,u,state.time,tmp);
+      var d = Math.abs(tmp[0]-sx), near = sa>0 ? Math.max(0,1-d/120)*sa : 0;
+      ctx.globalAlpha = (0.18 + 0.5*lineAlpha(u)) * (0.5+0.5*q.t) + near*0.8;
+      ctx.fillStyle = near>0.2 ? '#E6F7FF' : '#7FD0FF';
+      ctx.beginPath(); ctx.arc(tmp[0],tmp[1], 0.9 + q.s*0.9 + near*1.4, 0, 6.2832); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+
+    // 4) sample nodes + leaders
+    for(var n=0;n<nodes.length;n++){
+      var nd = nodes[n];
+      if(nd.t > state.reveal) continue;
+      curve(nd.t,nd.u,state.time,tmp); nd.x=tmp[0]; nd.y=tmp[1];
+      var col = nd.fix ? '242,184,75' : '92,192,255';
+      var on = nd.on;
+      // leader
+      if(on>0.01){
+        ctx.strokeStyle='rgba(184,230,249,'+(0.32*on)+')'; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(nd.x, nd.y + (nd.ty>nd.y?7:-7));
+        var ex = nd.tx, ey = nd.ty;
+        var midY = nd.y + (ey-nd.y)*0.55;
+        ctx.lineTo(nd.x, midY); ctx.lineTo(ex, midY + (ey-midY)*0.0); ctx.lineTo(ex, ey);
+        ctx.stroke();
+      }
+      // ring + core
+      var pulse = nd.fix && on>0.5 ? (0.5+0.5*Math.sin(state.time*2.2)) : 0;
+      ctx.strokeStyle='rgba('+(on>0.01?col:'184,230,249')+','+(0.35+0.4*on)+')'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(nd.x,nd.y,6+pulse*2,0,6.2832); ctx.stroke();
+      ctx.fillStyle='rgba('+(on>0.01?col:'184,230,249')+',1)';
+      ctx.beginPath(); ctx.arc(nd.x,nd.y,2.4,0,6.2832); ctx.fill();
+      if(nd.ping>0 && nd.ping<1){
+        ctx.strokeStyle='rgba('+col+','+(0.6*(1-nd.ping))+')';
+        ctx.beginPath(); ctx.arc(nd.x,nd.y,6+nd.ping*26,0,6.2832); ctx.stroke();
+      }
+    }
+  }
+
+  function loop(ts){
+    if(!running){ lastT=0; return; }
+    var dt = lastT ? Math.min((ts-lastT)/1000, 0.05) : 0.016;
+    lastT = ts;
+    draw(dt);
+    requestAnimationFrame(loop);
+  }
+  function start(){ if(!running){ running=true; requestAnimationFrame(loop);} }
+  function stop(){ running=false; }
+
+  /* Tag reveal (GSAP) */
+  function revealTag(n){
+    if(n.shown) return; n.shown = true;
+    if(!hasGsap){ n.on=1; n.el.style.opacity=1; return; }
+    gsap.fromTo(n.el,{autoAlpha:0,y:n.side==='up'?8:-8},{autoAlpha:1,y:0,duration:.8,ease:'power3.out'});
+    gsap.to(n,{on:1,duration:.6,ease:'power2.out'});
+    gsap.fromTo(n,{ping:0},{ping:1,duration:1.1,ease:'power2.out'});
+    var num = n.el.querySelector('.n'), target = parseFloat(n.el.dataset.value);
+    if(num && target){
+      var o={v:0};
+      gsap.to(o,{v:target,duration:.9,ease:'power2.out',onUpdate:function(){ num.textContent=Math.round(o.v); }});
+    }
+  }
+  function onScan(prevX){
+    var x = state.scanX;
+    nodes.forEach(function(n){
+      if(x >= n.x && prevX < n.x){
+        if(!n.shown) revealTag(n);
+        else gsap.fromTo(n,{ping:0},{ping:1,duration:1.1,ease:'power2.out'});
+      }
+    });
+  }
+
+  /* ================= BRAND RULE =================
+     A tapered line from the center of the "l" in Clear to the center of the last "e" in Line (symmetric
+     about the r/L join). Equal optical gaps: the line sits exactly halfway between the baseline of
+     "ClearLine" (no descenders) and the cap tops of "DENTAL COMPLIANCE", measured from real font metrics. */
+  // Rendered as a tapered SVG path: compared against an elliptical radial-gradient element at 1x/2x/3x, the path was crisper.
+  var brands = Array.prototype.slice.call(document.querySelectorAll('.brand'));
+  var navBrand = document.getElementById('navBrand');
+  var mctx = document.createElement('canvas').getContext('2d');
+  function glyphBox(node, i){ var r = document.createRange(); r.setStart(node,i); r.setEnd(node,i+1); return r.getBoundingClientRect(); }
+  function vMetrics(el, sample){
+    var cs = getComputedStyle(el);
+    mctx.font = cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
+    var m = mctx.measureText(sample), asc = m.fontBoundingBoxAscent, desc = m.fontBoundingBoxDescent;
+    var r = el.getBoundingClientRect();
+    if(!(asc > 0)){ asc = parseFloat(cs.fontSize)*.93; desc = parseFloat(cs.fontSize)*.27; }   // older engines
+    var base = r.top + (r.height - (asc + desc))/2 + asc;
+    var cap = mctx.measureText('H').actualBoundingBoxAscent || parseFloat(cs.fontSize)*.7;
+    return { base: base, capTop: base - cap };
+  }
+  function applyClip(b){
+    if(!b._g) return;
+    var g = b._g, p = b._rule ? b._rule.p : 1;
+    g.rect.setAttribute('x', (g.xc - (g.xc-g.x0)*p).toFixed(2)); g.rect.setAttribute('width', ((g.x1-g.x0)*p).toFixed(2));
+  }
+  function fitRule(b, idx){
+    var rule = b.querySelector('.brand-rule'); if(!rule) return;
+    var nameEl = b.querySelector('.brand-name'), tagEl = b.querySelector('.brand-tag');
+    var c = b.querySelector('.brand-name .c').firstChild, l = b.querySelector('.brand-name .l').firstChild;
+    var fs = parseFloat(getComputedStyle(nameEl).fontSize);
+    // 1) equal gaps: set the space so baseline -> cap top is the target, then center the line in it
+    var target = Math.round(fs * .5);
+    rule.style.height = ''; rule.style.marginTop = rule.style.marginBottom = '0px';
+    var nm = vMetrics(nameEl, 'ClearLine'), tm = vMetrics(tagEl, 'DENTAL COMPLIANCE');
+    var h0 = rule.getBoundingClientRect().height, d0 = tm.capTop - nm.base;
+    rule.style.height = Math.max(0, h0 + (target - d0)).toFixed(2) + 'px';
+    tm = vMetrics(tagEl, 'DENTAL COMPLIANCE');
+    var sr = rule.getBoundingClientRect(); if(!sr.width) return;
+    var center = (nm.base + tm.capTop) / 2;
+    // 2) span: center of "l" to center of the last "e"
+    var gl = glyphBox(c,1), ge = glyphBox(l,3);
+    var x0 = (gl.left + gl.right)/2 - sr.left, x1 = (ge.left + ge.right)/2 - sr.left, xc = (x0 + x1)/2;
+    // 3) crisp: peak thickness in whole device pixels, centered on the device-pixel grid
+    var dpr = window.devicePixelRatio || 1;
+    var Td = Math.max(2, Math.round(fs * .115 * dpr));
+    var cDev = center * dpr; cDev = (Td % 2) ? Math.floor(cDev) + .5 : Math.round(cDev);
+    var cy = cDev/dpr - sr.top, h = Td/dpr/2;
+    var light = b.classList.contains('brand-light');
+    var end = light ? '#0070C0' : '#5CC0FF', mid = light ? '#1E9BFF' : '#E2F5FF';
+    var f = function(v){ return v.toFixed(2); };
+    {
+      var tip = Math.min(h, .45/dpr), id = 'br' + idx;
+      var d = 'M'+f(x0)+' '+f(cy-tip)+
+        ' C'+f(x0+(xc-x0)*.45)+' '+f(cy-h)+' '+f(xc-(xc-x0)*.35)+' '+f(cy-h)+' '+f(xc)+' '+f(cy-h)+
+        ' C'+f(xc+(x1-xc)*.35)+' '+f(cy-h)+' '+f(x1-(x1-xc)*.45)+' '+f(cy-h)+' '+f(x1)+' '+f(cy-tip)+
+        ' A'+f(tip)+' '+f(tip)+' 0 0 1 '+f(x1)+' '+f(cy+tip)+
+        ' C'+f(x1-(x1-xc)*.45)+' '+f(cy+h)+' '+f(xc+(x1-xc)*.35)+' '+f(cy+h)+' '+f(xc)+' '+f(cy+h)+
+        ' C'+f(xc-(xc-x0)*.35)+' '+f(cy+h)+' '+f(x0+(xc-x0)*.45)+' '+f(cy+h)+' '+f(x0)+' '+f(cy+tip)+
+        ' A'+f(tip)+' '+f(tip)+' 0 0 1 '+f(x0)+' '+f(cy-tip)+'Z';
+      rule.innerHTML = '<svg aria-hidden="true"><defs><linearGradient id="'+id+'g" gradientUnits="userSpaceOnUse" x1="'+f(x0)+'" y1="0" x2="'+f(x1)+'" y2="0">'+
+          '<stop offset="0" stop-color="'+end+'" stop-opacity=".15"/><stop offset=".14" stop-color="'+end+'" stop-opacity=".9"/>'+
+          '<stop offset=".5" stop-color="'+mid+'" stop-opacity="1"/><stop offset=".86" stop-color="'+end+'" stop-opacity=".9"/>'+
+          '<stop offset="1" stop-color="'+end+'" stop-opacity=".15"/></linearGradient>'+
+        '<clipPath id="'+id+'c"><rect y="-8" height="'+f(sr.height+16)+'" x="0" width="0"/></clipPath></defs>'+
+        '<path clip-path="url(#'+id+'c)" fill="url(#'+id+'g)" d="'+d+'"/></svg>';
+      b._g = { x0:x0-tip-1, x1:x1+tip+1, xc:xc, rect: rule.querySelector('rect') };
+    }
+    b._gaps = { above: +(cy + sr.top - h - nm.base).toFixed(2), below: +(tm.capTop - (cy + sr.top + h)).toFixed(2) };
+    applyClip(b);
+  }
+  function fitRules(){ brands.forEach(fitRule); }
+
+  /* ================= THE WATER: one continuous gradient through every zone =================
+     Anchors come from the depth map (each zone's --from / --land at --settle / --land at --sink / --to).
+     A monotone cubic (Fritsch-Carlson) runs through all anchors in oklab, so the slope is continuous
+     across section edges (no Mach bands). Sampled every 12px into ONE gradient, plus a static dither. */
+  var waterEl = document.getElementById('water');
+  function hex2rgb(s){ s = s.trim(); var m = s.match(/^#([0-9a-f]{6})$/i); if(m){ var n = parseInt(m[1],16); return [n>>16&255,n>>8&255,n&255]; }
+    m = s.match(/rgba?\(([^)]+)\)/); if(m){ var p = m[1].split(/[ ,/]+/).map(parseFloat); return [p[0],p[1],p[2]]; } return null; }
+  function lin(c){ c/=255; return c <= .04045 ? c/12.92 : Math.pow((c+.055)/1.055, 2.4); }
+  function delin(c){ c = c <= .0031308 ? 12.92*c : 1.055*Math.pow(c, 1/2.4) - .055; return Math.max(0, Math.min(255, c*255)); }
+  function toLab(rgb){ var r=lin(rgb[0]), g=lin(rgb[1]), b=lin(rgb[2]);
+    var l=Math.cbrt(.4122214708*r+.5363325363*g+.0514459929*b), m=Math.cbrt(.2119034982*r+.6806995451*g+.1073969566*b), s=Math.cbrt(.0883024619*r+.2817188376*g+.6299787005*b);
+    return [.2104542553*l+.7936177850*m-.0040720468*s, 1.9779984951*l-2.4285922050*m+.4505937099*s, .0259040371*l+.7827717662*m-.8086757660*s]; }
+  function fromLab(L){ var l=Math.pow(L[0]+.3963377774*L[1]+.2158037573*L[2],3), m=Math.pow(L[0]-.1055613458*L[1]-.0638541728*L[2],3), s=Math.pow(L[0]-.0894841775*L[1]-1.2914855480*L[2],3);
+    return [delin(4.0767416621*l-3.3077115913*m+.2309699292*s), delin(-1.2684380046*l+2.6097574011*m-.3413193965*s), delin(-.0041960863*l-.7034186147*m+1.7076147010*s)]; }
+  // lengths from the depth map: "120px", "50%", or a simple calc() of those (e.g. calc(100% - 120px))
+  function lenPx(v, total){
+    v = (v||'').trim(); if(!v) return 0;
+    if(/^calc\(/.test(v)){
+      var expr = v.replace(/^calc\(|\)$/g,'').replace(/(-?[\d.]+)%/g, function(m,n){ return '('+(n*total/100)+')'; }).replace(/px/g,'');
+      if(/^[\d.\s+\-*/()]+$/.test(expr)){ try { return Function('"use strict";return ('+expr+')')() || 0; } catch(e){ return 0; } }
+      return 0;
+    }
+    return /%$/.test(v) ? parseFloat(v)/100*total : (parseFloat(v)||0);
+  }
+  // monotone cubic slopes (Fritsch-Carlson); flat ends so the run eases in and out
+  function fcSlopes(x, y){
+    var n = x.length, d = [], m = new Array(n).fill(0), i;
+    for(i=0;i<n-1;i++) d.push((y[i+1]-y[i])/(x[i+1]-x[i]));
+    for(i=1;i<n-1;i++){ if(d[i-1]*d[i] <= 0) m[i] = 0; else { var w1 = 2*(x[i+1]-x[i]) + (x[i]-x[i-1]), w2 = (x[i+1]-x[i]) + 2*(x[i]-x[i-1]); m[i] = (w1+w2)/(w1/d[i-1] + w2/d[i]); } }
+    return m;
+  }
+  function hermite(x, y, m, i, t){ var h = x[i+1]-x[i], s = (t - x[i])/h, s2 = s*s, s3 = s2*s;
+    return (2*s3-3*s2+1)*y[i] + (s3-2*s2+s)*h*m[i] + (-2*s3+3*s2)*y[i+1] + (s3-s2)*h*m[i+1]; }
+  function ditherTile(){
+    var c = document.createElement('canvas'); c.width = c.height = 128;
+    var x = c.getContext('2d'), id = x.createImageData(128,128), D = id.data;
+    for(var i=0;i<D.length;i+=4){ var r = Math.random(), a = 1 + Math.random()*3.5;        // about 0.4-1.8% per pixel, half lighter, half darker: enough to break 8-bit bands, too faint to read as grain
+      var v = r < .5 ? 0 : 255; D[i]=D[i+1]=D[i+2]=v; D[i+3]=a|0; }
+    x.putImageData(id,0,0); return c.toDataURL('image/png');
+  }
+  var waterKey = '';
+  function buildWater(){
+    var zones = Array.prototype.slice.call(document.querySelectorAll('.zone'));
+    if(!zones.length) return;
+    var sy = window.scrollY || window.pageYOffset || 0;
+    var top0 = zones[0].getBoundingClientRect().top + sy, xs = [], cols = [];
+    function add(y, col){
+      var rgb = hex2rgb(col); if(!rgb) return;
+      var n = xs.length;
+      if(n && Math.abs(y - xs[n-1]) < .5){ cols[n-1] = rgb; return; }        // same spot: last word wins
+      if(n && y < xs[n-1]) y = xs[n-1] + .5;
+      xs.push(y); cols.push(rgb);
+    }
+    zones.forEach(function(z){
+      var r = z.getBoundingClientRect(), y0 = r.top + sy - top0, h = r.height, cs = getComputedStyle(z);
+      var from = cs.getPropertyValue('--from'), to = cs.getPropertyValue('--to'), land = cs.getPropertyValue('--land') || from;
+      var settle = lenPx(cs.getPropertyValue('--settle'), h), sink = lenPx(cs.getPropertyValue('--sink'), h);
+      add(y0, from);
+      if(settle > .5) add(y0 + settle, land);
+      if(sink < h - .5) add(y0 + h - sink, land);
+      add(y0 + h, to);
+    });
+    var total = xs[xs.length-1];
+    var key = Math.round(top0)+'|'+xs.map(Math.round).join(',')+'|'+window.innerWidth;
+    if(key === waterKey) return; waterKey = key;
+    var labs = cols.map(toLab), ch = [0,1,2].map(function(k){ return labs.map(function(l){ return l[k]; }); });
+    var ms = ch.map(function(c){ return fcSlopes(xs, c); });
+    var stops = [], seg = 0, STEP = 12;
+    for(var y = 0; y <= total + .01; y += STEP){
+      var yy = Math.min(y, total);
+      while(seg < xs.length - 2 && yy > xs[seg+1]) seg++;
+      var L = [0,1,2].map(function(k){ return hermite(xs, ch[k], ms[k], seg, yy); });
+      var rgb = fromLab(L);
+      stops.push('rgb('+rgb[0].toFixed(1)+','+rgb[1].toFixed(1)+','+rgb[2].toFixed(1)+') '+yy.toFixed(1)+'px');
+      if(yy === total) break;
+    }
+    waterEl.style.top = top0+'px'; waterEl.style.height = total+'px';
+    waterEl.style.backgroundImage = 'linear-gradient(180deg,'+stops.join(',')+')';
+    if(!waterEl.style.getPropertyValue('--dither')) waterEl.style.setProperty('--dither', 'url("'+ditherTile()+'")');
+    document.documentElement.classList.add('water-on');
+  }
+  var waterT;
+  function queueWater(){ clearTimeout(waterT); waterT = setTimeout(buildWater, 120); }
+
+  /* ================= INIT ================= */
+  layout();
+  fitRules();
+  buildWater();
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fitRules(); buildWater(); });
+  // keep the water in line with the sections whenever anything changes height (new sections, fonts, rotation)
+  if('ResizeObserver' in window){ var waterRO = new ResizeObserver(queueWater); waterRO.observe(document.body); document.querySelectorAll('.zone').forEach(function(z){ waterRO.observe(z); }); }
+  window.addEventListener('orientationchange', queueWater);
+  window.addEventListener('load', queueWater);
+  var rto; window.addEventListener('resize', function(){ clearTimeout(rto); rto=setTimeout(function(){ layout(); fitRules(); },120); });
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ es.forEach(function(e){ if(reduceMQ.matches) return; e.isIntersecting?start():stop(); }); }).observe(hero);
+  }
+  document.addEventListener('visibilitychange', function(){ if(reduceMQ.matches) return; document.hidden?stop():start(); });
+
+  // split headline into words for a calm word-by-word rise
+  var h1 = document.getElementById('headline');
+  h1.innerHTML = h1.textContent.trim().split(/\s+/).map(function(w){ return '<span class="w">'+w+'</span>'; }).join(' ');
+
+  function stillHero(){
+    // Reduced motion: a composed still frame, everything legible, scan resting mid-read.
+    running = false;
+    state.reveal = 1; state.time = 2.0; state.scanA = 0.85;
+    nodes.forEach(function(n){ n.on=1; n.shown=true; n.ping=0; n.el.style.opacity=1; n.el.style.visibility='visible'; n.el.style.transform='none'; });
+    var nd = nodes[Math.min(1,nodes.length-1)];
+    state.scanX = nd ? nd.x + (mobile?24:90) : W*0.7;
+    document.documentElement.classList.remove('pre');
+    draw(0);
+  }
+
+  if(!hasGsap){
+    document.documentElement.classList.remove('pre');
+    state.reveal=1;
+    nodes.forEach(function(n){ n.on=1; n.shown=true; });
+    state.scanX = W*0.72; state.scanA=.7;
+    if(reduceMQ.matches) draw(0); else requestAnimationFrame(loop);
+  } else {
+    var mm = gsap.matchMedia();
+    mm.add({ motion:'(prefers-reduced-motion: no-preference)', reduce:'(prefers-reduced-motion: reduce)' }, function(c){
+      if(c.conditions.reduce){
+        stillHero();
+        window.addEventListener('resize', function(){ setTimeout(stillHero,160); });
+        return;
+      }
+      running = true; requestAnimationFrame(loop);
+      gsap.set(tagEls,{autoAlpha:0});
+      gsap.set('.tags-label',{autoAlpha:0});
+      document.documentElement.classList.remove('pre');
+
+      var tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+      tl.to(state,{ reveal:1, duration:2.4, ease:'power2.inOut' }, 0)
+        .from('.topbar',{ autoAlpha:0, y:-10, duration:.9 }, .2)
+        .from('.kicker',{ autoAlpha:0, y:12, duration:.8 }, .35)
+        .from('#headline .w',{ autoAlpha:0, y:'0.45em', duration:1, stagger:.035 }, .45)
+        .from('.hero-sub',{ autoAlpha:0, y:14, duration:.9 }, .9)
+        .from('.hero-ctas > *',{ autoAlpha:0, y:12, duration:.8, stagger:.08 }, 1.05)
+        .from('.hero-trust',{ autoAlpha:0, duration:.8 }, 1.25)
+        .from('.cue',{ autoAlpha:0, duration:.8 }, 2.2)
+        .add(scanLoop, 1.5);
+
+      // Navbar rule draws itself in once, from under the "r" outward, then stays.
+      navBrand._rule = { p:0 }; applyClip(navBrand);
+      gsap.to(navBrand._rule, { p:1, duration:1.2, ease:'power2.inOut', delay:1.0, onUpdate:function(){ applyClip(navBrand); } });
+
+      function scanLoop(){
+        var x0 = mobile ? -20 : W*0.44, x1 = W+40;
+        var prev = x0;
+        state.scanX = x0;
+        var s = gsap.timeline({ repeat:-1, repeatDelay:2.6 });
+        s.to(state,{ scanA:1, duration:.6, ease:'power1.out' }, 0)
+         .fromTo(state,{ scanX:x0 },{ scanX:x1, duration: mobile?5.2:6.4, ease:'sine.inOut',
+            onUpdate:function(){ onScan(prev); prev = state.scanX; },
+            onRepeat:function(){ prev = x0; } }, 0)
+         .to(state,{ scanA:0, duration:.9, ease:'power1.in' }, '-=1.0');
+        s.eventCallback('onRepeat', function(){ prev = x0; });
+        gsap.to('.tags-label',{ autoAlpha:1, duration:1, delay:4 });
+        return s;
+      }
+      return function(){ stop(); };
+    });
+  }
+
+  /* ================= BOOKING CALENDAR (transitions.dev text swap soft + CSS states) ================= */
+  var ms = function(name){ return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) || 0; };
+  function softSwap(el, next){
+    var prev = el.dataset.text != null ? el.dataset.text : el.textContent;
+    if(prev === next) return;
+    el.dataset.text = next;
+    clearTimeout(el._softTimer);
+    var out = document.createElement('span'); out.className='t-text-soft-old'; out.setAttribute('aria-hidden','true'); out.textContent=prev;
+    var inn = document.createElement('span'); inn.className='t-text-soft-new'; inn.textContent=next;
+    var w0 = el.getBoundingClientRect().width;
+    el.classList.remove('is-swapping');
+    el.replaceChildren(out, inn);
+    var w1 = inn.getBoundingClientRect().width;
+    el.style.width = w0+'px';
+    void el.offsetWidth;
+    el.classList.add('is-swapping');
+    el.style.width = w1+'px';
+    el._softTimer = setTimeout(function(){
+      el.classList.remove('is-swapping'); el.style.removeProperty('width'); el.textContent = next;
+    }, Math.max(ms('--text-soft-dur'), ms('--text-soft-resize-dur')) + 40);
+  }
+
+  var today = new Date(); today.setHours(0,0,0,0);
+  var view = new Date(today.getFullYear(), today.getMonth(), 1);
+  var minView = new Date(view), maxView = new Date(view.getFullYear(), view.getMonth()+2, 1);
+  var selDate = null, selTime = null;
+  var daysEl = document.getElementById('days'), chipsEl = document.getElementById('chips');
+  var titleEl = document.getElementById('calTitle'), sumEl = document.getElementById('summary');
+  var confirmBtn = document.getElementById('confirm');
+  var prevBtn = document.getElementById('prevM'), nextBtn = document.getElementById('nextM');
+  var TIMES = ['9:00 AM','9:30 AM','10:30 AM','11:00 AM','1:00 PM','2:30 PM','3:30 PM','4:00 PM'];
+  var fmtMonth = function(d){ return d.toLocaleDateString('en-US',{month:'long',year:'numeric'}); };
+  var fmtDay = function(d){ return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}); };
+
+  // deterministic "booked" slots per date so the demo feels real
+  function taken(d, i){ return ((d.getDate()*7 + i*3) % 9) === 0 || ((d.getDate()+i) % 11) === 0; }
+
+  function renderDays(){
+    titleEl.dataset.text != null ? softSwap(titleEl, fmtMonth(view)) : (titleEl.textContent = fmtMonth(view), titleEl.dataset.text = fmtMonth(view));
+    prevBtn.disabled = view <= minView; nextBtn.disabled = view >= maxView;
+    var frag = document.createDocumentFragment();
+    var first = view.getDay(), len = new Date(view.getFullYear(), view.getMonth()+1, 0).getDate(), cells = 0;
+    for(var b=0;b<first;b++){ frag.appendChild(document.createElement('span')); cells++; }
+    for(var d=1; d<=len; d++){
+      var date = new Date(view.getFullYear(), view.getMonth(), d);
+      var btn = document.createElement('button');
+      btn.type='button'; btn.className='day'; btn.textContent=d;
+      var wk = date.getDay(), past = date <= today, closed = wk===0 || wk===6;
+      if(date.getTime()===today.getTime()) btn.classList.add('today');
+      if(past || closed){ btn.disabled = true; btn.setAttribute('aria-label', fmtDay(date)+', unavailable'); }
+      else { btn.classList.add('open'); btn.setAttribute('aria-label', fmtDay(date)); }
+      btn.setAttribute('aria-pressed', selDate && selDate.getTime()===date.getTime() ? 'true':'false');
+      btn._date = date;
+      frag.appendChild(btn); cells++;
+    }
+    while(cells < 42){ frag.appendChild(document.createElement('span')); cells++; } // always 6 rows: the glass never changes size
+    daysEl.replaceChildren(frag);
+  }
+  function renderChips(){
+    var frag = document.createDocumentFragment();
+    TIMES.forEach(function(t,i){
+      var c = document.createElement('button');
+      c.type='button'; c.className='slot'; c.textContent=t;
+      var off = !selDate || taken(selDate,i);
+      c.disabled = off;
+      if(selDate && taken(selDate,i)){ c.setAttribute('aria-label', t+', booked'); c.classList.add('booked'); }
+      c.setAttribute('aria-pressed', selTime===t && !off ? 'true':'false');
+      frag.appendChild(c);
+    });
+    chipsEl.replaceChildren(frag);
+  }
+  function update(){
+    var msg;
+    if(!selDate) msg = 'Pick a day, then a time.';
+    else if(!selTime) msg = fmtDay(selDate) + '. Now pick a time.';
+    else msg = fmtDay(selDate) + ' at ' + selTime + ' ET';
+    softSwap(sumEl, msg);
+    confirmBtn.disabled = !(selDate && selTime);
+    confirmBtn.textContent = 'Confirm time';
+  }
+  function selectedDayBtn(){
+    if(!selDate) return null;
+    var list = daysEl.querySelectorAll('.day');
+    for(var i=0;i<list.length;i++){ if(list[i]._date && list[i]._date.getTime()===selDate.getTime()) return list[i]; }
+    return null;
+  }
+
+  /* ================= LIQUID GLASS OPTICS =================
+     One stage image (drawn here) is shown behind the glass AND copied inside every glass surface.
+     Each copy is aligned to the stage and refracted by an element SVG filter:
+       neutral flood  <-  baked displacement map (composited over it)  ->  feDisplacementMap  ->  small blur
+     Maps are baked once per size on a canvas and cached. Nothing redraws per frame except the lens
+     transform (GSAP) and the lens copy's counter-transform. */
+  var SVGNS = 'http://www.w3.org/2000/svg', XLINK = 'http://www.w3.org/1999/xlink';
+  var root = document.documentElement;
+  var defs = document.querySelector('#optics defs');
+  var stageWrap = document.querySelector('.glass-stage'), stageBg = document.getElementById('stageBg');
+  var sched = document.getElementById('sched'), panelOptic = document.getElementById('panelOptic');
+  var stage = { url:'', w:0, h:0, key:'' };
+  var mapCache = {};
+  var PANEL_M = 44;
+  if(!hasGsap) root.classList.add('no-lens');
+
+  // Displacement map: R/G = 128 is "no bend". Inside a bezel band along a rounded-rect edge,
+  // samples are pulled from OUTSIDE the edge (like the rim of a real lens), strongest at the rim.
+  function bakeMap(w, h, radius, bezel){
+    w = Math.max(2, Math.round(w)); h = Math.max(2, Math.round(h));
+    var key = w+'x'+h+'r'+radius.toFixed(1)+'b'+bezel.toFixed(1);
+    if(mapCache[key]) return mapCache[key];
+    var c = document.createElement('canvas'); c.width = w; c.height = h;
+    var cx = c.getContext('2d'), img = cx.createImageData(w,h), D = img.data;
+    var R = Math.min(radius, w/2, h/2), hw = w/2, hh = h/2;
+    for(var y=0; y<h; y++){
+      for(var x=0; x<w; x++){
+        var px = x+.5-hw, py = y+.5-hh, qx = Math.abs(px)-(hw-R), qy = Math.abs(py)-(hh-R), sd, nx, ny;
+        if(qx>0 && qy>0){ var len = Math.sqrt(qx*qx+qy*qy); sd = len-R; nx = qx/len; ny = qy/len; }
+        else if(qx>qy){ sd = qx-R; nx = 1; ny = 0; } else { sd = qy-R; nx = 0; ny = 1; }
+        if(px<0) nx = -nx; if(py<0) ny = -ny;
+        var t = 1 - Math.min(1, Math.max(0, -sd)/bezel);    // 1 at the rim, 0 past the bezel
+        var m = t*t*(3-2*t);                                // smooth lens profile
+        var i = (y*w+x)*4;
+        D[i] = 128 + nx*m*127; D[i+1] = 128 + ny*m*127; D[i+2] = 128; D[i+3] = 255;
+      }
+    }
+    cx.putImageData(img,0,0);
+    return (mapCache[key] = c.toDataURL('image/png'));
+  }
+  function setAttrs(el, o){ for(var k in o) el.setAttribute(k, o[k]); return el; }
+  function opticFilter(id, tw, th, mx, my, mw, mh, url, scale, blur){
+    var f = document.getElementById(id);
+    if(!f){
+      f = document.createElementNS(SVGNS,'filter'); f.id = id;
+      setAttrs(f,{ filterUnits:'userSpaceOnUse', primitiveUnits:'userSpaceOnUse', 'color-interpolation-filters':'sRGB' });
+      f.appendChild(setAttrs(document.createElementNS(SVGNS,'feFlood'),{ 'flood-color':'rgb(128,128,128)', 'flood-opacity':'1', result:'neutral' }));
+      f.appendChild(setAttrs(document.createElementNS(SVGNS,'feImage'),{ preserveAspectRatio:'none', result:'mapimg' }));
+      f.appendChild(setAttrs(document.createElementNS(SVGNS,'feComposite'),{ in:'mapimg', in2:'neutral', operator:'over', result:'map' }));
+      f.appendChild(setAttrs(document.createElementNS(SVGNS,'feDisplacementMap'),{ in:'SourceGraphic', in2:'map', xChannelSelector:'R', yChannelSelector:'G', result:'bent' }));
+      f.appendChild(setAttrs(document.createElementNS(SVGNS,'feGaussianBlur'),{ in:'bent' }));
+      defs.appendChild(f);
+    }
+    setAttrs(f,{ x:0, y:0, width:Math.round(tw), height:Math.round(th) });
+    var im = f.querySelector('feImage');
+    setAttrs(im,{ x:mx, y:my, width:Math.round(mw), height:Math.round(mh) });
+    if(im.getAttribute('href') !== url){ im.setAttribute('href', url); im.setAttributeNS(XLINK,'xlink:href', url); }
+    f.querySelector('feDisplacementMap').setAttribute('scale', scale);
+    f.querySelector('feGaussianBlur').setAttribute('stdDeviation', blur);
+    return 'url(#'+id+')';
+  }
+
+  /* ---- the stage: soft brand-blue blobs + crisp clear lines, drawn once per size ---- */
+  function drawStage(cb){
+    var sr = stageBg.getBoundingClientRect(), pr = sched.getBoundingClientRect();
+    var W = Math.round(sr.width), H = Math.round(sr.height);
+    if(!W || !H) return false;
+    var key = W+'x'+H;
+    if(key === stage.key) return false;
+    var k = Math.min(window.devicePixelRatio || 1, W < 760 ? 1.5 : 2);
+    var c = document.createElement('canvas'); c.width = Math.round(W*k); c.height = Math.round(H*k);
+    var g = c.getContext('2d'); g.scale(k,k);
+    // Soft brand-blue color blobs (no dark masses) on the page's own light water, plus the hero's
+    // "clear lines": thin, crisp, light strokes that cross UNDER the bezel and the lenses, where the
+    // bend is easy to see. Composition is set relative to the panel.
+    var px = pr.left - sr.left, py = pr.top - sr.top, pw = pr.width, ph = pr.height, u = Math.min(pw, ph), mob = W < 760;
+    g.fillStyle = '#EAF2F9'; g.fillRect(0, 0, W, H);
+    var BL = mob ? [
+      [ .05, .10, .95, '30,127,208', .55], [ .98, .30, .85, '92,192,255', .72], [ .50, .62, .80, '184,230,249', .85],
+      [ .10, .82, .85, '92,192,255', .62], [ .92, .95, .80, '30,127,208', .48], [ .55, -.02, .60, '1,148,253', .38]
+    ] : [
+      [ .06, .16, .66, '30,127,208', .58], [ .94, .10, .62, '92,192,255', .74], [ .80, .94, .64, '30,127,208', .50],
+      [ .14, .92, .58, '92,192,255', .66], [ .50, .52, .55, '184,230,249', .85], [ .44, -.08, .46, '1,148,253', .40]
+    ];
+    BL.forEach(function(b){
+      var cx = px + b[0]*pw, cy = py + b[1]*ph, r = b[2]*u*1.15, a = b[4];
+      var gr = g.createRadialGradient(cx, cy, 0, cx, cy, r);
+      gr.addColorStop(0, 'rgba('+b[3]+','+a+')'); gr.addColorStop(.5, 'rgba('+b[3]+','+(a*.5).toFixed(3)+')'); gr.addColorStop(1, 'rgba('+b[3]+',0)');
+      g.fillStyle = gr; g.fillRect(cx - r, cy - r, r*2, r*2);
+    });
+    // the clear lines: gentle rising curves, spaced so several cross every bezel and the day/time areas
+    var N = mob ? 7 : 6;
+    for(var i = 0; i < N; i++){
+      var f = i/(N-1);
+      var yA = py + ph*(1.18 - f*1.05), yB = py + ph*(.62 - f*.95);           // left and right heights
+      var c1x = px + pw*.28, c1y = yA - ph*.06, c2x = px + pw*.70, c2y = yB + ph*.10;
+      var lg = g.createLinearGradient(0, 0, W, 0);
+      lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(.18, 'rgba(244,252,255,.95)');
+      lg.addColorStop(.6, 'rgba(206,238,255,1)'); lg.addColorStop(.86, 'rgba(244,252,255,.9)'); lg.addColorStop(1, 'rgba(255,255,255,0)');
+      var path = function(){ g.beginPath(); g.moveTo(-30, yA + ph*.04); g.bezierCurveTo(c1x, c1y, c2x, c2y, W + 30, yB - ph*.05); };
+      // glow pass, then a crisp core
+      g.save(); g.strokeStyle = 'rgba(1,148,253,.30)'; g.lineWidth = i % 2 ? 4 : 5; g.shadowColor = 'rgba(1,148,253,.55)'; g.shadowBlur = 10; path(); g.stroke(); g.restore();
+      g.strokeStyle = lg; g.lineWidth = i % 3 === 1 ? 2 : 1.4; g.lineCap = 'round'; path(); g.stroke();
+    }
+    // The stage goes to CSS as a short blob: URL (setting a huge data: string on several styles is slow on phones).
+    // The displacement maps that feImage reads stay data: URLs.
+    stage.key = key;
+    var done = function(url){ if(stage.key !== key) return; if(stage.blob && stage.blob !== url) URL.revokeObjectURL(stage.blob); stage.url = url; stage.w = W; stage.h = H; cb(true); };
+    if(c.toBlob && window.URL && URL.createObjectURL){
+      c.toBlob(function(b){ if(b){ var u = URL.createObjectURL(b); done(u); stage.blob = u; } else done(c.toDataURL('image/jpeg', .9)); }, 'image/jpeg', .9);
+    } else done(c.toDataURL('image/jpeg', .9));
+    return true;
+  }
+
+  /* ---- panel optic ---- */
+  var geo = { px:0, py:0 };
+  function layoutPanel(){
+    var sr = stageBg.getBoundingClientRect(), pr = sched.getBoundingClientRect();
+    geo.px = pr.left - sr.left; geo.py = pr.top - sr.top; geo.sx = sr.left; geo.sy = sr.top;
+    var M = PANEL_M, pw = pr.width, ph = pr.height;
+    var bezel = parseFloat(getComputedStyle(stageWrap).getPropertyValue('--bezel')) || 22;
+    var radius = parseFloat(getComputedStyle(sched).borderTopLeftRadius) || 30;
+    var s = panelOptic.style;
+    s.left = -M+'px'; s.top = -M+'px'; s.width = (pw + 2*M)+'px'; s.height = (ph + 2*M)+'px';
+    s.backgroundImage = 'url("'+stage.url+'")'; s.backgroundSize = stage.w+'px '+stage.h+'px';
+    s.backgroundPosition = (-(geo.px - M))+'px '+(-(geo.py - M))+'px';
+    s.filter = opticFilter('fPanel', pw + 2*M, ph + 2*M, M, M, pw, ph, bakeMap(pw, ph, radius, bezel + 8), pw < 500 ? 46 : 64, 1.6);
+    var b = stageBg.style;
+    b.backgroundImage = 'url("'+stage.url+'")'; b.backgroundSize = stage.w+'px '+stage.h+'px';
+  }
+
+  /* ---- selection lenses ---- */
+  function Lens(el, grid, kind){
+    this.el = el; this.grid = grid; this.kind = kind; this.wrap = el.parentNode;
+    this.optic = el.querySelector('.lens-optic'); this.copy = el.querySelector('.lens-copy');
+    this.st = { x:0, y:0, sx:1, sy:1, rot:0 }; this.tw = null; this.M = 14; this.w = 0; this.h = 0; this.cell = null; this.shown = false;
+    this.wx = 0; this.wy = 0; this.lastSize = '';
+  }
+  Lens.prototype.measure = function(cell){
+    var wr = this.wrap.getBoundingClientRect(), cr = cell.getBoundingClientRect();
+    this.wx = wr.left - geo.sx; this.wy = wr.top - geo.sy;
+    var w = Math.round(cr.width), h = Math.round(cr.height);
+    var size = w+'x'+h+'|'+stage.key;
+    if(size !== this.lastSize){
+      this.lastSize = size; this.w = w; this.h = h;
+      var M = this.M, es = this.el.style, os = this.optic.style, cs = this.copy.style;
+      es.width = w+'px'; es.height = h+'px';
+      os.left = -M+'px'; os.top = -M+'px'; os.width = (w+2*M)+'px'; os.height = (h+2*M)+'px';
+      cs.width = stage.w+'px'; cs.height = stage.h+'px'; cs.backgroundSize = stage.w+'px '+stage.h+'px';
+      if(stage.url) cs.backgroundImage = 'url("'+stage.url+'")';
+      var r = this.kind === 'day' ? w/2 : h/2, bez = this.kind === 'day' ? w*.34 : h*.42;
+      os.filter = opticFilter('fLens'+this.kind, w+2*M, h+2*M, M, M, w, h, bakeMap(w, h, r, bez), this.kind==='day' ? 22 : 26, .5);
+    }
+    return { x: cr.left - wr.left, y: cr.top - wr.top };
+  };
+  // The lens is placed by its center and stretched into a capsule ALONG the travel direction
+  // (rotate, scale, rotate back: the shape follows the angle but the specular highlight never spins).
+  // Its stage copy gets the exact inverse transform, so the refraction stays locked to the stage.
+  Lens.prototype.render = function(){
+    var s = this.st, w = this.w, h = this.h, M = this.M, th = s.rot || 0;
+    var cx = s.x + w/2, cy = s.y + h/2, f = function(v){ return v.toFixed(3); };
+    var orient = th ? function(sx, sy){ return 'rotate('+f(th)+'rad) scale('+f(sx)+','+f(sy)+') rotate('+f(-th)+'rad)'; }
+                    : function(sx, sy){ return 'scale('+f(sx)+','+f(sy)+')'; };
+    this.el.style.transform = 'translate3d('+f(cx)+'px,'+f(cy)+'px,0) '+orient(s.sx, s.sy)+' translate('+f(-w/2)+'px,'+f(-h/2)+'px)';
+    this.copy.style.transform = 'translate('+f(M + w/2)+'px,'+f(M + h/2)+'px) '+orient(1/s.sx, 1/s.sy)+' translate3d('+f(-(cx + this.wx))+'px,'+f(-(cy + this.wy))+'px,0)';
+  };
+  Lens.prototype.light = function(cell){
+    var prev = this.grid.querySelector('.lit'); if(prev && prev !== cell) prev.classList.remove('lit');
+    if(cell) cell.classList.add('lit');
+  };
+  Lens.prototype.stop = function(){ if(this.tw){ this.tw.kill(); this.tw = null; } if(hasGsap) gsap.killTweensOf(this.st); };
+  Lens.prototype.hide = function(){
+    this.shown = false; this.cell = null; this.light(null);
+    if(hasGsap){ this.stop(); gsap.to(this.el,{ opacity:0, duration:.2, ease:'power1.out' }); }
+    else this.el.style.opacity = 0;
+  };
+  // Jump without motion (month change, resize, reduced motion)
+  Lens.prototype.place = function(cell){
+    if(!cell){ this.hide(); return; }
+    var p = this.measure(cell);
+    if(hasGsap){ this.stop(); gsap.killTweensOf(this.el); }
+    var st = this.st; st.x = p.x; st.y = p.y; st.sx = st.sy = 1; st.rot = 0; this.render();
+    this.el.style.opacity = 1; this.shown = true; this.cell = cell; this.light(cell);
+  };
+  // Liquid morph: the leading edge leaves first while the trailing edge holds (a capsule bridging old and
+  // new spots, thinning a little at the neck), then the tail catches up and the lens squashes and settles.
+  Lens.prototype.moveTo = function(cell){
+    var self = this, st = this.st;
+    if(!hasGsap || reduceMQ.matches){ this.place(cell); return; }
+    var p = this.measure(cell);
+    this.stop();
+    if(!this.shown){
+      // first selection: the drop lands and swells into place
+      this.shown = true; this.cell = cell;
+      st.x = p.x; st.y = p.y; st.sx = st.sy = .55; st.rot = 0; this.render();
+      gsap.to(this.el,{ opacity:1, duration:.22, ease:'power1.out', overwrite:true });
+      gsap.to(st,{ sx:1, sy:1, duration:.7, ease:'elastic.out(1,0.5)', onUpdate:function(){ self.render(); } });
+      setTimeout(function(){ if(self.cell === cell) self.light(cell); }, 90);
+      return;
+    }
+    this.cell = cell;
+    var prevLit = this.grid.querySelector('.lit'), left = false, lit = false;
+    var x0 = st.x, y0 = st.y, dx = p.x - x0, dy = p.y - y0, dist = Math.sqrt(dx*dx + dy*dy);
+    if(dist < 1){ st.x = p.x; st.y = p.y; st.sx = st.sy = 1; st.rot = 0; this.render(); this.light(cell); return; }
+    var day = this.kind === 'day', horiz = Math.abs(dx) >= Math.abs(dy);
+    var base = day ? this.w : (horiz ? this.w : this.h);           // lens length along the travel axis
+    var maxSep = base * (day ? 1.25 : .5);                           // how far the capsule may stretch
+    var ux = dx/dist, uy = dy/dist;
+    st.rot = day ? Math.atan2(dy, dx) : 0;                           // chips stay level: a rotated pill reads oddly
+    var dur = Math.min(.74, Math.max(.48, .42 + dist/1000));
+    var T = { t:0 };
+    this.tw = gsap.to(T,{ t:1, duration:dur, ease:'none',
+      onUpdate:function(){
+        var t = T.t;
+        var a = Math.min(1, t/.7), uL = 1 - Math.pow(1 - a, 3);                                  // leading edge: early, decelerating
+        var b = Math.max(0, Math.min(1, (t - .2)/.8)), uT = b < .5 ? 4*b*b*b : 1 - Math.pow(-2*b + 2, 3)/2;   // trailing edge: holds, then catches up
+        var dL = uL*dist, dT = uT*dist;
+        if(dL - dT > maxSep) dT = dL - maxSep;                                                   // long moves: the tail is dragged along
+        var sep = dL - dT, mid = (dL + dT)/2, k = Math.min(1, sep/maxSep);
+        st.x = x0 + ux*mid; st.y = y0 + uy*mid;
+        var along = (sep + base)/base, across = 1 - .16*k;                                        // capsule, slightly thinner at full stretch
+        if(day || horiz){ st.sx = along; st.sy = across; } else { st.sx = across; st.sy = along; }
+        self.render();
+        // white text follows the glass: the old item darkens once the tail has left it,
+        // the new one turns white once the tail is mostly in (never white text on the pale rim)
+        if(!left && prevLit && prevLit !== cell && dT > base*.45){ left = true; prevLit.classList.remove('lit'); }
+        if(!lit && dL >= dist - .5 && dist - dT < base*.3){ lit = true; self.light(cell); }
+      },
+      onComplete:function(){
+        self.tw = null;
+        if(!lit) self.light(cell);
+        st.x = p.x; st.y = p.y;
+        var sq = (day || horiz) ? { sx:.9, sy:1.08 } : { sx:1.06, sy:.9 };                       // squash along the travel axis
+        gsap.fromTo(st, sq, { sx:1, sy:1, duration:.72, ease:'elastic.out(1,0.42)',
+          onUpdate:function(){ self.render(); }, onComplete:function(){ st.rot = 0; self.render(); } });
+      }
+    });
+  };
+  Lens.prototype.press = function(on){
+    if(!hasGsap || reduceMQ.matches || !this.shown) return;
+    var self = this;
+    gsap.to(this.st, on ? { sx:1.12, sy:1.12, duration:.2, ease:'power2.out', overwrite:'auto', onUpdate:function(){ self.render(); } }
+                        : { sx:1, sy:1, duration:.6, ease:'elastic.out(1,0.45)', overwrite:'auto', onUpdate:function(){ self.render(); } });
+  };
+
+  var lensDay = new Lens(document.getElementById('lensDay'), daysEl, 'day');
+  var lensChip = new Lens(document.getElementById('lensChip'), chipsEl, 'chip');
+  function bindPress(lens, sel){
+    lens.grid.addEventListener('pointerdown', function(e){ var t = e.target.closest(sel); if(t && !t.disabled && t === lens.cell) lens.press(true); });
+    ['pointerup','pointercancel','pointerleave'].forEach(function(ev){ lens.grid.addEventListener(ev, function(){ lens.press(false); }); });
+  }
+  bindPress(lensDay, '.day'); bindPress(lensChip, '.slot');
+
+  function applyOptics(){
+    if(!stage.url) return;
+    layoutPanel();
+    lensDay.lastSize = lensChip.lastSize = '';
+    // pre-bake both lenses now, so the first click does no image or map work
+    var dRef = daysEl.querySelector('.day'), cRef = chipsEl.querySelector('.slot');
+    if(dRef) lensDay.measure(dRef);
+    if(cRef) lensChip.measure(cRef);
+    if(lensDay.shown && lensDay.cell) lensDay.place(lensDay.cell);
+    if(lensChip.shown && lensChip.cell) lensChip.place(lensChip.cell);
+    root.classList.add('lg-ready');
+  }
+  function refreshOptics(force){
+    if(force) stage.key = '';
+    if(!drawStage(applyOptics)) applyOptics();   // same size: just re-align (positions may have moved)
+  }
+
+  /* ---- calendar events ---- */
+  daysEl.addEventListener('click', function(e){
+    var b = e.target.closest('.day'); if(!b || b.disabled) return;
+    selDate = b._date; selTime = null;
+    daysEl.querySelectorAll('.day').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+    lensDay.moveTo(b);
+    lensChip.hide();
+    renderChips(); update();
+  });
+  chipsEl.addEventListener('click', function(e){
+    var c = e.target.closest('.slot'); if(!c || c.disabled) return;
+    selTime = c.textContent;
+    chipsEl.querySelectorAll('.slot').forEach(function(x){ x.setAttribute('aria-pressed', x===c?'true':'false'); });
+    lensChip.moveTo(c);
+    update();
+  });
+  /* Keyboard: arrows move focus between available days (by day / by week) and times (grid of 2);
+     Home/End jump to the first/last; Enter/Space select (native buttons). Focus never scrolls anything. */
+  function arrowNav(grid, sel, cols){
+    grid.addEventListener('keydown', function(e){
+      var keys = { ArrowLeft:-1, ArrowRight:1, ArrowUp:-cols, ArrowDown:cols };
+      if(!(e.key in keys) && e.key !== 'Home' && e.key !== 'End') return;
+      var all = Array.prototype.slice.call(grid.children), cur = e.target.closest(sel);
+      if(!cur) return;
+      e.preventDefault();
+      var i = all.indexOf(cur), step = keys[e.key], target = null;
+      var ok = function(el){ return el && el.matches && el.matches(sel) && !el.disabled; };
+      if(e.key === 'Home'){ for(var a=0;a<all.length && !target;a++) if(ok(all[a])) target = all[a]; }
+      else if(e.key === 'End'){ for(var z=all.length-1;z>=0 && !target;z--) if(ok(all[z])) target = all[z]; }
+      else { for(var j=i+step; j>=0 && j<all.length; j+=step){ if(ok(all[j])){ target = all[j]; break; } } }
+      if(target) target.focus({ preventScroll:true });
+    });
+  }
+  arrowNav(daysEl, '.day', 7);
+  arrowNav(chipsEl, '.slot', 2);
+
+  function changeMonth(step){
+    view = new Date(view.getFullYear(), view.getMonth()+step, 1); renderDays();
+    var b = selectedDayBtn(); if(b) lensDay.place(b); else if(lensDay.shown) lensDay.hide();
+    // if the arrow just used is now disabled (first/last month), keep keyboard focus on the other arrow
+    var used = step > 0 ? nextBtn : prevBtn, other = step > 0 ? prevBtn : nextBtn;
+    var ae = document.activeElement;
+    if(used.disabled && (ae === used || ae === document.body || !ae)) other.focus({ preventScroll:true });
+  }
+  prevBtn.addEventListener('click', function(){ if(view>minView) changeMonth(-1); });
+  nextBtn.addEventListener('click', function(){ if(view<maxView) changeMonth(1); });
+  confirmBtn.addEventListener('click', function(){
+    if(confirmBtn.disabled) return;
+    softSwap(sumEl, 'Demo only: nothing was booked. ' + fmtDay(selDate) + ' at ' + selTime + ' ET is highlighted.');
+  });
+  renderDays(); renderChips();
+
+  // Bake after fonts settle (layout is final), then only when the glass changes size.
+  var optT;
+  function queueOptics(){ clearTimeout(optT); optT = setTimeout(function(){ refreshOptics(false); }, 140); }
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ refreshOptics(false); }); else refreshOptics(false);
+  if('ResizeObserver' in window) new ResizeObserver(queueOptics).observe(stageWrap);
+  else window.addEventListener('resize', queueOptics);
+})();
+</script>
+</body>
+</html>
