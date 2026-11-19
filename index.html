@@ -20,8 +20,8 @@
     setTimeout(function(){ document.documentElement.classList.remove('pre'); }, 3500); // safety net if the CDN fails
   }
 </script>
-<link rel="stylesheet" href="css/base.css?v=20261119k">
-<link rel="stylesheet" href="css/home.css?v=20261119k">
+<link rel="stylesheet" href="css/base.css?v=20261119m">
+<link rel="stylesheet" href="css/home.css?v=20261119m">
 </head>
 <body>
 <!-- Liquid Glass optics: filters are written here by JS (one per glass size, maps baked once and cached) -->
@@ -67,7 +67,14 @@
     </div>
     <nav aria-label="Menu links">
       <ul class="menu-links">
-        <li><a href="#check">What we check<svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        <li class="has-sub"><a href="#check">What we check<svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <ul class="menu-sub">
+            <li><a href="services/waterline-testing/">Waterline testing</a></li>
+            <li><a href="services/infection-control/">Infection control</a></li>
+            <li><a href="services/safety-review/">Safety review</a></li>
+            <li><a href="georgia/">Georgia waterline rule</a></li>
+          </ul>
+        </li>
         <li><a href="#report">Sample report<svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
         <li><a href="#faq">Questions<svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
       </ul>
@@ -128,7 +135,7 @@
 <section class="check zone deep" id="check" aria-labelledby="check-h">
   <div class="wrap">
     <!-- copy: Mark to OK. Links to the FAQ answer (and opens it) until /georgia exists in Wave C -->
-    <a class="news" href="#qa2-q"><span class="dot" aria-hidden="true"></span><span class="txt"><b>New in Georgia:</b> quarterly dental waterline </span><span class="nw"><span class="txt">testing</span><svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+    <a class="news" href="georgia/"><span class="dot" aria-hidden="true"></span><span class="txt"><b>New in Georgia:</b> quarterly dental waterline </span><span class="nw"><span class="txt">testing</span><svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     <div class="sec-head">
       <h2 id="check-h">Three areas, one visit.</h2>
       <p>We look at the parts of your practice that are easiest to miss day to day, and write down exactly what we found.</p>
@@ -142,7 +149,7 @@
                sizes="(max-width:759px) calc(100vw - 32px), (max-width:1100px) 30vw, 380px" width="640" height="400" loading="lazy" decoding="async"
                alt="Gloved hands filling a sample vial from a dental unit's air and water syringe.">
         </figure>
-        <h3>Waterline testing</h3>
+        <h3><a class="area-link" href="services/waterline-testing/">Waterline testing<svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>
         <p>We test the water flowing through your chair lines for bacteria, operatory by operatory.</p>
         <ul><li>Samples from each dental unit</li><li>Results in CFU/mL against the standard</li></ul>
       </article>
@@ -152,7 +159,7 @@
                sizes="(max-width:759px) calc(100vw - 32px), (max-width:1100px) 30vw, 380px" width="640" height="400" loading="lazy" decoding="async"
                alt="An open sterilizer, with a gloved hand holding a spore-test vial.">
         </figure>
-        <h3>Infection control and sterilization review</h3>
+        <h3><a class="area-link" href="services/infection-control/">Infection control and sterilization review<svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>
         <p>We walk through instrument processing and check your sterilizer monitoring records.</p>
         <ul><li>Spore-test logs and sterilizer records</li><li>Instrument processing workflow</li></ul>
       </article>
@@ -189,7 +196,7 @@
             <g fill="none" stroke="#F2B84B" stroke-width="1.6" stroke-linecap="round"><circle cx="272" cy="256" r="10" stroke-opacity=".85"/><path d="M272 251.5v5M272 260.5v.2"/></g>
           </svg>
         </figure>
-        <h3>OSHA-related safety review</h3>
+        <h3><a class="area-link" href="services/safety-review/">OSHA-related safety review<svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>
         <p>We review the paperwork and habits behind a safe workplace: records, safety data sheets and training.</p>
         <ul><li>Safety data sheets and written plans</li><li>Staff training records</li></ul>
       </article>
@@ -259,7 +266,8 @@
         </ul>
       </article>
       <p class="ga"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="flex:none;margin-top:2px;color:var(--blue)"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5M12 7.6v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <span><b>In Georgia?</b> Quarterly waterline testing is now required (Georgia Board of Dentistry Rule 150-8-.05, in effect since July 20, 2025).</span></p>
+        <!-- copy: Mark to OK. Facts: planning/05-georgia-rule-facts.md (no "in effect since" date) -->
+        <span><b>In Georgia?</b> Quarterly waterline testing is now required (Georgia Board of Dentistry <a class="ga-link" href="georgia/">Rule 150-8-.05</a>, as amended April 30, 2026).</span></p>
     </div>
   </div>
 </section>
@@ -307,7 +315,8 @@
 </section>
 
 <!-- ===================== FAQ ===================== -->
-<!-- Facts verified 2026-11-19 against GA Rule 150-8-.05; re-verify before launch, the Board listed an amendment on its May 1 2026 agenda. Q5 'written to fit that record' and Q7 need Mark's OK. -->
+<!-- Georgia facts: planning/05-georgia-rule-facts.md (Rule 150-8-.05 as amended April 30, 2026; verified 2026-11-19). Q5 aligned to it in Wave C
+     (log = test dates + who tested, and/or independent reports; the "written to fit that record" claim removed until Mark confirms method and lab). Q7 needs Mark's OK. -->
 <section class="faq zone clear" id="faq" aria-labelledby="faq-h">
   <div class="wrap grid">
     <div class="sec-head">
@@ -333,7 +342,7 @@
         </div>
         <div class="qa">
           <h3><button class="qa-q" type="button" id="qa5-q" aria-expanded="false" aria-controls="qa5-a"><span>Do we need to keep records?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
-          <div class="qa-a" id="qa5-a" role="region" aria-labelledby="qa5-q"><div class="qa-a-inner"><p>Yes. The rule asks for a log of waterline testing and maintenance, including dates and who did it, or reports from an independent testing company, kept for five years. Our report is written to fit that record.</p></div></div>
+          <div class="qa-a" id="qa5-a" role="region" aria-labelledby="qa5-q"><div class="qa-a-inner"><p>Yes. The rule asks for a log of test dates and who did each test, and/or reports from an independent testing company, kept for five years.</p></div></div>
         </div>
         <div class="qa">
           <h3><button class="qa-q" type="button" id="qa6-q" aria-expanded="false" aria-controls="qa6-a"><span>Are you part of the Board or OSHA?</span><span class="qa-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="v" d="M6 1.5v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></button></h3>
@@ -373,6 +382,12 @@
         <a class="link" href="mailto:info@example.com?subject=ClearLine%20inquiry">info@example.com</a>
       </div>
     </div>
+    <nav class="foot-links" aria-label="Services">
+      <a class="link" href="services/waterline-testing/">Waterline testing</a>
+      <a class="link" href="services/infection-control/">Infection control</a>
+      <a class="link" href="services/safety-review/">Safety review</a>
+      <a class="link" href="georgia/">Georgia waterline rule</a>
+    </nav>
     <div class="fine">
       <p>ClearLine is an independent inspection service, not affiliated with OSHA, the CDC or any state dental board.</p>
       <p>© ClearLine Dental Compliance</p>
@@ -382,8 +397,8 @@
 <!-- /@footer -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="js/site.js?v=20261119k"></script>
-<script src="js/hero.js?v=20261119k"></script>
-<script src="js/booking.js?v=20261119k"></script>
+<script src="js/site.js?v=20261119m"></script>
+<script src="js/hero.js?v=20261119m"></script>
+<script src="js/booking.js?v=20261119m"></script>
 </body>
 </html>

@@ -158,6 +158,9 @@ footer>.wrap{position:relative;z-index:1}
 .foot .tagline{font-size:clamp(22px,2.2vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.2}
 .foot .contact{display:flex;gap:28px}
 .foot .contact .link{font-size:15px;color:var(--text-d)}
+.foot-links{display:flex;flex-wrap:wrap;gap:6px 28px;padding-top:22px;margin-left:-2px}   /* -2px: the link padding, so the text sits on the shared edge */
+.foot-links .link{font-size:14px;color:var(--text-d2)}
+.foot-links .link:hover{color:#fff}
 .fine{padding-top:24px;display:flex;justify-content:space-between;gap:24px;font-size:13px;color:#9FB6CD}
 
 /* ---------- PHONE MENU (under 760px; desktop keeps the inline nav) ----------
@@ -190,6 +193,12 @@ footer>.wrap{position:relative;z-index:1}
 .menu-links a:hover svg{transform:translateX(3px)}
 .menu-links a:active{color:var(--pass-d)}
 .menu-links a:focus-visible{border-radius:8px}
+/* services + Georgia under "What we check": a quieter second level */
+.menu-links .has-sub{border-bottom:1px solid var(--line-d);padding-bottom:12px}
+.menu-links .has-sub>a{border-bottom:0;padding-bottom:8px}
+.menu-sub{list-style:none;display:grid}
+.menu-sub a{display:block;padding:9px 4px 9px 16px;border-bottom:0;font-size:17px;font-weight:400;letter-spacing:-.01em;color:var(--text-d2)}
+.menu-sub a:hover{color:#fff}
 .menu-cta{margin-top:32px;padding-bottom:40px;display:grid;gap:10px}
 .menu-cta .btn{width:100%}
 .menu-open,.menu-open body{overflow:hidden}

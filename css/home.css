@@ -72,6 +72,20 @@ h1 .w{display:inline-block;will-change:transform}
 .area+.area::after{content:"";position:absolute;top:0;bottom:0;left:-34px;width:1px;background:var(--line-d)}
 .area::before{content:"";position:absolute;top:-1px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform var(--duration-slow) var(--ease-smooth-out)}
 .area:hover::before{transform:scaleX(1)}
+/* the whole card is one link: the heading's link stretches over the card (one tab stop, the heading is its name) */
+.area-link{color:inherit;border-radius:0}
+.area-link::after{content:"";position:absolute;inset:-12px;z-index:2;border-radius:16px;
+  transition:background-color var(--duration-fast) var(--ease-smooth-out)}
+.area-link .arrow{display:inline-block;width:16px;height:16px;margin-left:8px;vertical-align:-2px;color:var(--mist);
+  transition:transform var(--duration-fast) var(--ease-smooth-out)}
+.area:hover .area-link .arrow{transform:translateX(3px)}
+.area:hover h3{color:#fff}
+.area-media img,.area-media svg{transition:transform var(--duration-very-slow) var(--ease-smooth-out)}
+.area:hover .area-media img,.area:hover .area-media svg{transform:scale(1.025)}
+.area-link:active::after{background:rgba(184,230,249,.04)}
+.area-link:focus-visible{outline:none}
+.area-link:focus-visible::after{outline:2px solid var(--focus);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.area-media img,.area-media svg{transition:none}.area:hover .area-media img,.area:hover .area-media svg{transform:none}}
 /* service photo (baked: cropped, graded, highlights capped): no filters; the bottom melts into the deep water */
 .area-media{position:relative;margin:0 0 26px;aspect-ratio:16/10;border-radius:14px 14px 0 0;overflow:hidden;overflow:clip;background:#082A52;
   -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 52%,rgba(0,0,0,.62) 76%,transparent 100%);
@@ -124,6 +138,10 @@ h1 .w{display:inline-block;will-change:transform}
 .fix .chip{background:var(--fix-bg);color:var(--fix-l)}
 .ga{margin-top:22px;font-size:14px;color:var(--text-l2);display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-left:2px solid var(--blue);background:rgba(255,255,255,.6);border-radius:0 10px 10px 0}
 .ga b{color:var(--text-l);font-weight:500}
+.ga a{color:var(--pass-l);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;border-radius:3px;
+  transition:color var(--duration-fast) var(--ease-smooth-out)}
+.ga a:hover{color:#004F80;text-decoration-thickness:2px}
+.ga a:active{color:#003C61}
 
 /* ---------- BOOK (light) ---------- */
 .book{padding:40px 0 140px}
