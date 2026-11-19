@@ -52,6 +52,9 @@ button,.btn,.day,.slot,.icon-btn,.qa-q,.logo{-webkit-user-select:none;user-selec
 a{color:inherit;text-decoration:none}
 .wrap{width:min(1240px,100% - 32px);margin-inline:auto}
 @media (min-width:760px){.wrap{width:min(1240px,100% - 96px)}}
+/* ONE shared left edge for the hero (logo, kicker, headline, subline, buttons): a wider, still centered wrap */
+:root{--hero-wrap:min(1264px,100% - 72px)}
+@media (min-width:760px){.hero .wrap{width:var(--hero-wrap)}}
 
 /* ---------- Shared interactive states (consistent across page) ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 24px;border-radius:999px;font-size:15px;font-weight:500;letter-spacing:-.005em;white-space:nowrap;
@@ -108,26 +111,27 @@ a{color:inherit;text-decoration:none}
 .brand-light .brand-tag{color:#45607C}
 .nav{display:flex;align-items:center;gap:26px}
 .nav .btn{height:40px;padding:0 18px;font-size:14px}
-.hero-copy{position:absolute;z-index:4;left:0;right:0;top:50%;transform:translateY(-46%)}
+/* desktop: copy block nudged up (kicker/headline -25px), CTAs a little lower with more air above them */
+.hero-copy{position:absolute;z-index:4;left:0;right:0;top:calc(50% - 9px);transform:translateY(-46%)}
 .hero-copy .inner{max-width:660px}
 .kicker{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--mist);margin-bottom:26px}
 .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(1,148,253,.16)}
 h1{font-weight:500;font-size:clamp(40px,4.7vw,74px);line-height:1.03;letter-spacing:-.032em;color:#fff;max-width:12.5em;text-wrap:balance}
 h1 .w{display:inline-block;will-change:transform}
 .hero-sub{margin-top:26px;font-size:clamp(16px,1.25vw,19px);line-height:1.6;color:var(--text-d2);max-width:35em;font-weight:300}
-.hero-ctas{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px}
+.hero-ctas{margin-top:71px;display:flex;flex-wrap:wrap;gap:12px}
 .hero-trust{margin-top:28px;font-size:13px;color:var(--text-d3);display:flex;gap:10px;align-items:center}
 .hero-trust svg{flex:none;opacity:.8}
 
 /* Readout tags on the flow */
 .tags{position:absolute;inset:0;z-index:3;pointer-events:none}
-.tag{position:absolute;width:236px;padding:12px 14px 13px;border-radius:12px;
+.tag{position:absolute;width:max-content;padding:10px 13px 11px;border-radius:11px;
   background:linear-gradient(180deg,rgba(6,24,56,.78),rgba(3,14,36,.78));border:1px solid rgba(184,230,249,.16);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 20px 40px -20px rgba(0,0,0,.7)}
-.tag .t-area{font-size:12px;color:var(--text-d2);line-height:1.3}
-.tag .t-val{margin-top:4px;font-size:22px;font-weight:500;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
-.tag .t-val small{font-size:12px;font-weight:400;color:var(--text-d2);letter-spacing:0;margin-left:4px}
-.tag .t-status{margin-top:8px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500}
+.tag .t-area{font-size:11px;color:var(--text-d2);line-height:1.3}
+.tag .t-val{margin-top:3px;font-size:19px;font-weight:500;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
+.tag .t-val small{font-size:11px;font-weight:400;color:var(--text-d2);letter-spacing:0;margin-left:4px}
+.tag .t-status{margin-top:6px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500}
 .tag.pass .t-status{color:var(--pass-d)}
 .tag.fix .t-status{color:var(--fix-d)}
 .tag.fix{border-color:rgba(242,184,75,.32)}
@@ -171,14 +175,15 @@ h1 .w{display:inline-block;will-change:transform}
 .deep{color:var(--text-d);--text-d3:#9DB3C8}   /* dimmest light text lifted so it stays AA on --w3 */
 .clear{color:var(--text-l)}
 /* Depth map: the only place to edit when sections are added or reordered */
-:root{--clear-run:200px;--sink-run:230px;--check-pb:120px}
+:root{--clear-run:200px;--sink-run:230px;--check-pb:120px;--foot-sink:380px}
 /* The clearing: "Three areas" lifts to w3 by the end of its columns (light text stays AA), then the whole gap
    (its bottom padding + the report's top run) eases w3 -> w3c -> w7 as one S-curve; the report then clears to w9. */
 #check{--from:var(--w0);--land:var(--w3);--settle:calc(100% - var(--check-pb));--to:var(--w3c)}
 #report{--from:var(--w3c);--land:var(--w7);--settle:var(--clear-run);--to:var(--w9)}
 #book{--from:var(--w9);--to:var(--w9)}
-#faq{--from:var(--w9);--sink:var(--sink-run);--to:var(--w6)}
-footer.zone{--from:var(--w6);--land:var(--w0);--settle:var(--sink-run);--to:var(--w0)}
+#faq{--from:var(--w9);--to:var(--w9)}
+/* the sink into the footer lives in the footer itself (anchored to its top), so a growing FAQ can't move it */
+footer.zone{--from:var(--w9);--land:var(--w0);--settle:var(--foot-sink);--to:var(--w0)}
 .check{padding:120px 0 var(--check-pb)}
 .sec-head{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:56px;max-width:720px}
 h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-height:1.08}
@@ -361,7 +366,7 @@ h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-h
 .no-lens .day[aria-pressed="true"],.no-lens .slot[aria-pressed="true"]{background:#0072BF;color:#fff;border-color:#0072BF}
 
 /* ---------- FAQ (light; its bottom padding carries the sink into the footer) ---------- */
-.faq{padding:40px 0 var(--sink-run)}
+.faq{padding:40px 0 110px}
 .faq .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
 .faq .sec-head p{color:var(--text-l2)}
 .qa-list{border-top:1px solid var(--line-l)}
@@ -415,7 +420,7 @@ footer>.wrap{position:relative;z-index:1}
 }
 @media (max-width:759px){
   .hero{min-height:600px}   /* = the visible height on an iPhone (100svh, ~660px with Safari's toolbars): the whole sweep stays above the fold */
-  :root{--clear-run:150px;--sink-run:170px;--check-pb:84px}
+  :root{--clear-run:150px;--sink-run:170px;--check-pb:84px;--foot-sink:280px}
   .topbar{height:72px;padding-top:6px}
   .brand-nav{--mark-h:42px;--name-size:21px;--tag-size:9px;--rule-h:4px;gap:9px}
   .foot .brand{--mark-h:50px;--name-size:24px;--tag-size:8.5px}
@@ -431,6 +436,11 @@ footer>.wrap{position:relative;z-index:1}
   .hero-ctas .btn{height:44px;padding:0 18px;font-size:14px;flex:1 1 auto}
   .hero-trust{display:none}
   .trust-m{display:flex;margin-top:4px}
+  /* Smooth line on iPhone: nothing above the animating canvas may need re-blurring or re-blending every frame.
+     backdrop-filter (chips, ghost buttons) and the overlay-blended grain are swapped for solid tints of the same look. */
+  .grain{display:none}
+  .hero .btn-ghost{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(3,12,32,.72)}
+  .tag{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(180deg,rgba(7,26,60,.94),rgba(4,15,38,.94))}
   /* compact two-line finding chips, attached to points on the line */
   .tag{width:auto;padding:5px 9px 5px;border-radius:9px;display:grid;grid-template-columns:auto auto;justify-content:start;align-items:baseline;column-gap:7px;row-gap:1px;white-space:nowrap;
     box-shadow:0 10px 24px -14px rgba(0,0,0,.8)}
@@ -708,7 +718,7 @@ footer>.wrap{position:relative;z-index:1}
 </section>
 </main>
 
-<footer class="zone deep">
+<footer class="zone deep" data-own-water>
   <div class="wrap">
     <div class="foot">
       <div>
@@ -809,7 +819,7 @@ footer>.wrap{position:relative;z-index:1}
       band.y0 = Math.min(ctaBottom + 12, H - 190); band.y1 = H - 8; band.R = band.y1 - band.y0;
       hero.style.setProperty('--scrim-end', ((ctaBottom + 6)/H*100).toFixed(2)+'%');
     } else hero.style.removeProperty('--scrim-end');
-    DPR = Math.min(window.devicePixelRatio||1, mobile?1.5:1.75);
+    DPR = Math.min(window.devicePixelRatio||1, mobile?2:1.75);   // phones: 2 (was 1.5): finer sub-pixel motion on 3x screens
     cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
     ctx.setTransform(DPR,0,0,DPR,0,0);
     N = mobile ? 26 : 44;
@@ -833,7 +843,7 @@ footer>.wrap{position:relative;z-index:1}
       var tw = el.offsetWidth, th = el.offsetHeight, left, top;
       if(!mobile){
         left = Math.max(W*0.565, Math.min(n.x - tw*0.5, W - tw - 28));
-        top = d.side==='up' ? n.y - th - 64 : n.y + 58;
+        top = d.side==='up' ? n.y - th - 79 : n.y + 73;                  // 15px more air from the line (the star)
         top = Math.max(96, Math.min(top, H - th - 70));
         n.ty = d.side==='up' ? top + th : top;
       } else {
@@ -940,11 +950,15 @@ footer>.wrap{position:relative;z-index:1}
     var cg = ctx.createLinearGradient(0,0,W,0);
     cg.addColorStop(0,'rgba(184,230,249,0)'); cg.addColorStop(0.3,'rgba(184,230,249,0.55)');
     cg.addColorStop(0.75,'rgba(230,247,255,0.95)'); cg.addColorStop(1,'rgba(184,230,249,0.6)');
-    ctx.strokeStyle = cg; ctx.lineWidth = mobile?1.3:1.6;
-    ctx.shadowColor = 'rgba(1,148,253,0.8)'; ctx.shadowBlur = 10;
+    // Glow drawn as layered wide, faint strokes (no shadowBlur: canvas shadows are very slow in Safari and
+    // were the main per-frame cost on iPhone). Coordinates stay floats: no snapping, so slow motion stays smooth.
     ctx.beginPath(); ctx.moveTo(pts[k0],pts[k0+1]);
     for(var s1=1;s1<=S;s1++){ ctx.lineTo(pts[k0+s1*2],pts[k0+s1*2+1]); }
-    ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.strokeStyle = 'rgba(1,148,253,0.10)'; ctx.lineWidth = mobile?9:12; ctx.stroke();
+    ctx.strokeStyle = 'rgba(1,148,253,0.18)'; ctx.lineWidth = mobile?5:6.5; ctx.stroke();
+    ctx.strokeStyle = 'rgba(92,192,255,0.30)'; ctx.lineWidth = mobile?2.6:3.2; ctx.stroke();
+    ctx.strokeStyle = cg; ctx.lineWidth = mobile?1.3:1.6; ctx.stroke();
 
     // 2) scan plane: brighten what it reads
     var sx = state.scanX, sa = state.scanA;
@@ -1014,11 +1028,30 @@ footer>.wrap{position:relative;z-index:1}
     }
   }
 
+  /* ?debug=1 : a small overlay with real FPS, worst frame over the last 2s, draw cost, canvas size and DPR */
+  var DEBUG = /[?&]debug=1(&|$)/.test(location.search), dbgEl = null, dbgFrames = [], dbgShown = 0;
+  if(DEBUG){
+    dbgEl = document.createElement('div');
+    dbgEl.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;font:11px/1.4 ui-monospace,Menlo,monospace;color:#9fffb0;background:rgba(0,0,0,.78);padding:6px 9px;border-radius:7px;pointer-events:none;white-space:pre';
+    document.body.appendChild(dbgEl);
+  }
+  function debugTick(ts, frameMs, drawMs){
+    dbgFrames.push([ts, frameMs, drawMs]);
+    while(dbgFrames.length && ts - dbgFrames[0][0] > 2000) dbgFrames.shift();
+    if(ts - dbgShown < 500) return; dbgShown = ts;
+    var n1 = 0, worst = 0, dsum = 0, dmax = 0;
+    dbgFrames.forEach(function(f){ if(ts - f[0] <= 1000) n1++; worst = Math.max(worst, f[1]); dsum += f[2]; dmax = Math.max(dmax, f[2]); });
+    dbgEl.textContent = 'fps ' + n1 + '   worst frame (2s) ' + worst.toFixed(1) + 'ms\n' +
+      'draw avg ' + (dsum/dbgFrames.length).toFixed(2) + 'ms  max ' + dmax.toFixed(1) + 'ms\n' +
+      'canvas ' + cv.width + 'x' + cv.height + '  DPR ' + DPR + ' (device ' + (window.devicePixelRatio||1) + ')\n' +
+      'hero ' + Math.round(W) + 'x' + Math.round(H) + (mobile ? '  phone' : '  desktop');
+  }
   function loop(ts){
     if(!running){ lastT=0; return; }
-    var dt = lastT ? Math.min((ts-lastT)/1000, 0.05) : 0.016;
+    var dt = lastT ? Math.min((ts-lastT)/1000, 0.05) : 0.016, frameMs = lastT ? ts - lastT : 16.7;
     lastT = ts;
-    draw(dt);
+    if(DEBUG){ var t0 = performance.now(); draw(dt); debugTick(ts, frameMs, performance.now() - t0); }
+    else draw(dt);
     requestAnimationFrame(loop);
   }
   function start(){ if(!running){ running=true; requestAnimationFrame(loop);} }
@@ -1081,7 +1114,9 @@ footer>.wrap{position:relative;z-index:1}
     var fs = parseFloat(getComputedStyle(nameEl).fontSize);
     var dpr = window.devicePixelRatio || 1;
     // thinner rule: peak ~1.2px on the phone lockup, ~1.5px on desktop, a whole number of device pixels
-    var Td = Math.max(2, Math.round(fs * .06 * dpr)), T = Td/dpr;
+    // phone (approved, unchanged): whole device pixels. Desktop: no hard minimum, a thin anti-aliased lens ~1.4px at peak
+    var phoneLockup = window.innerWidth < 760;
+    var Td = phoneLockup ? Math.max(2, Math.round(fs * .06 * dpr)) : fs * .056 * dpr, T = Td/dpr;
     // equal optical gaps, measured ink to ink: bottom of "ClearLine" -> rule -> cap tops of DENTAL COMPLIANCE
     var g = Math.max(2.5, fs * .15);
     var nInk = inkMetrics(nameEl, 'ClearLine'), tInk = inkMetrics(tagEl, 'DENTAL COMPLIANCE');
@@ -1092,7 +1127,7 @@ footer>.wrap{position:relative;z-index:1}
     inkBottom = baselineOf(nameEl) + nInk.desc; inkTop = baselineOf(tagEl) - tInk.asc;
     // crisp AND equal: the midpoint between the inks is where the rule goes; nudge the whole text block by
     // under half a device pixel so that midpoint sits on the pixel grid (gaps stay exactly equal)
-    var ideal = (inkBottom + inkTop)/2 * dpr, snapped = (Td % 2) ? Math.floor(ideal) + .5 : Math.round(ideal);
+    var ideal = (inkBottom + inkTop)/2 * dpr, snapped = phoneLockup ? ((Td % 2) ? Math.floor(ideal) + .5 : Math.round(ideal)) : ideal;
     var typeEl = b.querySelector('.brand-type');
     typeEl.style.transform = Math.abs(snapped - ideal) > .01 ? 'translateY(' + ((snapped - ideal)/dpr).toFixed(3) + 'px)' : '';
     var sr = rule.getBoundingClientRect(); if(!sr.width) return;
@@ -1109,10 +1144,27 @@ footer>.wrap{position:relative;z-index:1}
     var d = 'M' + topPts.join(' L') + ' L' + botPts.join(' L') + ' Z';
     var light = b.classList.contains('brand-light');
     var end = light ? '#0070C0' : '#5CC0FF', mid = light ? '#1E9BFF' : '#E2F5FF', id = 'br' + idx;
-    rule.innerHTML = '<svg aria-hidden="true"><defs><linearGradient id="'+id+'g" gradientUnits="userSpaceOnUse" x1="'+f(x0)+'" y1="0" x2="'+f(x1)+'" y2="0">'+
-        '<stop offset="0" stop-color="'+end+'" stop-opacity="0"/><stop offset=".2" stop-color="'+end+'" stop-opacity=".85"/>'+
+    var stops;
+    if(phoneLockup){
+      stops = '<stop offset="0" stop-color="'+end+'" stop-opacity="0"/><stop offset=".2" stop-color="'+end+'" stop-opacity=".85"/>'+
         '<stop offset=".5" stop-color="'+mid+'" stop-opacity="1"/><stop offset=".8" stop-color="'+end+'" stop-opacity=".85"/>'+
-        '<stop offset="1" stop-color="'+end+'" stop-opacity="0"/></linearGradient>'+
+        '<stop offset="1" stop-color="'+end+'" stop-opacity="0"/>';
+    } else {
+      // desktop: 21 stops on eased curves: a continuous tip fade (no bands), color easing from the end tone
+      // into the mid tone, and a subtle bright core at the center
+      var core = light ? '#4FB4FF' : '#F6FCFF', hx = function(h){ var n = parseInt(h.slice(1),16); return [n>>16&255, n>>8&255, n&255]; };
+      var cE = hx(end), cM = hx(mid), cC = hx(core), mixc = function(a,b2,t){ return 'rgb('+[0,1,2].map(function(i){ return Math.round(a[i]+(b2[i]-a[i])*t); }).join(',')+')'; };
+      stops = '';
+      for(var si=0; si<=20; si++){
+        var o = si/20, dd = Math.abs(o - .5)*2;                                     // 0 at the center, 1 at the tips
+        var alpha = Math.pow(Math.max(0, 1 - Math.pow(dd, 2.2)), 1.35);             // smooth, continuous fade to the tips
+        var tm = Math.min(1, Math.max(0, (dd - .06)/.7)); tm = tm*tm*(3 - 2*tm);    // mid tone near the center, end tone outward
+        var col = dd < .14 ? mixc(cC, cM, dd/.14) : mixc(cM, cE, tm);
+        stops += '<stop offset="'+o.toFixed(3)+'" stop-color="'+col+'" stop-opacity="'+alpha.toFixed(3)+'"/>';
+      }
+    }
+    rule.innerHTML = '<svg aria-hidden="true"><defs><linearGradient id="'+id+'g" gradientUnits="userSpaceOnUse" x1="'+f(x0)+'" y1="0" x2="'+f(x1)+'" y2="0">'+
+        stops + '</linearGradient>'+
       '<clipPath id="'+id+'c"><rect y="-8" height="'+f(sr.height+16)+'" x="0" width="0"/></clipPath></defs>'+
       '<path clip-path="url(#'+id+'c)" fill="url(#'+id+'g)" d="'+d+'"/></svg>';
     b._g = { x0:x0-1, x1:x1+1, xc:xc, rect: rule.querySelector('rect') };
@@ -1160,10 +1212,41 @@ footer>.wrap{position:relative;z-index:1}
       var v = r < .5 ? 0 : 255; D[i]=D[i+1]=D[i+2]=v; D[i+3]=a|0; }
     x.putImageData(id,0,0); return c.toDataURL('image/png');
   }
+  // A zone with [data-own-water] paints its own eased gradient + dither, anchored to its own top, so it moves
+  // with the zone (e.g. when the FAQ above it opens) instead of waiting for the shared water layer to rebuild.
+  var ditherURL = '';
+  function smoothStops(xs, cols, step){
+    var labs = cols.map(toLab), ch = [0,1,2].map(function(k){ return labs.map(function(l){ return l[k]; }); });
+    var ms = ch.map(function(c){ return fcSlopes(xs, c); }), total = xs[xs.length-1], out = [], seg = 0;
+    for(var y = 0; y <= total + .01; y += step){
+      var yy = Math.min(y, total);
+      while(seg < xs.length - 2 && yy > xs[seg+1]) seg++;
+      var rgb = fromLab([0,1,2].map(function(k){ return hermite(xs, ch[k], ms[k], seg, yy); }));
+      out.push('rgb('+rgb[0].toFixed(1)+','+rgb[1].toFixed(1)+','+rgb[2].toFixed(1)+') '+yy.toFixed(1)+'px');
+      if(yy === total) break;
+    }
+    return out;
+  }
+  var ownKey = '';
+  function paintOwnWater(){
+    if(!ditherURL) ditherURL = ditherTile();
+    Array.prototype.forEach.call(document.querySelectorAll('.zone[data-own-water]'), function(z){
+      var cs = getComputedStyle(z), from = hex2rgb(cs.getPropertyValue('--from')), land = hex2rgb(cs.getPropertyValue('--land')), to = hex2rgb(cs.getPropertyValue('--to'));
+      var settle = lenPx(cs.getPropertyValue('--settle'), z.offsetHeight);
+      if(!from || !land || !to || settle < 1) return;
+      var key = settle + '|' + from + land;
+      if(z._ownKey === key) return; z._ownKey = key;
+      var stops = smoothStops([0, settle], [from, land], 10);
+      z.style.backgroundImage = 'url("'+ditherURL+'"), linear-gradient(180deg,'+stops.join(',')+',rgb('+to.join(',')+') '+settle.toFixed(1)+'px)';
+      z.style.backgroundSize = '128px 128px, 100% 100%'; z.style.backgroundRepeat = 'repeat, no-repeat';
+    });
+  }
   var waterKey = '';
   function buildWater(){
-    var zones = Array.prototype.slice.call(document.querySelectorAll('.zone'));
+    // zones that own their water (the footer: its sink is anchored to its own top) are painted separately
+    var zones = Array.prototype.slice.call(document.querySelectorAll('.zone:not([data-own-water])'));
     if(!zones.length) return;
+    paintOwnWater();
     var sy = window.scrollY || window.pageYOffset || 0;
     var top0 = zones[0].getBoundingClientRect().top + sy, xs = [], cols = [];
     function add(y, col){
@@ -1198,7 +1281,7 @@ footer>.wrap{position:relative;z-index:1}
     }
     waterEl.style.top = top0+'px'; waterEl.style.height = total+'px';
     waterEl.style.backgroundImage = 'linear-gradient(180deg,'+stops.join(',')+')';
-    if(!waterEl.style.getPropertyValue('--dither')) waterEl.style.setProperty('--dither', 'url("'+ditherTile()+'")');
+    if(!waterEl.style.getPropertyValue('--dither')){ if(!ditherURL) ditherURL = ditherTile(); waterEl.style.setProperty('--dither', 'url("'+ditherURL+'")'); }
     document.documentElement.classList.add('water-on');
   }
   var waterT;
@@ -1456,7 +1539,8 @@ footer>.wrap{position:relative;z-index:1}
      Swap the artwork here (one line). The image is placed "cover" in stage coordinates; the visible stage
      and every refraction copy use the SAME placement, so the glass bends exactly what is behind it.
      No canvas re-encode: it works from a double-clicked file too. */
-  var BACKDROP = { small:'assets/new/cal-backdrop-silk-1200.webp', large:'assets/new/cal-backdrop-silk-2400.webp' };
+  var BACKDROP = { small:'assets/new/cal-backdrop-silk-1200.webp', large:'assets/new/cal-backdrop-silk-2400.webp',
+                   portraitSmall:'assets/new/cal-backdrop-silk-portrait-768.webp', portraitLarge:'assets/new/cal-backdrop-silk-portrait-1536.webp' };
   var imgCache = {};
   function loadImg(src, cb){
     var e = imgCache[src];
@@ -1470,7 +1554,9 @@ footer>.wrap{position:relative;z-index:1}
     var sr = stageBg.getBoundingClientRect();
     var W = Math.round(sr.width), H = Math.round(sr.height);
     if(!W || !H) return false;
-    var src = (W * (window.devicePixelRatio || 1) > 1300) ? BACKDROP.large : BACKDROP.small;
+    // tall stages (phones) use the portrait artwork, so 'cover' never upscales a 16:9 image 2x+ (that looked soft)
+    var dpr = window.devicePixelRatio || 1;
+    var src = H/W > 1 ? (W*dpr > 700 ? BACKDROP.portraitLarge : BACKDROP.portraitSmall) : (W*dpr > 1300 ? BACKDROP.large : BACKDROP.small);
     var key = W+'x'+H+'|'+src;
     if(key === stage.key) return false;
     stage.key = key;
@@ -1576,25 +1662,37 @@ footer>.wrap{position:relative;z-index:1}
     var x0 = st.x, y0 = st.y, dx = p.x - x0, dy = p.y - y0, dist = Math.sqrt(dx*dx + dy*dy);
     if(dist < 1){ st.x = p.x; st.y = p.y; st.sx = st.sy = 1; st.rot = 0; this.render(); this.light(cell); return; }
     var day = this.kind === 'day', ux = dx/dist, uy = dy/dist, ax = Math.abs(ux), ay = Math.abs(uy);
-    // lens length along the travel direction (a chip is wide, so this depends on the direction)
+    // distance in cells travelled (diagonals count by their true length)
+    var unit = day ? this.w + 4 : ax*(this.w + 8) + ay*(this.h + 8), n = dist / unit;
+    // duration grows gently with distance: 1 cell 0.30s, 2 cells 0.335s, 3 cells 0.385s, 4 cells 0.45s, cap 0.47s
+    var dur = n <= 1 ? .30 : n <= 2 ? .30 + (n-1)*.035 : n <= 3 ? .335 + (n-2)*.05 : n <= 4 ? .385 + (n-3)*.065 : Math.min(.47, .45 + (n-4)*.01);
+    // ONE easing curve for both edges, so a move looks the same in either direction (an exact mirror):
+    // a gentle start and a long, soft deceleration that gets softer the further it travels
+    var pw = Math.min(3.2, 2.4 + .2*Math.max(0, n - 1));
+    function E(x){ x = Math.max(0, Math.min(1, x)); var sx2 = x*x*(3 - 2*x)*.35 + x*.65; return 1 - Math.pow(1 - sx2, pw); }
+    var delay = .16;                                                   // the tail follows the lead on the same curve
     var base = day ? this.w : ax*this.w + ay*this.h;
-    // day: an oval capsule oriented along the travel; chips: stretch on BOTH axes in proportion to the
-    // distance travelled on each axis, never below the resting size on either axis
-    var maxSep = day ? base*1.1 : Math.min(ax > .001 ? .55*this.w/ax : 1e9, ay > .001 ? .9*this.h/ay : 1e9);
+    var maxSep = base*1.1, horiz = ax >= ay;
+    // chips: an almost rigid capsule; small stretch along the main travel axis only, less on short moves
+    var cStretch = .12*Math.min(1, n/2.5), cOther = .04*Math.min(1, n/2.5);
     st.rot = day ? Math.atan2(dy, dx) : 0;
-    var dur = Math.min(.36, Math.max(.30, .30 + dist/2500));          // the whole move in ~300-360ms
     var T = { t:0 };
     this.tw = gsap.to(T,{ t:1, duration:dur, ease:'none',
       onUpdate:function(){
-        var t = T.t;
-        var a = Math.min(1, t/.62), uL = 1 - Math.pow(1 - a, 3);                                  // leading edge: fast out
-        var b = Math.max(0, Math.min(1, (t - .12)/.88)), uT = b < .5 ? 4*b*b*b : 1 - Math.pow(-2*b + 2, 3)/2;   // trailing edge: follows, gentle settle
-        var dL = uL*dist, dT = uT*dist;
-        if(dL - dT > maxSep) dT = dL - maxSep;                                                   // long moves: the tail is dragged along
-        var sep = dL - dT, mid = (dL + dT)/2, k = Math.min(1, sep/maxSep);
-        st.x = x0 + ux*mid; st.y = y0 + uy*mid;
-        if(day){ st.sx = (sep + base)/base; st.sy = 1 - .14*k; }                                 // oval stretch, slightly thinner at full stretch
-        else { st.sx = 1 + sep*ax/self.w; st.sy = 1 + sep*ay/self.h; }                           // grows along the travel, on both axes
+        var t = T.t, dL, dT;
+        if(day){
+          dL = E(t/(1 - delay))*dist; dT = E((t - delay)/(1 - delay))*dist;
+          if(dL - dT > maxSep) dT = dL - maxSep;
+          var sep = dL - dT, mid = (dL + dT)/2, k = Math.min(1, sep/maxSep);
+          st.x = x0 + ux*mid; st.y = y0 + uy*mid;
+          st.sx = (sep + base)/base; st.sy = 1 - .14*k;                // oval stretch along the travel, thinner at full stretch
+        } else {
+          var pos = E(t)*dist, bell = Math.sin(Math.PI*Math.min(1, t)); // rigid: one point moves; the stretch swells mid-move
+          dL = dT = pos;
+          st.x = x0 + ux*pos; st.y = y0 + uy*pos;
+          var along = 1 + cStretch*bell, other = 1 + cOther*bell;
+          st.sx = horiz ? along : other; st.sy = horiz ? other : along;
+        }
         self.render();
         // white text follows the glass: the old item darkens once the tail has left it,
         // the new one turns white once the tail is mostly in (never white text on the pale rim)
@@ -1605,8 +1703,8 @@ footer>.wrap{position:relative;z-index:1}
         self.tw = null;
         if(!lit) self.light(cell);
         st.x = p.x; st.y = p.y;
-        // the landing bounce: a soft squash along the travel direction, then an elastic settle
-        var sq = day ? { sx:.9, sy:1.08 } : { sx:1 - .08*ax + .06*ay, sy:1 - .08*ay + .06*ax };
+        // the landing bounce (kept): a soft squash along the travel axis, then an elastic settle
+        var sq = day ? { sx:.9, sy:1.08 } : (horiz ? { sx:.95, sy:1.035 } : { sx:1.035, sy:.95 });
         gsap.fromTo(st, sq, { sx:1, sy:1, duration:.62, ease:'elastic.out(1,0.42)',
           onUpdate:function(){ self.render(); }, onComplete:function(){ st.rot = 0; self.render(); } });
       }
