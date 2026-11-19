@@ -246,6 +246,19 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   });
+  // a link to a question (e.g. "#qa2-q", the Georgia line) opens that answer, then the browser scrolls to it
+  function openQA(id){
+    var b = id && document.getElementById(id);
+    if(!b || !b.classList.contains('qa-q')) return;
+    var qa = b.closest('.qa');
+    if(!qa.classList.contains('open')){ qa.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href*="#qa"]');
+    if(a && a.pathname === location.pathname) openQA(a.hash.slice(1));
+  });
+  if(location.hash) openQA(location.hash.slice(1));
+  window.addEventListener('hashchange', function(){ openQA(location.hash.slice(1)); });
 
   /* ================= PHONE MENU: dialog with focus trap, Esc to close, focus back to the button ================= */
   var menuBtn = document.querySelector('.menu-btn'), menu = document.getElementById('menu');

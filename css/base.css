@@ -30,8 +30,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 button,.btn,.day,.slot,.icon-btn,.qa-q,.logo{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 a{color:inherit;text-decoration:none}
 .wrap{width:min(1240px,100% - 32px);margin-inline:auto}
-@media (min-width:760px){.wrap{width:min(1240px,100% - 96px)}}
+/* ONE shared left edge on every page: logo, hero / page-head copy, every section and the footer use the same wrap */
 :root{--hero-wrap:min(1264px,100% - 72px)}
+@media (min-width:760px){.wrap{width:var(--hero-wrap)}}
 
 /* ---------- Shared interactive states (consistent across page) ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 24px;border-radius:999px;font-size:15px;font-weight:500;letter-spacing:-.005em;white-space:nowrap;
@@ -57,8 +58,6 @@ a{color:inherit;text-decoration:none}
 
 .topbar{position:absolute;top:0;left:0;right:0;z-index:5;height:76px;display:flex;align-items:center}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between}
-/* the bar is shared by every page: it keeps the hero's wider wrap (its logo edge lines up with the hero copy) */
-@media (min-width:760px){.topbar .wrap{width:var(--hero-wrap)}}
 .logo{display:block;border-radius:10px}
 .logo:focus-visible{border-radius:10px}
 
@@ -127,7 +126,7 @@ h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-h
 .qa-list{border-top:1px solid var(--line-l)}
 .qa{border-bottom:1px solid var(--line-l)}
 .qa h3{font:inherit;margin:0}
-.qa-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;padding:20px 4px;
+.qa-q{scroll-margin-top:28px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;padding:20px 4px;
   font-size:17px;font-weight:500;letter-spacing:-.01em;line-height:1.35;color:var(--text-l);border-radius:10px;
   transition:color var(--duration-fast) var(--ease-smooth-out)}
 .qa-q:hover{color:#005A9E}

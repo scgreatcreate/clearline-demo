@@ -20,8 +20,8 @@
     setTimeout(function(){ document.documentElement.classList.remove('pre'); }, 3500); // safety net if the CDN fails
   }
 </script>
-<link rel="stylesheet" href="css/base.css?v=20261119f">
-<link rel="stylesheet" href="css/home.css?v=20261119f">
+<link rel="stylesheet" href="css/base.css?v=20261119k">
+<link rel="stylesheet" href="css/home.css?v=20261119k">
 </head>
 <body>
 <!-- Liquid Glass optics: filters are written here by JS (one per glass size, maps baked once and cached) -->
@@ -127,36 +127,89 @@
 <!-- ===================== WHAT WE CHECK ===================== -->
 <section class="check zone deep" id="check" aria-labelledby="check-h">
   <div class="wrap">
+    <!-- copy: Mark to OK. Links to the FAQ answer (and opens it) until /georgia exists in Wave C -->
+    <a class="news" href="#qa2-q"><span class="dot" aria-hidden="true"></span><span class="txt"><b>New in Georgia:</b> quarterly dental waterline </span><span class="nw"><span class="txt">testing</span><svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     <div class="sec-head">
       <h2 id="check-h">Three areas, one visit.</h2>
       <p>We look at the parts of your practice that are easiest to miss day to day, and write down exactly what we found.</p>
+      <!-- phones: shown here only when the hero has no room for its own trust line (short screens, see hero.js layout) -->
       <p class="trust-m hero-trust">We inspect and report. We don't sell, clean or repair equipment.</p>
     </div>
     <div class="areas">
       <article class="area">
-        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5c3.2 4.2 6 7.3 6 10.6a6 6 0 0 1-12 0c0-3.3 2.8-6.4 6-10.6Z" stroke="currentColor" stroke-width="1.5"/><path d="M9.2 14.6c.3 1.4 1.4 2.4 2.8 2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <figure class="area-media">
+          <img src="assets/new/svc-waterline-640.webp" srcset="assets/new/svc-waterline-640.webp 640w, assets/new/svc-waterline-720.webp 720w"
+               sizes="(max-width:759px) calc(100vw - 32px), (max-width:1100px) 30vw, 380px" width="640" height="400" loading="lazy" decoding="async"
+               alt="Gloved hands filling a sample vial from a dental unit's air and water syringe.">
+        </figure>
         <h3>Waterline testing</h3>
         <p>We test the water flowing through your chair lines for bacteria, operatory by operatory.</p>
         <ul><li>Samples from each dental unit</li><li>Results in CFU/mL against the standard</li></ul>
       </article>
       <article class="area">
-        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 6v5.5c0 4.3-2.9 7.6-7 9.5-4.1-1.9-7-5.2-7-9.5V6l7-3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m9 12 2.2 2.2L15.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <figure class="area-media">
+          <img src="assets/new/svc-sterilization-640.webp" srcset="assets/new/svc-sterilization-640.webp 640w, assets/new/svc-sterilization-960.webp 960w"
+               sizes="(max-width:759px) calc(100vw - 32px), (max-width:1100px) 30vw, 380px" width="640" height="400" loading="lazy" decoding="async"
+               alt="An open sterilizer, with a gloved hand holding a spore-test vial.">
+        </figure>
         <h3>Infection control and sterilization review</h3>
         <p>We walk through instrument processing and check your sterilizer monitoring records.</p>
         <ul><li>Spore-test logs and sterilizer records</li><li>Instrument processing workflow</li></ul>
       </article>
       <article class="area">
-        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="4.5" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 3.5h6v3H9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <!-- no honest photo for this service yet: a quiet line drawing in the site's style (clipboard checklist over the brand's flow lines) -->
+        <figure class="area-media area-art">
+          <svg viewBox="0 0 640 400" width="640" height="400" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="artBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#103F70"/><stop offset=".55" stop-color="#0A2E57"/><stop offset="1" stop-color="#061F40"/></linearGradient>
+              <radialGradient id="artGlow" cx=".3" cy=".18" r=".7"><stop offset="0" stop-color="#7FB4DD" stop-opacity=".22"/><stop offset="1" stop-color="#7FB4DD" stop-opacity="0"/></radialGradient>
+              <linearGradient id="artFlow" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5CC0FF" stop-opacity="0"/><stop offset=".45" stop-color="#5CC0FF" stop-opacity=".55"/><stop offset="1" stop-color="#B8E6F9" stop-opacity=".2"/></linearGradient>
+              <pattern id="artDots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="#B8E6F9" fill-opacity=".09"/></pattern>
+            </defs>
+            <rect width="640" height="400" fill="url(#artBg)"/>
+            <rect width="640" height="400" fill="url(#artDots)"/>
+            <rect width="640" height="400" fill="url(#artGlow)"/>
+            <g fill="none" stroke="url(#artFlow)" stroke-width="1">
+              <path d="M-10 352 C 150 340, 260 250, 420 196 S 600 120, 660 104"/>
+              <path d="M-10 362 C 150 352, 262 262, 422 210 S 602 136, 660 122" stroke-opacity=".7"/>
+              <path d="M-10 342 C 150 328, 258 238, 418 182 S 598 104, 660 86" stroke-opacity=".7"/>
+              <path d="M-10 374 C 150 366, 264 276, 424 226 S 604 154, 660 142" stroke-opacity=".4"/>
+              <path d="M-10 330 C 150 314, 256 224, 416 166 S 596 86, 660 66" stroke-opacity=".4"/>
+            </g>
+            <g fill="none" stroke="#B8E6F9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="236" y="76" width="168" height="232" rx="16" stroke-opacity=".75" stroke-width="1.6" fill="#08264A" fill-opacity=".72"/>
+              <rect x="282" y="62" width="76" height="28" rx="9" stroke-opacity=".75" stroke-width="1.6" fill="#0B3D73"/>
+              <g stroke-opacity=".5" stroke-width="1.4"><path d="M300 136h76M300 176h64M300 216h72M300 256h56"/></g>
+            </g>
+            <g fill="none" stroke="#5CC0FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="272" cy="136" r="10" stroke-opacity=".8"/><path d="m267.5 136 3 3 6-6"/>
+              <circle cx="272" cy="176" r="10" stroke-opacity=".8"/><path d="m267.5 176 3 3 6-6"/>
+              <circle cx="272" cy="216" r="10" stroke-opacity=".8"/><path d="m267.5 216 3 3 6-6"/>
+            </g>
+            <g fill="none" stroke="#F2B84B" stroke-width="1.6" stroke-linecap="round"><circle cx="272" cy="256" r="10" stroke-opacity=".85"/><path d="M272 251.5v5M272 260.5v.2"/></g>
+          </svg>
+        </figure>
         <h3>OSHA-related safety review</h3>
         <p>We review the paperwork and habits behind a safe workplace: records, safety data sheets and training.</p>
         <ul><li>Safety data sheets and written plans</li><li>Staff training records</li></ul>
       </article>
     </div>
+    <!-- copy: Mark to OK -->
+    <p class="areas-note">Photos are illustrative.</p>
   </div>
 </section>
 
 <!-- ===================== REPORT ===================== -->
 <section class="report zone clear" id="report" aria-labelledby="report-h">
+  <!-- copy: Mark to OK. "Results", not "Lab results": the lab isn't confirmed yet -->
+  <div class="wrap">
+    <ol class="steps" aria-label="How a visit works">
+      <li><span class="n" aria-hidden="true">1</span><span class="t">Book a 15&#8209;minute call</span></li>
+      <li><span class="n" aria-hidden="true">2</span><span class="t">We visit your practice</span></li>
+      <li><span class="n" aria-hidden="true">3</span><span class="t">Results come back</span></li>
+      <li class="last"><span class="n" aria-hidden="true">4</span><span class="t">Your written report</span></li>
+    </ol>
+  </div>
   <div class="wrap grid">
     <div>
       <div class="sec-head">
@@ -222,6 +275,8 @@
         <li>What we review on site</li>
         <li>What your written report will include</li>
       </ul>
+      <!-- copy: Mark to OK. Last line of this column: directly above the calendar on phones, beside it on desktop -->
+      <p class="book-note"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5 13.5 4v4c0 3.2-2.4 5.6-5.5 6.5C4.9 13.6 2.5 11.2 2.5 8V4L8 1.5Z" stroke="currentColor" stroke-width="1.3"/><path d="m5.6 8 1.7 1.7 3.1-3.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>No sales pitch on the visit. We only inspect.</p>
     </div>
     <div class="glass-stage">
     <div class="stage-bg" id="stageBg" aria-hidden="true"></div>
@@ -327,8 +382,8 @@
 <!-- /@footer -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="js/site.js?v=20261119f"></script>
-<script src="js/hero.js?v=20261119f"></script>
-<script src="js/booking.js?v=20261119f"></script>
+<script src="js/site.js?v=20261119k"></script>
+<script src="js/hero.js?v=20261119k"></script>
+<script src="js/booking.js?v=20261119k"></script>
 </body>
 </html>

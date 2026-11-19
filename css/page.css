@@ -13,7 +13,6 @@
 .z-clear{--from:var(--w9);--to:var(--w9)}
 
 /* the shared bar overlays the page head, exactly as it overlays the hero on the homepage */
-@media (min-width:760px){.page-head .wrap,.page-body .wrap{width:var(--hero-wrap)}}   /* left edge = the logo's */
 
 /* ---------- page head (deep) ---------- */
 .page-head{padding:calc(76px + 96px) 0 var(--head-pb)}

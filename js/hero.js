@@ -65,7 +65,17 @@
   }
   function overlaps(a, b, m){ return a.l < b.l + b.w + m && b.l < a.l + a.w + m && a.t < b.t + b.h + m && b.t < a.t + a.h + m; }
 
+  // Phones: the hero's trust line sits under the CTAs and the line band starts below it. It is kept only when it costs
+  // no finding chip (and the band keeps its 190px minimum); otherwise the copy at the top of "What we check" stands in.
   function layout(){
+    layoutOnce(true);
+    if(mobile && hero.classList.contains('trust-on')){
+      var withTrust = nodes.length;
+      layoutOnce(false);
+      if(withTrust >= nodes.length) layoutOnce(true);
+    }
+  }
+  function layoutOnce(allowTrust){
     var r = hero.getBoundingClientRect();
     W = r.width; H = r.height;
     mobile = W < 760;
@@ -73,9 +83,14 @@
       // the band starts just under the CTAs (offset-based: unaffected by the intro transforms)
       var copy = document.querySelector('.hero-copy'), ctas = document.querySelector('.hero-ctas');
       var ctaBottom = copy.offsetTop + ctas.offsetTop + ctas.offsetHeight;
+      var trust = copy.querySelector('.hero-trust');
+      hero.classList.toggle('trust-on', !!(allowTrust && trust));
+      var trustBottom = trust ? copy.offsetTop + trust.offsetTop + trust.offsetHeight : 0;
+      if(allowTrust && trust && H - (trustBottom + 12) >= 190) ctaBottom = trustBottom;
+      else hero.classList.remove('trust-on');
       band.y0 = Math.min(ctaBottom + 12, H - 190); band.y1 = H - 8; band.R = band.y1 - band.y0;
       hero.style.setProperty('--scrim-end', ((ctaBottom + 6)/H*100).toFixed(2)+'%');
-    } else hero.style.removeProperty('--scrim-end');
+    } else { hero.style.removeProperty('--scrim-end'); hero.classList.remove('trust-on'); }
     DPR = Math.min(window.devicePixelRatio||1, mobile?2:1.75);   // phones: 2 (was 1.5): finer sub-pixel motion on 3x screens
     cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
     ctx.setTransform(DPR,0,0,DPR,0,0);
