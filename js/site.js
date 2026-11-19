@@ -293,5 +293,23 @@
     if(wideMQ.addEventListener) wideMQ.addEventListener('change', onWide); else wideMQ.addListener(onWide);
   }
 
+  /* ================= OPENED FROM DISK (file://): folder links -> folder/index.html =================
+     Online the site uses clean folder URLs (services/waterline-testing/). When index.html is double-clicked, the
+     browser would show a directory listing for those, so every internal link whose path ends in "/" (or is "." / "..")
+     gets "index.html" added, keeping any ?query and #hash. Pure "#hash" links are left alone. http/https: nothing changes. */
+  if(location.protocol === 'file:'){
+    var fileHref = function(h){
+      if(!h || h.charAt(0) === '#' || /^[a-z][a-z0-9+.-]*:/i.test(h) || h.charAt(0) === '/') return null;   // same-page hash, other schemes, root paths
+      var cut = h.search(/[?#]/), path = cut < 0 ? h : h.slice(0, cut), rest = cut < 0 ? '' : h.slice(cut);
+      if(path === '') return null;                                   // "?q" only
+      if(path === '.' || path === '..') path += '/';
+      return /\/$/.test(path) ? path + 'index.html' + rest : null;
+    };
+    var fixLink = function(a){ var n = fileHref(a.getAttribute('href')); if(n) a.setAttribute('href', n); };
+    Array.prototype.forEach.call(document.querySelectorAll('a[href]'), fixLink);
+    // links added or changed later (any script): fix them at click time, before the browser follows them
+    document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a[href]'); if(a) fixLink(a); }, true);
+  }
+
   window.ClearLine = { navBrand: navBrand, applyClip: applyClip, fitRules: fitRules, buildWater: buildWater, queueWater: queueWater };
 })();
