@@ -161,7 +161,20 @@ footer>.wrap{position:relative;z-index:1}
 .foot-links{display:flex;flex-wrap:wrap;gap:6px 28px;padding-top:22px;margin-left:-2px}   /* -2px: the link padding, so the text sits on the shared edge */
 .foot-links .link{font-size:14px;color:var(--text-d2)}
 .foot-links .link:hover{color:#fff}
+.legal-links{display:flex;gap:6px 20px;flex-wrap:wrap}
+.legal-links .link{font-size:13px;color:#9FB6CD;padding:2px}
+.legal-links .link:hover{color:#fff}
 .fine{padding-top:24px;display:flex;justify-content:space-between;gap:24px;font-size:13px;color:#9FB6CD}
+
+/* links on light: an arrow link line */
+.tlink{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:var(--pass-l);border-radius:6px;
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;text-decoration-color:rgba(0,99,159,.35);
+  transition:color var(--duration-fast) var(--ease-smooth-out),text-decoration-color var(--duration-fast) var(--ease-smooth-out)}
+.tlink .arrow{width:16px;height:16px;flex:none;transition:transform var(--duration-fast) var(--ease-smooth-out)}
+.tlink:hover{color:#004F80;text-decoration-color:currentColor}
+.tlink:hover .arrow{transform:translateX(3px)}
+.tlink:active{color:#003C61}
+.tlink:focus-visible{border-radius:6px}
 
 /* ---------- PHONE MENU (under 760px; desktop keeps the inline nav) ----------
    Button in the bar (aria-expanded), full-screen panel (role=dialog). site.js: focus trap, Esc, focus return, scroll lock. */
@@ -224,6 +237,8 @@ footer>.wrap{position:relative;z-index:1}
   .qa-q{font-size:16px;padding:18px 2px}
   .qa-a p{padding:0 8px 20px 2px}
 }
+/* small tablets (760-899px): four nav items would crowd the logo (8px gap at 760), so "Questions" waits for 900px+ (it is in the footer) */
+@media (min-width:760px) and (max-width:899px){.nav .nav-q{display:none}}
 /* narrow phones (320-379px): the logo would touch "Book a call", so the bar keeps logo + menu (booking is in the menu and the hero) */
 @media (max-width:379px){
   .topbar .nav .btn{display:none}

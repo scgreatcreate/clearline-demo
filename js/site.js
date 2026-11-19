@@ -299,7 +299,8 @@
      gets "index.html" added, keeping any ?query and #hash. Pure "#hash" links are left alone. http/https: nothing changes. */
   if(location.protocol === 'file:'){
     var fileHref = function(h){
-      if(!h || h.charAt(0) === '#' || /^[a-z][a-z0-9+.-]*:/i.test(h) || h.charAt(0) === '/') return null;   // same-page hash, other schemes, root paths
+      if(h && h.charAt(0) === '#') return document.querySelector('base') ? 'index.html' + h : null;   // with a <base> (404.html) "#x" means the home page
+      if(!h || /^[a-z][a-z0-9+.-]*:/i.test(h) || h.charAt(0) === '/') return null;   // other schemes, root paths
       var cut = h.search(/[?#]/), path = cut < 0 ? h : h.slice(0, cut), rest = cut < 0 ? '' : h.slice(cut);
       if(path === '') return null;                                   // "?q" only
       if(path === '.' || path === '..') path += '/';

@@ -1,0 +1,4 @@
+# Demo host: keep it out of search engines (placeholder copy). Launch: set "indexable": true in
+# tools/partials/site.json and run tools/sync-partials.py.
+User-agent: *
+Disallow: /
