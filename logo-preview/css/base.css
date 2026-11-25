@@ -1,0 +1,247 @@
+/* ClearLine: shared styles for every page (tokens, buttons, nav, brand lockup, depth/water, FAQ, footer).
+   Moved out of index.html unchanged. Homepage-only styles live in home.css. */
+:root{
+  /* Brand */
+  --navy:#00224D; --blue:#0080D4; --accent:#0194FD; --swoosh:#008CE8;
+  --abyss:#000B3D; --mist:#B8E6F9;
+  /* Surfaces */
+  --ink:#020A1E;          /* hero base: navy-black */
+  --ink-2:#041533;        /* dark section */
+  --line-d:rgba(184,230,249,.14);
+  --text-d:#EAF4FB; --text-d2:#AFC3D6; --text-d3:#7F97AF;
+  --paper:#EEF4F9; --white:#FFFFFF; --text-l:#0A1F3A; --text-l2:#45607C; --line-l:#D5E1EC;
+  --pass-d:#5CC0FF; --fix-d:#F2B84B;          /* status on dark */
+  --pass-l:#00639F; --fix-l:#8A5300; --fix-bg:#FFF3DC; --pass-bg:#E3F2FC; /* status on light */
+  --focus:#0194FD;
+  /* transitions.dev motion tokens */
+  --duration-stagger:40ms; --duration-micro:80ms; --duration-quick:150ms; --duration-fast:250ms;
+  --duration-medium:350ms; --duration-slow:400ms; --duration-very-slow:500ms;
+  --ease-smooth-out:cubic-bezier(0.22,1,0.36,1); --ease-in-out:ease-in-out; --ease-out:ease-out;
+  --text-soft-dur:200ms; --text-soft-blur:2px; --text-soft-ease:ease-in-out;
+  --text-soft-resize-dur:240ms; --text-soft-resize-ease:cubic-bezier(0.22,1,0.36,1);
+  --font:'Sora',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
+body{font-family:var(--font);background:var(--ink);color:var(--text-d);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+/* press-and-hold on iOS: no text selection, no copy/lookup callout, no double-tap zoom delay, no grey tap flash */
+button,.btn,.day,.slot,.icon-btn,.qa-q,.logo{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+/* ONE shared left edge on every page: logo, hero / page-head copy, every section and the footer use the same wrap */
+:root{--hero-wrap:min(1264px,100% - 72px)}
+@media (min-width:760px){.wrap{width:var(--hero-wrap)}}
+
+/* ---------- Shared interactive states (consistent across page) ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 24px;border-radius:999px;font-size:15px;font-weight:500;letter-spacing:-.005em;white-space:nowrap;
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),border-color var(--duration-fast) var(--ease-smooth-out),color var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out),box-shadow var(--duration-fast) var(--ease-smooth-out)}
+.btn:active{transform:scale(.97)}
+:where(a,button,[tabindex]):focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:999px}
+/* primary: #0072BF with white text (about 5:1); hover deepens, press scales (shared .btn:active) */
+.btn-primary{background:#0072BF;color:#fff;box-shadow:0 0 0 1px rgba(184,230,249,.18) inset,0 10px 30px -12px rgba(0,114,191,.85)}
+.btn-primary:hover{background:#0066AB;box-shadow:0 0 0 1px rgba(184,230,249,.32) inset,0 14px 36px -12px rgba(1,148,253,.8)}
+.btn-primary:active{background:#005C9A}
+.btn-ghost{color:var(--text-d);border:1px solid rgba(184,230,249,.32);background:rgba(2,10,30,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.btn-ghost:hover{border-color:rgba(184,230,249,.7);background:rgba(184,230,249,.08)}
+.btn .arrow{width:16px;height:16px;transition:transform var(--duration-fast) var(--ease-smooth-out)}
+.btn:hover .arrow{transform:translateX(3px)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn[disabled]:active{transform:none}
+.link{position:relative;font-size:14px;color:var(--text-d2);padding:6px 2px;transition:color var(--duration-fast) var(--ease-smooth-out)}
+.link::after{content:"";position:absolute;left:2px;right:2px;bottom:2px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform var(--duration-fast) var(--ease-smooth-out)}
+.link:hover{color:#fff}.link:hover::after{transform:scaleX(1)}
+.link:active{color:var(--mist)}
+.link:focus-visible{border-radius:4px}
+
+
+.topbar{position:absolute;top:0;left:0;right:0;z-index:5;height:76px;display:flex;align-items:center}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between}
+.logo{display:block;border-radius:10px}
+.logo:focus-visible{border-radius:10px}
+
+/* ---------- Brand lockup: glass tooth + set name + tapered rule ---------- */
+.brand{--mark-h:52px;--name-size:25px;--tag-size:9px;--rule-h:5px;display:inline-flex;align-items:center;gap:12px;line-height:1}
+.brand-mark{height:var(--mark-h);width:auto;flex:none;filter:drop-shadow(0 6px 14px rgba(1,148,253,.25))}
+.brand-type{display:inline-grid;justify-items:center;font-family:var(--font)}
+.brand-name{font-size:var(--name-size);font-weight:600;letter-spacing:-.03em;line-height:.84;white-space:nowrap}
+.brand-name .c{color:#EAF4FB}.brand-name .l{color:#5CC0FF}
+.brand-rule{display:block;position:relative;width:0;min-width:100%;height:var(--rule-h);margin:4px 0;overflow:visible}
+.brand-rule svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;shape-rendering:geometricPrecision}
+.brand-tag{font-size:var(--tag-size);font-weight:400;letter-spacing:.3em;margin-right:-.3em;text-transform:uppercase;color:rgba(234,244,251,.74);white-space:nowrap;line-height:1}
+/* light-background variant: the tooth sits on a small navy badge */
+.brand-light .brand-badge{flex:none;display:grid;place-items:center;width:calc(var(--mark-h) + 4px);height:calc(var(--mark-h) + 4px);border-radius:12px;
+  background:radial-gradient(80% 70% at 50% 35%,#0A3A78 0%,#00224D 55%,#020A1E 100%);box-shadow:0 0 0 1px rgba(0,34,77,.12),0 8px 18px -10px rgba(0,34,77,.6),inset 0 1px 0 rgba(184,230,249,.25)}
+.brand-light .brand-badge img{height:calc(var(--mark-h) - 10px);width:auto}
+.brand-light .brand-name .c{color:#0A1F3A}.brand-light .brand-name .l{color:#0070C0}
+.brand-light .brand-tag{color:#45607C}
+/* small label above a headline (hero, inner page heads) */
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--mist);margin-bottom:26px}
+.kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(1,148,253,.16)}
+.nav{display:flex;align-items:center;gap:26px}
+.nav .btn{height:40px;padding:0 18px;font-size:14px}
+
+/* ======== "THE WATER CLEARS": depth system ========
+   Every section below the hero is a .zone with a depth:
+     --from   color at its top     (MUST equal the previous zone's --to, so seams are invisible)
+     --to     color at its bottom
+     --land   optional color reached early, at --settle from the top (a fast clearing behind padding)
+     --sink   optional distance from the bottom where the color starts sinking toward --to
+   Colors come from the water scale --w0 (abyss) to --w9 (clear). Text theme follows depth:
+     .deep  (light text)  only while the zone stays at or below --w3
+     .clear (dark text)   only from --w7 up; never put text over w4 to w6
+   Adding or reordering a section = give it a .zone class, a depth and a theme. */
+:root{
+  --w0:#010716;--w1:#031634;--w2:#062A5A;--w3:#0B3D73;--w4:#1A5D98;
+  --w5:#3F86BF;--w6:#7FB4DD;--w7:#BCDCF1;--w8:#E2EFF8;--w9:#EEF4F9;
+  --w3c:#416B98;   /* clearing seam: 30% of the way from w3 to w7 (oklab), so the curve through it is an S */
+}
+.zone{--land:var(--from);--settle:0px;--sink:100%;position:relative}
+/* Fallback only (no JS): each zone paints its own gradient on a layer BELOW the shared water layer,
+   so when the water fades in on top, nothing flashes or shifts. */
+.zone::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,var(--from) 0,var(--land) var(--settle),var(--land) calc(100% - var(--sink)),var(--to) 100%);
+  background:linear-gradient(180deg in oklab,var(--from) 0,var(--land) var(--settle),var(--land) calc(100% - var(--sink)),var(--to) 100%)}
+/* The water: ONE continuous gradient behind every zone, built in JS from the depth anchors with a smooth
+   (monotone cubic, oklab) curve, so the rate of change never jumps at a section edge. A static dither kills 8-bit banding. */
+#water{position:absolute;left:0;right:0;top:0;height:0;z-index:0;pointer-events:none;opacity:0;background-repeat:no-repeat;background-size:100% 100%;
+  transition:opacity var(--duration-very-slow) var(--ease-out);will-change:transform;transform:translateZ(0)}   /* own layer: rasterized once, never repainted by content changes */
+#water::after{content:"";position:absolute;inset:0;background-image:var(--dither,none);background-size:128px 128px}
+.water-on #water{opacity:1}
+.deep{color:var(--text-d);--text-d3:#9DB3C8}   /* dimmest light text lifted so it stays AA on --w3 */
+.clear{color:var(--text-l)}
+/* Depth map: the only place to edit when sections are added or reordered */
+:root{--clear-run:200px;--sink-run:230px;--check-pb:120px;--foot-sink:380px}
+/* the sink into the footer lives in the footer itself (anchored to its top), so a growing FAQ can't move it */
+footer.zone{--from:var(--w9);--land:var(--w0);--settle:var(--foot-sink);--to:var(--w0)}
+.sec-head{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:56px;max-width:720px}
+h2{font-size:clamp(30px,3.3vw,48px);font-weight:500;letter-spacing:-.03em;line-height:1.08}
+.sec-head p{color:var(--text-d2);font-weight:300;font-size:17px;max-width:36em}
+
+/* ---------- FAQ (light; its bottom padding carries the sink into the footer) ---------- */
+.faq{padding:40px 0 110px}
+.faq .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.faq .sec-head p{color:var(--text-l2)}
+.qa-list{border-top:1px solid var(--line-l)}
+.qa{border-bottom:1px solid var(--line-l)}
+.qa h3{font:inherit;margin:0}
+.qa-q{scroll-margin-top:28px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;padding:20px 4px;
+  font-size:17px;font-weight:500;letter-spacing:-.01em;line-height:1.35;color:var(--text-l);border-radius:10px;
+  transition:color var(--duration-fast) var(--ease-smooth-out)}
+.qa-q:hover{color:#005A9E}
+.qa-q:focus-visible{border-radius:10px;outline-offset:2px}
+.qa-icon{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(0,114,191,.08);color:#0072BF;
+  transition:background-color var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out)}
+.qa-q:hover .qa-icon{background:rgba(0,114,191,.15)}
+.qa-q:active .qa-icon{transform:scale(.9)}
+.qa-icon .v{transform-box:fill-box;transform-origin:center;transition:transform var(--duration-medium) var(--ease-smooth-out)}
+.qa.open .qa-icon .v{transform:scaleY(0)}                       /* plus becomes minus */
+/* smooth height: the answer row eases from 0fr to 1fr; the text fades and settles in */
+.qa-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--duration-medium) var(--ease-smooth-out)}
+.qa.open .qa-a{grid-template-rows:1fr}
+.qa-a-inner{min-height:0;overflow:hidden;visibility:hidden;transition:visibility 0s linear var(--duration-medium)}
+.qa.open .qa-a-inner{visibility:visible;transition-delay:0s}
+.qa-a p{padding:0 52px 22px 4px;font-size:15px;line-height:1.65;color:var(--text-l2);opacity:0;transform:translateY(-6px);
+  transition:opacity var(--duration-fast) var(--ease-out),transform var(--duration-medium) var(--ease-smooth-out)}
+.qa.open .qa-a p{opacity:1;transform:none;transition-delay:60ms}
+@media (prefers-reduced-motion: reduce){
+  .qa-a,.qa-a p,.qa-a-inner,.qa-icon,.qa-icon .v{transition:none!important}
+}
+
+/* ---------- FOOTER ---------- */
+footer{padding:var(--settle) 0 40px}
+footer::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 78% 100%,rgba(0,34,77,.7),transparent 75%)}
+footer>.wrap{position:relative;z-index:1}
+.foot{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;padding-bottom:40px;border-bottom:1px solid rgba(184,230,249,.16)}
+.foot .brand{--mark-h:60px;--name-size:29px;--tag-size:10px;--rule-h:7px;margin-bottom:26px}
+.foot .tagline{font-size:clamp(22px,2.2vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.2}
+.foot .contact{display:flex;flex-wrap:wrap;gap:6px 28px}
+.foot .contact .link{font-size:15px;color:var(--text-d);white-space:nowrap}
+.foot-links{display:flex;flex-wrap:wrap;gap:6px 28px;padding-top:22px;margin-left:-2px}   /* -2px: the link padding, so the text sits on the shared edge */
+.foot-links .link{font-size:14px;color:var(--text-d2)}
+.foot-links .link:hover{color:#fff}
+.legal-links{display:flex;gap:6px 20px;flex-wrap:wrap}
+.legal-links .link{font-size:13px;color:#9FB6CD;padding:2px}
+.legal-links .link:hover{color:#fff}
+.fine{padding-top:24px;display:flex;justify-content:space-between;gap:24px;font-size:13px;color:#9FB6CD}
+
+/* links on light: an arrow link line */
+.tlink{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:var(--pass-l);border-radius:6px;
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;text-decoration-color:rgba(0,99,159,.35);
+  transition:color var(--duration-fast) var(--ease-smooth-out),text-decoration-color var(--duration-fast) var(--ease-smooth-out)}
+.tlink .arrow{width:16px;height:16px;flex:none;transition:transform var(--duration-fast) var(--ease-smooth-out)}
+.tlink:hover{color:#004F80;text-decoration-color:currentColor}
+.tlink:hover .arrow{transform:translateX(3px)}
+.tlink:active{color:#003C61}
+.tlink:focus-visible{border-radius:6px}
+
+/* ---------- PHONE MENU (under 760px; desktop keeps the inline nav) ----------
+   Button in the bar (aria-expanded), full-screen panel (role=dialog). site.js: focus trap, Esc, focus return, scroll lock. */
+.menu-btn,.menu{display:none}
+.menu-btn,.menu-close{place-items:center;width:38px;height:38px;flex:none;border-radius:50%;color:var(--text-d);
+  border:1px solid rgba(184,230,249,.32);background:rgba(3,12,32,.72);
+  transition:border-color var(--duration-fast) var(--ease-smooth-out),background-color var(--duration-fast) var(--ease-smooth-out),transform var(--duration-quick) var(--ease-smooth-out)}
+.menu-btn:hover,.menu-close:hover{border-color:rgba(184,230,249,.7);background:rgba(184,230,249,.08)}
+.menu-btn:active,.menu-close:active{transform:scale(.92)}
+.menu-btn[aria-expanded="true"]{border-color:rgba(184,230,249,.7)}
+.menu{position:fixed;inset:0;z-index:60;overflow-y:auto;overscroll-behavior:contain;color:var(--text-d);
+  background:radial-gradient(80% 50% at 85% 0%,rgba(1,148,253,.16),transparent 70%),linear-gradient(180deg,#010716 0%,#031634 62%,#062A5A 100%);
+  visibility:hidden;opacity:0;
+  transition:opacity var(--duration-fast) var(--ease-out),visibility 0s linear var(--duration-fast)}
+.menu.open{visibility:visible;opacity:1;transition:opacity var(--duration-fast) var(--ease-out),visibility 0s}
+.menu-top{height:72px;padding-top:6px;display:flex;align-items:center;justify-content:space-between}
+.menu-close{display:grid}
+.menu-title{font-size:11px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:#9DB3C8}
+.menu-links{list-style:none;margin-top:28px;border-top:1px solid var(--line-d)}
+.menu-links li{opacity:0;transform:translateY(8px);
+  transition:opacity var(--duration-fast) var(--ease-out),transform var(--duration-medium) var(--ease-smooth-out)}
+.menu.open .menu-links li{opacity:1;transform:none}
+.menu.open .menu-links li:nth-child(2){transition-delay:var(--duration-stagger)}
+.menu.open .menu-links li:nth-child(3){transition-delay:calc(var(--duration-stagger)*2)}
+.menu-links a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 4px;border-bottom:1px solid var(--line-d);
+  font-size:24px;font-weight:500;letter-spacing:-.02em;line-height:1.2;color:#fff;transition:color var(--duration-fast) var(--ease-smooth-out)}
+.menu-links a svg{flex:none;color:var(--mist);transition:transform var(--duration-fast) var(--ease-smooth-out)}
+.menu-links a:hover{color:var(--mist)}
+.menu-links a:hover svg{transform:translateX(3px)}
+.menu-links a:active{color:var(--pass-d)}
+.menu-links a:focus-visible{border-radius:8px}
+/* services + Georgia under "What we check": a quieter second level */
+.menu-links .has-sub{border-bottom:1px solid var(--line-d);padding-bottom:12px}
+.menu-links .has-sub>a{border-bottom:0;padding-bottom:8px}
+.menu-sub{list-style:none;display:grid}
+.menu-sub a{display:block;padding:9px 4px 9px 16px;border-bottom:0;font-size:17px;font-weight:400;letter-spacing:-.01em;color:var(--text-d2)}
+.menu-sub a:hover{color:#fff}
+.menu-cta{margin-top:32px;padding-bottom:40px;display:grid;gap:10px}
+.menu-cta .btn{width:100%}
+.menu-open,.menu-open body{overflow:hidden}
+
+/* ---------- Responsive (shared) ---------- */
+@media (max-width:1100px){
+  .faq .grid{grid-template-columns:1fr;gap:40px}
+}
+@media (max-width:759px){
+  :root{--clear-run:150px;--sink-run:170px;--check-pb:84px;--foot-sink:280px}
+  .topbar{height:72px;padding-top:6px}
+  .brand-nav{--mark-h:42px;--name-size:21px;--tag-size:9px;--rule-h:4px;gap:9px}
+  .foot .brand{--mark-h:50px;--name-size:24px;--tag-size:8.5px}
+  .nav .link{display:none}
+  .nav .btn{height:38px;padding:0 14px;font-size:13px}
+  /* same look as .hero .btn-ghost on every page: no backdrop blur (on the homepage it sits above the animating canvas) */
+  .topbar .btn-ghost{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(3,12,32,.72)}
+  .nav{gap:8px}                          /* only "Book a call" + the menu button are shown here */
+  .menu-btn{display:grid}
+  .menu{display:block}
+  .foot{grid-template-columns:1fr}
+  .fine{flex-direction:column}
+  .qa-q{font-size:16px;padding:18px 2px}
+  .qa-a p{padding:0 8px 20px 2px}
+}
+/* small tablets (760-899px): four nav items would crowd the logo (8px gap at 760), so "Questions" waits for 900px+ (it is in the footer) */
+@media (min-width:760px) and (max-width:899px){.nav .nav-q{display:none}}
+/* narrow phones (320-379px): the logo would touch "Book a call", so the bar keeps logo + menu (booking is in the menu and the hero) */
+@media (max-width:379px){
+  .topbar .nav .btn{display:none}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}
+  .menu,.menu.open,.menu-links li,.menu-btn,.menu-close{transition:none!important}.menu-links li{transform:none}}

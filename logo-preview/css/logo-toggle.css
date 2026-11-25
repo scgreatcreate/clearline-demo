@@ -1,0 +1,15 @@
+/* Logo preview only. Not part of the real site. */
+html[data-logo=overlap] .brand-mark,html[data-logo=overlap] .brand-badge img{content:url(../assets/new/logo-preview-overlap-320.webp)}
+html[data-logo=beside] .brand-mark,html[data-logo=beside] .brand-badge img{content:url(../assets/new/logo-preview-beside-320.webp)}
+html[data-logo=nodrop] .brand-mark,html[data-logo=nodrop] .brand-badge img{content:url(../assets/new/logo-preview-nodrop-320.webp)}
+#logo-toggle{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:55;display:flex;gap:3px;padding:4px;border-radius:999px;
+  background:#02102C;border:1px solid rgba(184,230,249,.28);box-shadow:0 10px 30px rgba(0,0,0,.35);font-family:Sora,system-ui,sans-serif}
+#logo-toggle button{appearance:none;border:0;margin:0;min-height:40px;padding:0 14px;border-radius:999px;background:transparent;color:#CFE6F7;font:500 13px/1 Sora,system-ui,sans-serif;white-space:nowrap;cursor:pointer}
+#logo-toggle button b{font-weight:600;opacity:.65;margin-right:2px}
+#logo-toggle button:hover{background:rgba(184,230,249,.12)}
+#logo-toggle button[aria-pressed=true]{background:#fff;color:#00224D}
+#logo-toggle button:focus-visible{outline:2px solid #5CC0FF;outline-offset:2px}
+@media (max-width:560px){#logo-toggle{left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom))}#logo-toggle button{padding:0 9px;font-size:12px}}
+@media (max-width:350px){#logo-toggle button b{display:none}}
+@media print{#logo-toggle{display:none}}
+body.has-logo-toggle footer{padding-bottom:84px}
